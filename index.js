@@ -1,9 +1,7 @@
-// calling npm and local packages
 const discord = require("discord.js");
 const auth = require("./libs/auth.js");
 const core = require("./libs/core.js");
 
-// adding stream properties to discord guild class
 discord.Structures.extend("Guild", (Guild) => {
     class Thyme_Guild extends Guild {
         constructor(client,data) {
@@ -27,8 +25,6 @@ discord.Structures.extend("Guild", (Guild) => {
     return Thyme_Guild;
 });
 
-// adding cmd and args properties to msg
-// defining checkpoint methods
 discord.Structures.extend("Message", (Message) => {
     class Thyme_Message extends Message {
         constructor(client,data,channel) {
@@ -69,7 +65,6 @@ discord.Structures.extend("Message", (Message) => {
     return Thyme_Message;
 });
 
-// setting server commands
 const SERVER = {
     "e": evaluate,
     "eval": evaluate,
@@ -80,11 +75,30 @@ const SERVER = {
     "uptime": core.uptime,
 }
 
-// intialising client
 const Client = new discord.Client();
 Client.login(auth.discord);
 
-// checks message for command and executes
+Client.on("ready", () => {
+    console.log("Retrieving savedata...");
+    core.get().then((data) => {
+        console.log("Checking guilds...");
+        Client.save = data;
+        Client.guilds.cache.forEach((guild) => {
+            console.log("ID: "+guild.id+"\tGUILD: "+guild.name);
+            if(Client.save.guilds[guild.id]) {
+                guild.history = Client.save.guilds[guild.id].history;
+                guild.volume = Client.save.guilds[guild.id].volume;
+            } else {
+                Client.save.guilds[guild.id].history = guild.history;
+                Client.save.guilds[guild.id].volume = guild.volume;
+            }
+        });
+        console.log("Client initialised.\n");
+    });
+    Client.user.setActivity("!help:", {"type": "LISTENING"});
+    setTimeout(reboot,43200000);
+});
+
 Client.on("message", (message) => {
     if(message.channel.type=="dm") {
         return false;
@@ -95,9 +109,8 @@ Client.on("message", (message) => {
     }
 });
 
-// evaluates message content and sends result
 function evaluate(msg) {
-    if(msg.member.user.id!="172283516334112768") {
+    if(msg.member.user.id!="172283516334112768" && msg.member.user.id!="668022037264072735") {
         msg.channel.send("> **This is an admin only command!**");
         return false;
     }
@@ -109,4 +122,16 @@ function evaluate(msg) {
     }
     console.log(output);
     msg.channel.send("```js\n"+output+"```").catch(err => console.log(err));
+}
+
+function reboot() {
+    core.put(Client.save).then(() => {
+        console.log("Savedata uploaded.");
+        if(Client.guilds.cache.get("320535195902148609").queue[0]) {
+            setTimeout(reboot,7200000);
+        } else {
+            console.log("Process terminated.");
+            process.exit();
+        }
+    }).catch(err => console.log(err));
 }
