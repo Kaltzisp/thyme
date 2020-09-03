@@ -14,3 +14,7 @@ Thyme music bot build on Discord.js.
 * Upgrade polling (DM !ask, guild specific).
 * Specific !eval channel for debugging.
 * Get user avatar from discord avatar method (for !np).
+* Block live versions in favour of lyrics
+* Quit age restricted videos after a few tries
+* no u function
+* prune from end of queue / remove selected indices
