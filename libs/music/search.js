@@ -1,8 +1,9 @@
+const axios = require("axios");
 const auth = require("../auth.js");
-const fetch = require("node-fetch");
 
-// yt api keys and methods
 const yt = {
+    vids: "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=1&q=",
+    lists: "",
     index: 0,
     keys: [auth.youtube_1,auth.youtube_2,auth.youtube_3,auth.youtube_4],
     key: function() {
@@ -16,10 +17,9 @@ const yt = {
     }
 };
 
-// gets data from youtube, switches api key if necessary
 function get(url) {
     return new Promise((resolve,reject) => {
-        let data = fetch(url+yt.key()).then((response) => {
+        let data = axios.get(url+yt.key()).then((response) => {
             resolve(response.data);
         }).catch((err) => {
             if(err.response && err.response.data.error.code==403) {
@@ -32,12 +32,10 @@ function get(url) {
     });
 }
 
-// replaces html characters with utf
 function htmlParse(string) {
     return string.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
 }
 
-// gets the mm:ss time from an amount of seconds
 function mins(int) {
     int = Math.round(int);
     let m = Math.floor(int/60);
@@ -51,7 +49,6 @@ function mins(int) {
     return m+":"+s;
 }
 
-// converts a 00h00m00s used by youtube into seconds
 function ytLength(string) {
     let time = 0;
     string = string.substring(2,string.length);
@@ -76,12 +73,11 @@ function ytLength(string) {
 	return time;
 }
 
-// function removeFromQueue(id,guild) {
-//     for(let i in guild.queue) {
-//         if(id==guild.queue[i][0]) {
-//             guild.queue.splice(i,1);
-//         }
-//     }
-//     qstat.refresh(guild);
-// }
+module.exports.song = async function(msg,silent) {
+    let queryString = msg.args.join(" ");
+    let msgUpdate;
+    if(!silent) {
+        msgUpdate = msg.channel.send("<:youtube:621172101390532614> **Searching** :mag_right: `"+queryString+"`");
+    }
 
+};

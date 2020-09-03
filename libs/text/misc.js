@@ -1,18 +1,16 @@
 module.exports.choose = function(msg) {
-    let args = msg.args.join(" ").split("|");
+    const args = msg.args.join(" ").split("|");
     let choice = "I've chosen ";
-    choice += "`"+args[Math.floor(Math.random()*args.length)]+"`";
-    msg.channel.send("> :8ball: "+choice)
-    .catch(err => console.log(err));
+    choice += `\`${args[Math.floor(Math.random() * args.length)]}\``;
+    msg.channel.send(`> :8ball: ${choice}`);
 };
 
 module.exports.poll = function(msg) {
-    let responses = msg.client.pollResponses;
     let newMsg = "**Responses:**\n";
-    while(responses.length>0) {
-        newMsg += "- "+responses.splice(Math.random()*responses.length,1)+"\n";
+    while (msg.client.pollResponses.length > 0) {
+        newMsg += `- ${msg.client.pollResponses.splice(Math.random() * msg.client.pollResponses.length, 1)}\n`;
     }
-    msg.channel.send(newMsg).catch(err => console.log(err));
+    msg.channel.send(newMsg);
     msg.delete();
 };
 
@@ -22,7 +20,7 @@ module.exports.refer = function(msg) {
 
 module.exports.say = function(msg) {
     msg.delete();
-    if(msg.args.join(" ").trim().length>0) {
-        msg.channel.send(msg.args.join(" ")).catch(err => console.log(err));
+    if (msg.args.join(" ").trim().length > 0) {
+        msg.channel.send(msg.args.join(" "));
     }
 };
