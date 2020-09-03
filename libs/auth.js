@@ -1,5 +1,5 @@
 try {
-    module.exports = require("./keys.js");
+    module.exports = require("./data/keys.js");
 } catch {
     module.exports = {
         "discord": process.env.discord,
@@ -10,4 +10,4 @@ try {
         "youtube_3": process.env.youtube_3,
         "youtube_4": process.env.youtube_4
     };
-};
+}

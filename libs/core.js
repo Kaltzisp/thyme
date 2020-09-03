@@ -1,7 +1,6 @@
 const axios = require("axios");
 const auth = require("./auth");
 
-const tInit = Date.now();
 const binLocation = "https://api.jsonbin.io/b/5e738c34c4a5cb162867166b";
 
 module.exports.prefix = "!";
@@ -44,8 +43,7 @@ module.exports.ping = function(msg) {
 };
 
 module.exports.uptime = function(msg) {
-    let tElapsed = Date.now()-tInit;
-    let tSeconds = Math.floor(tElapsed/1000);
+    let tSeconds = Math.floor(msg.client.uptime/1000);
     let tMinutes = Math.floor(tSeconds/60);
     let tHours = Math.floor(tMinutes/60);
     tMinutes = tMinutes - tHours*60;

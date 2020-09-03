@@ -1,6 +1,8 @@
 const discord = require("discord.js");
 const auth = require("./libs/auth.js");
 const core = require("./libs/core.js");
+const locale = require("./libs/text/locale.js");
+const misc = require("./libs/text/misc.js");
 
 discord.Structures.extend("Guild", (Guild) => {
     class Thyme_Guild extends Guild {
@@ -66,14 +68,19 @@ discord.Structures.extend("Message", (Message) => {
 });
 
 const SERVER = {
+    "choose": misc.choose,
     "e": evaluate,
     "eval": evaluate,
     "help": core.help,
     "inv": core.invite,
     "invite": core.invite,
+    "pick": misc.choose,
     "ping": core.ping,
-    "uptime": core.uptime,
-}
+    "poll": misc.poll,
+    "refer": misc.refer,
+    "say": misc.say,
+    "uptime": core.uptime
+};
 
 const Client = new discord.Client();
 Client.login(auth.discord);
@@ -83,6 +90,7 @@ Client.on("ready", () => {
     core.get().then((data) => {
         console.log("Checking guilds...");
         Client.save = data;
+        Client.pollResponses = [];
         Client.guilds.cache.forEach((guild) => {
             console.log("ID: "+guild.id+"\tGUILD: "+guild.name);
             if(Client.save.guilds[guild.id]) {
@@ -101,7 +109,7 @@ Client.on("ready", () => {
 
 Client.on("message", (message) => {
     if(message.channel.type=="dm") {
-        return false;
+        Client.pollResponses.push(message.content.toLowerCase());
     } else if(!message.author.bot && message.content.substring(0,core.prefix.length)==core.prefix) {
         if(SERVER[message.cmd]) {
             SERVER[message.cmd](message);
