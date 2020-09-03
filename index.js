@@ -79,7 +79,12 @@ const SERVER = {
     "poll": misc.poll,
     "refer": misc.refer,
     "say": misc.say,
-    "uptime": core.uptime
+    "t": locale.time,
+    "time": locale.time,
+    "times": locale.time,
+    "uptime": core.uptime,
+    "w": locale.weather,
+    "weather": locale.weather
 };
 
 const Client = new discord.Client();
