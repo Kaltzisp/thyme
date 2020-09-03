@@ -1,6 +1,6 @@
 {
     "name": "thyme",
-    "version": "2.1.0",
+    "version": "3.0.0",
     "license": "ISC",
     "description": "Music bot build on discord.js",
     "main": "index.js",
@@ -10,6 +10,7 @@
         "url": "git://github.com/Kaltzisp/thyme.git"
     },
     "dependencies": {
+        "axios": "latest",
         "discord.js": "latest"
     }
 }
