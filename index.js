@@ -5,6 +5,8 @@ const locale = require("./libs/text/locale.js");
 const misc = require("./libs/text/misc.js");
 const search = require("./libs/music/search.js");
 const stream = require("./libs/music/stream.js");
+const qedit = require("./libs/music/qedit.js");
+const qstat = require("./libs/music/qstat.js");
 
 discord.Structures.extend("Guild", (Guild) => {
     class ThymeGuild extends Guild {
@@ -100,6 +102,7 @@ function reboot() {
 
 const SERVER = {
     choose: misc.choose,
+    clear: qedit.clear,
     e: evaluate,
     eval: evaluate,
     help: core.help,
@@ -109,6 +112,9 @@ const SERVER = {
     join: stream.join,
     l: stream.leave,
     leave: stream.leave,
+    loop: qedit.loop,
+    m: qedit.move,
+    move: qedit.move,
     nc: stream.nightcore,
     nightcore: stream.nightcore,
     p: search.song,
@@ -121,15 +127,21 @@ const SERVER = {
     playlist: search.playlist,
     playtop: search.song,
     poll: misc.poll,
+    r: qedit.remove,
+    remove: qedit.remove,
     refer: misc.refer,
     resume: stream.resume,
     s: stream.skip,
     say: misc.say,
     seek: stream.seek,
+    shuf: qedit.shuffle,
+    shuff: qedit.shuffle,
+    shuffle: qedit.shuffle,
     skip: stream.skip,
     t: locale.time,
     time: locale.time,
     times: locale.time,
+    unloop: qedit.unloop,
     uptime: core.uptime,
     v: stream.volume,
     vol: stream.volume,
