@@ -176,18 +176,31 @@ Client.on("ready", () => {
         Client.pollResponses = [];
         Client.guilds.cache.forEach((guild) => {
             console.log(`ID: ${guild.id}\tGUILD: ${guild.name}`);
-            if (Client.save.guilds[guild.id]) {
-                guild.history = Client.save.guilds[guild.id].history;
-                guild.volume = Client.save.guilds[guild.id].volume;
-            } else {
-                Client.save.guilds[guild.id].history = guild.history;
-                Client.save.guilds[guild.id].volume = guild.volume;
+            if (!Client.save.guilds[guild.id]) {
+                Client.save.guilds[guild.id] = {
+                    history: [],
+                    volume: 0.4
+                };
             }
+            guild.history = Client.save.guilds[guild.id].history;
+            guild.volume = Client.save.guilds[guild.id].volume;
         });
         console.log("Client initialised.\n");
     });
     Client.user.setActivity("!help", { type: "LISTENING" });
     setTimeout(reboot, 43200000);
+});
+
+Client.on("guildCreate", (guild) => {
+    console.log(`Joined new Guild: ${guild.name}`);
+    if (!Client.save.guilds[guild.id]) {
+        Client.save.guilds[guild.id] = {
+            history: [],
+            volume: 0.4
+        };
+    }
+    guild.history = Client.save.guilds[guild.id].history;
+    guild.volume = Client.save.guilds[guild.id].volume;
 });
 
 Client.on("message", (message) => {
