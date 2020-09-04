@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { mins } = require("../common.js");
 const auth = require("../auth.js");
 const stream = require("./stream.js");
 const qstat = require("./qstat.js");
@@ -42,19 +43,6 @@ function get(url) {
 
 function htmlParse(string) {
     return string.replace(/&amp;/g, "&").replace(/&quot;/g, "\"").replace(/&#39;/g, "'");
-}
-
-function mins(int) {
-    int = Math.round(int);
-    let m = Math.floor(int / 60);
-    let s = int % 60;
-    if (m < 10) {
-        m = `0${m}`;
-    }
-    if (s < 10) {
-        s = `0${s}`;
-    }
-    return `${m}:${s}`;
 }
 
 function ytLength(string) {

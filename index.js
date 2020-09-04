@@ -181,3 +181,7 @@ Client.on("message", (message) => {
         }
     }
 });
+
+Client.on("messageReactionAdd", (reaction, user) => {
+    qstat.scroll(reaction.message, reaction, user);
+});
