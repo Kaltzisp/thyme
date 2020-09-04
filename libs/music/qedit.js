@@ -12,7 +12,7 @@ module.exports.loop = function(msg) {
         msg.channel.send("> :repeat: **Loop disabled!**");
         msg.guild.stream.isLoop = false;
     } else {
-        msg.channel.send("> :repeat: **Loop enabled!**")
+        msg.channel.send("> :repeat: **Loop enabled!**");
         msg.guild.stream.isLoop = true;
     }
     qstat.refresh(msg);
@@ -43,7 +43,7 @@ module.exports.remove = function(msg) {
     const index = Number(msg.args);
     if (msg.guild.queue[index]) {
         if (index > 0) {
-            msg.channel.send(`> Removed ${msg.guild.queue[index][1]} from queue.`).then((m) => {
+            msg.channel.send(`> Removed ${msg.guild.queue[index][1]} from queue.`).then(() => {
                 msg.guild.queue.splice(index, 1);
                 qstat.refresh(msg.guild);
             }).catch((err) => console.log(err));
