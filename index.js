@@ -3,6 +3,7 @@ const auth = require("./libs/auth.js");
 const core = require("./libs/core.js");
 const locale = require("./libs/text/locale.js");
 const misc = require("./libs/text/misc.js");
+const search = require("./libs/music/search.js");
 
 discord.Structures.extend("Guild", (Guild) => {
     class ThymeGuild extends Guild {
@@ -103,8 +104,14 @@ const SERVER = {
     help: core.help,
     inv: core.invite,
     invite: core.invite,
+    p: search.song,
+    pl: search.playlist,
+    pt: search.song,
     pick: misc.choose,
     ping: core.ping,
+    play: search.song,
+    playlist: search.playlist,
+    playtop: search.song,
     poll: misc.poll,
     refer: misc.refer,
     say: misc.say,

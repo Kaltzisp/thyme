@@ -10,8 +10,12 @@
         "url": "git://github.com/Kaltzisp/thyme.git"
     },
     "dependencies": {
+        "@discordjs/opus": "latest",
         "axios": "latest",
-        "discord.js": "latest"
+        "discord.js": "latest",
+        "ffmpeg-static": "latest",
+        "prism-media": "latest",
+        "ytdl-core": "latest"
     },
     "devDependencies": {
         "eslint": "^7.8.1",
