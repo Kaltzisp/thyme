@@ -43,7 +43,7 @@ function queueEmbed(msg, short) {
         .setAuthor("Now playing ♪", msg.guild.iconURL())
         .setURL(`https://www.youtube.com/watch?v=${msg.guild.queue[0][0]}`)
         .setThumbnail(`https://i.ytimg.com/vi/${msg.guild.queue[0][0]}/default.jpg`)
-        .addField(`\`${trackPos(msg)}\``, `\`${time}\`\n\`Requested by:\` ${msg.guild.queue[0][2]}`);
+        .addField(`\`${trackPos(msg)}\``, `\`${time}\`\`\nRequested by: ${msg.guild.queue[0][2]}\``);
     if (short) {
         return embed;
     }
@@ -51,7 +51,7 @@ function queueEmbed(msg, short) {
     let queueData = "";
     for (let i = (10 * msg.guild.meta.index) + 1; i < (10 * msg.guild.meta.index) + songLimit; i++) {
         if (msg.guild.queue[i]) {
-            queueData += `\`${i}: ${msg.guild.queue[i][1]} | ${mins(msg.guild.queue[i][3])}\`\n`;
+            queueData += `${i}: ${msg.guild.queue[i][1]} | ${mins(msg.guild.queue[i][3])}\n`;
         }
     }
     if (queueData === "") {
