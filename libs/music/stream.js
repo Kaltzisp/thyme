@@ -4,7 +4,7 @@ const qstat = require("./qstat.js");
 
 function secs(t) {
     if (t.length <= 2) {
-        return (Number(t));
+        return Number(t);
     }
     if (t.length === 4) {
         return (60 * Number(t.substring(0, 1)) + Number(t.substring(2, 4)));
@@ -15,7 +15,75 @@ function secs(t) {
     console.log(`> Failed to seek to: ${t}`);
 }
 
+module.exports.join = function(msg) {
+    msg.member.voice.channel.join();
+    msg.channel.send("> Connected to voice.");
+};
+
+module.exports.leave = function(msg) {
+    msg.guild.queue.length = 0;
+    if (msg.guild.stream.dispatcher.player) {
+        msg.guild.stream.dispatcher.end();
+        msg.guild.stream.dispatcher.player.voiceConnection.disconnect();
+    }
+    msg.member.voice.channel.leave();
+    msg.channel.send("> Disconnected from voice.");
+};
+
+module.exports.nightcore = function(msg) {
+    if (msg.guild.stream.isNightcore) {
+        msg.guild.stream.isNightcore = false;
+        msg.channel.send("> Nightcore disabled.  <:worm:578960243250167816>");
+    } else {
+        msg.guild.stream.isNightcore = true;
+        msg.channel.send("> **Nightcore enabled.**  <:antiworm:578965571165749248>");
+    }
+};
+
+module.exports.pause = function(msg) {
+    if (msg.guild.stream.isPause) {
+        msg.guild.stream.isPause = false;
+        msg.guild.stream.dispatcher.resume();
+        msg.channel.send("> Unpaused!");
+    } else {
+        msg.guild.stream.isPause = true;
+        msg.guild.stream.dispatcher.pause(true);
+        msg.channel.send("> Paused!");
+    }
+};
+
+module.exports.resume = function(msg) {
+    if (msg.guild.stream.isPause) {
+        msg.guild.stream.isPause = false;
+        msg.guild.stream.dispatcher.resume();
+        msg.channel.send("> Unpaused!");
+    }
+};
+
+module.exports.seek = function(msg) {
+    msg.guild.queue[0][4] = msg.args[0] || 0;
+    msg.guild.stream.dispatcher.end();
+    msg.channel.send(`> Seeking position ${msg.args[0]}`);
+};
+
+module.exports.skip = function(msg) {
+    msg.guild.stream.dispatcher.end();
+    msg.channel.send("> Skipped!");
+};
+
+module.exports.volume = function(msg) {
+    const setVolume = Number(msg.args[0]);
+    if (setVolume > 0 && setVolume <= 1) {
+        msg.guild.stream.volume = setVolume;
+        msg.client.save.guilds[msg.guild.id].volume = setVolume;
+        msg.channel.send(`> Volume set to \`${setVolume}\`.`);
+    } else {
+        msg.channel.send(`> Current volume is \`${msg.guild.stream.volume}\`.`);
+    }
+};
+
 module.exports.play = function(connection, msg) {
+    msg.guild.stream.isPause = false;
     const song = msg.guild.queue[0];
     let playURL = `https://www.youtube.com/watch?v=${song[0]}`;
     if (song[4] === undefined) {
@@ -24,7 +92,8 @@ module.exports.play = function(connection, msg) {
             playURL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
         }
     } else {
-        msg.guild.stream.seekTo = secs(song.pop());
+        msg.guild.stream.seekTo = secs(song[4]);
+        song[4] = undefined;
     }
     qstat.refresh(msg);
     let thisStream = ytdl(playURL, { highWaterMark: 2 ** 25, filter: () => ["251"] });

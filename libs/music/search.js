@@ -104,6 +104,10 @@ function askCancel(m, msg, song) {
 }
 
 module.exports.song = async function(msg, silent, id) {
+    if (msg.args.length === 0) {
+        stream.pause(msg);
+        return false;
+    }
     if (!msg.inVoice()) {
         return false;
     }

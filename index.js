@@ -4,6 +4,7 @@ const core = require("./libs/core.js");
 const locale = require("./libs/text/locale.js");
 const misc = require("./libs/text/misc.js");
 const search = require("./libs/music/search.js");
+const stream = require("./libs/music/stream.js");
 
 discord.Structures.extend("Guild", (Guild) => {
     class ThymeGuild extends Guild {
@@ -104,7 +105,14 @@ const SERVER = {
     help: core.help,
     inv: core.invite,
     invite: core.invite,
+    j: stream.join,
+    join: stream.join,
+    l: stream.leave,
+    leave: stream.leave,
+    nc: stream.nightcore,
+    nightcore: stream.nightcore,
     p: search.song,
+    pause: stream.pause,
     pl: search.playlist,
     pt: search.song,
     pick: misc.choose,
@@ -114,11 +122,18 @@ const SERVER = {
     playtop: search.song,
     poll: misc.poll,
     refer: misc.refer,
+    resume: stream.resume,
+    s: stream.skip,
     say: misc.say,
+    seek: stream.seek,
+    skip: stream.skip,
     t: locale.time,
     time: locale.time,
     times: locale.time,
     uptime: core.uptime,
+    v: stream.volume,
+    vol: stream.volume,
+    volume: stream.volume,
     w: locale.weather,
     weather: locale.weather
 };
