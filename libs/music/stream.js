@@ -85,6 +85,9 @@ module.exports.volume = function(msg) {
 module.exports.play = function(connection, msg) {
     msg.guild.stream.isPause = false;
     const song = msg.guild.queue[0];
+    if (!song) {
+        return false;
+    }
     let playURL = `https://www.youtube.com/watch?v=${song[0]}`;
     if (song[4] === undefined) {
         msg.guild.stream.seekTo = 0;

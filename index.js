@@ -129,7 +129,7 @@ const SERVER = {
     nc: stream.nightcore,
     nightcore: stream.nightcore,
     now: qstat.now,
-    sp: qstat.now,
+    np: qstat.now,
     p: search.song,
     pause: stream.pause,
     pl: search.playlist,
@@ -186,7 +186,7 @@ Client.on("ready", () => {
         });
         console.log("Client initialised.\n");
     });
-    Client.user.setActivity("!help:", { type: "LISTENING" });
+    Client.user.setActivity("!help", { type: "LISTENING" });
     setTimeout(reboot, 43200000);
 });
 

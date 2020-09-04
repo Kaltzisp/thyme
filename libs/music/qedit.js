@@ -45,7 +45,7 @@ module.exports.remove = function(msg) {
         if (index > 0) {
             msg.channel.send(`> Removed ${msg.guild.queue[index][1]} from queue.`).then(() => {
                 msg.guild.queue.splice(index, 1);
-                qstat.refresh(msg.guild);
+                qstat.refresh(msg);
             }).catch((err) => console.log(err));
         } else if (index === 0) {
             stream.skip(msg);

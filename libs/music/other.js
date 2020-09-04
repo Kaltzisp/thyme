@@ -81,7 +81,7 @@ module.exports.recycle = function(msg) {
             addedIDs.push(msg.guild.history[i][0]);
             if (msg.guild.queue.length === 1) {
                 msg.member.voice.channel.join().then((connection) => {
-                    stream.play(connection, msg.guild);
+                    stream.play(connection, msg);
                 }).catch((err) => console.log(err));
             }
         } else if (maxInd < msg.guild.history.length) {
