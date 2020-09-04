@@ -1,5 +1,5 @@
 # Thyme Music Bot
-Thyme music bot build on Discord.js.
+Thyme music bot built on Discord.js.
 
 ## Contributors:
 * Author:   Linke

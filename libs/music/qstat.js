@@ -43,7 +43,7 @@ function queueEmbed(msg, short) {
         .setAuthor("Now playing ♪", msg.guild.iconURL())
         .setURL(`https://www.youtube.com/watch?v=${msg.guild.queue[0][0]}`)
         .setThumbnail(`https://i.ytimg.com/vi/${msg.guild.queue[0][0]}/default.jpg`)
-        .addField(`\`${trackPos(msg)}\``, `\`${time}\`\`\nRequested by: ${msg.guild.queue[0][2]}\``);
+        .addField(`\`${trackPos(msg)}\``, `\`${time}\nRequested by: ${msg.guild.queue[0][2]}\``);
     if (short) {
         return embed;
     }
