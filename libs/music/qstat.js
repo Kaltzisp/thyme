@@ -75,11 +75,17 @@ function queueEmbed(msg, short) {
 }
 
 module.exports.now = function(msg) {
+    if (!msg.isPlaying()) {
+        return false;
+    }
     const newEmbed = queueEmbed(msg, true);
     msg.channel.send(newEmbed);
 };
 
 module.exports.queue = function(msg) {
+    if (!msg.isPlaying()) {
+        return false;
+    }
     if (msg.guild.meta.queueMessage.delete) {
         msg.guild.meta.queueMessage.delete().catch((err) => console.log(err));
     }

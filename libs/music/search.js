@@ -92,6 +92,9 @@ function askCancel(m, msg, song) {
 }
 
 module.exports.song = async function(msg, silent, id) {
+    if (!msg.inVoice()) {
+        return false;
+    }
     if (msg.args.length === 0) {
         stream.pause(msg);
         return false;
@@ -153,6 +156,9 @@ module.exports.song = async function(msg, silent, id) {
 };
 
 module.exports.playlist = async function(msg) {
+    if (!msg.inVoice()) {
+        return false;
+    }
     const queryString = msg.args.join(" ");
     const msgUpdate = msg.channel.send(yt.searching(queryString));
     const playlistData = await get(`${yt.lists}${encodeURI(queryString)}&key=`).catch((err) => {

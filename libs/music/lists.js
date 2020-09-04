@@ -27,6 +27,9 @@ module.exports.curate = function(msg) {
 };
 
 module.exports.retrieve = function(msg) {
+    if (!msg.inVoice()) {
+        return false;
+    }
     const index = getIndex(msg);
     if (msg.client.save.playlists[index]) {
         const addedIDs = [];

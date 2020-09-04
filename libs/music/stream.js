@@ -16,6 +16,9 @@ function secs(t) {
 }
 
 module.exports.join = function(msg) {
+    if (!msg.inVoice()) {
+        return false;
+    }
     msg.member.voice.channel.join();
     msg.channel.send("> Connected to voice.");
 };
@@ -41,6 +44,9 @@ module.exports.nightcore = function(msg) {
 };
 
 module.exports.pause = function(msg) {
+    if (!msg.isPlaying()) {
+        return false;
+    }
     if (msg.guild.stream.isPause) {
         msg.guild.stream.isPause = false;
         msg.guild.stream.dispatcher.resume();
@@ -53,6 +59,9 @@ module.exports.pause = function(msg) {
 };
 
 module.exports.resume = function(msg) {
+    if (!msg.isPlaying()) {
+        return false;
+    }
     if (msg.guild.stream.isPause) {
         msg.guild.stream.isPause = false;
         msg.guild.stream.dispatcher.resume();
@@ -61,12 +70,18 @@ module.exports.resume = function(msg) {
 };
 
 module.exports.seek = function(msg) {
+    if (!msg.isPlaying()) {
+        return false;
+    }
     msg.guild.queue[0][4] = msg.args[0] || 0;
     msg.guild.stream.dispatcher.end();
     msg.channel.send(`> Seeking position ${msg.args[0]}`);
 };
 
 module.exports.skip = function(msg) {
+    if (!msg.isPlaying()) {
+        return false;
+    }
     msg.guild.stream.dispatcher.end();
     msg.channel.send("> Skipped!");
 };

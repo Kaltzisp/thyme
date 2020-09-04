@@ -2,7 +2,9 @@ const qstat = require("./qstat.js");
 const stream = require("./stream.js");
 
 module.exports.clear = function(msg) {
-    msg.guild.queue.length = 1;
+    if (msg.guild.queue.length > 1) {
+        msg.guild.queue.length = 1;
+    }
     msg.channel.send("> Queue cleared!");
     qstat.refresh(msg);
 };
@@ -25,6 +27,9 @@ module.exports.unloop = function(msg) {
 };
 
 module.exports.move = function(msg) {
+    if (!msg.isPlaying()) {
+        return false;
+    }
     const from = Number(msg.args[0]);
     const to = Number(msg.args[1]);
     if (msg.guild.queue[from] && msg.guild.queue[to]) {
@@ -40,6 +45,9 @@ module.exports.move = function(msg) {
 };
 
 module.exports.remove = function(msg) {
+    if (!msg.isPlaying()) {
+        return false;
+    }
     const index = Number(msg.args);
     if (msg.guild.queue[index]) {
         if (index > 0) {
@@ -54,6 +62,9 @@ module.exports.remove = function(msg) {
 };
 
 module.exports.shuffle = function(msg) {
+    if (!msg.isPlaying()) {
+        return false;
+    }
     for (let i = 1; i < msg.guild.queue.length; i++) {
         const j = Math.floor(Math.random() * (msg.guild.queue.length - 1) + 1);
         const tempSong = msg.guild.queue[i];

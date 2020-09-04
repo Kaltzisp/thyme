@@ -62,6 +62,9 @@ module.exports.lyrics = async function(msg) {
 };
 
 module.exports.recycle = function(msg) {
+    if (!msg.inVoice()) {
+        return false;
+    }
     if (Number(msg.args[1]) && !Number(msg.args[0])) {
         msg.args[0] = msg.args[1];
     }
