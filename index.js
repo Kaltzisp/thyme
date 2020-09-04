@@ -7,6 +7,7 @@ const search = require("./libs/music/search.js");
 const stream = require("./libs/music/stream.js");
 const qedit = require("./libs/music/qedit.js");
 const qstat = require("./libs/music/qstat.js");
+const lists = require("./libs/music/lists.js");
 
 discord.Structures.extend("Guild", (Guild) => {
     class ThymeGuild extends Guild {
@@ -103,6 +104,9 @@ function reboot() {
 const SERVER = {
     choose: misc.choose,
     clear: qedit.clear,
+    curate: lists.curate,
+    del: lists.delete,
+    delete: lists.delete,
     e: evaluate,
     eval: evaluate,
     help: core.help,
@@ -112,11 +116,15 @@ const SERVER = {
     join: stream.join,
     l: stream.leave,
     leave: stream.leave,
+    list: lists.playlists,
+    lists: lists.playlists,
     loop: qedit.loop,
     m: qedit.move,
     move: qedit.move,
     nc: stream.nightcore,
     nightcore: stream.nightcore,
+    now: qstat.now,
+    sp: qstat.now,
     p: search.song,
     pause: stream.pause,
     pl: search.playlist,
@@ -125,12 +133,16 @@ const SERVER = {
     ping: core.ping,
     play: search.song,
     playlist: search.playlist,
+    playlists: lists.playlists,
     playtop: search.song,
     poll: misc.poll,
+    q: qstat.queue,
+    queue: qstat.queue,
     r: qedit.remove,
     remove: qedit.remove,
     refer: misc.refer,
     resume: stream.resume,
+    retrieve: lists.retrieve,
     s: stream.skip,
     say: misc.say,
     seek: stream.seek,
