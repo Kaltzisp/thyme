@@ -128,6 +128,8 @@ const SERVER = {
     move: qedit.move,
     nc: stream.nightcore,
     nightcore: stream.nightcore,
+    no: misc.noYou,
+    nou: misc.noYou,
     now: qstat.now,
     np: qstat.now,
     p: search.song,

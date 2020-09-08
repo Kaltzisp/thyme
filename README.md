@@ -16,5 +16,4 @@ Thyme music bot built on Discord.js.
 * Get user avatar from discord avatar method (for !np).
 * Block live versions in favour of lyrics
 * Quit age restricted videos after a few tries
-* no u function
 * prune from end of queue / remove selected indices
