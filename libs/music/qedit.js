@@ -26,12 +26,12 @@ module.exports.unloop = function(msg) {
     qstat.refresh(msg);
 };
 
-module.exports.move = function(msg) {
+module.exports.move = function(msg, indexFrom, indexTo) {
     if (!msg.isPlaying()) {
         return false;
     }
-    const from = Number(msg.args[0]);
-    const to = Number(msg.args[1]);
+    const from = indexFrom || Number(msg.args[0]);
+    const to = indexTo || Number(msg.args[1]);
     if (msg.guild.queue[from] && msg.guild.queue[to]) {
         if (from > 0 && to > 0) {
             msg.channel.send(`> **Moved ${msg.guild.queue[from][1]} from position ${from} to position ${to}.**`).then(() => {

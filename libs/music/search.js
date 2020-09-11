@@ -114,10 +114,13 @@ module.exports.song = async function(msg, silent, id) {
             return false;
         }
     });
+    if (!songData.items[0]) {
+        return false;
+    }
     const song = [songData.items[0].id.videoId, htmlParse(songData.items[0].snippet.title), msg.author.username];
     for (const i in msg.guild.queue) {
         if (song[0] === msg.guild.queue[i][0]) {
-            qedit.move(msg, [i, 1]);
+            qedit.move(msg, i, 1);
             return false;
         }
     }
