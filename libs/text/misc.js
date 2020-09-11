@@ -26,6 +26,7 @@ module.exports.say = function(msg) {
 };
 
 module.exports.noYou = function(msg) {
+    msg.delete();
     const cards = ["red", "ylw", "grn", "blu"];
     const thisCard = cards[Math.floor(Math.random() * cards.length)];
     msg.channel.send({ files: [`libs/media/${thisCard}.png`] });
