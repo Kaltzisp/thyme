@@ -115,6 +115,7 @@ module.exports.song = async function(msg, silent, id) {
         }
     });
     if (!songData.items[0]) {
+        console.log("No songdata items.");
         return false;
     }
     const song = [songData.items[0].id.videoId, htmlParse(songData.items[0].snippet.title), msg.author.username];

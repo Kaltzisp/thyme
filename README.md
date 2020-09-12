@@ -11,6 +11,7 @@ Thyme music bot built on Discord.js.
 * Get user avatar from discord avatar method (for !np).
 
 ## Upcoming features:
+* Add reminder function.
 * Specific !eval channel for debugging.
 * Allow editing of playlists.
 * Push to top button for added songs.
