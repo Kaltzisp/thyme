@@ -99,9 +99,6 @@ module.exports.song = async function(msg, silent, id) {
         stream.pause(msg);
         return false;
     }
-    if (!msg.inVoice()) {
-        return false;
-    }
     const queryString = id || msg.args.join(" ");
     let msgUpdate;
     if (!silent) {

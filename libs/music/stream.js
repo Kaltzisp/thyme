@@ -73,9 +73,10 @@ module.exports.seek = function(msg) {
     if (!msg.isPlaying()) {
         return false;
     }
-    msg.guild.queue[0][4] = msg.args[0] || 0;
+    const seekPosition = msg.args[0] || 0;
+    msg.guild.queue[0][4] = seekPosition;
     msg.guild.stream.dispatcher.end();
-    msg.channel.send(`> Seeking position ${msg.args[0]}`);
+    msg.channel.send(`> Seeking position ${seekPosition}`);
 };
 
 module.exports.skip = function(msg) {
@@ -141,7 +142,7 @@ module.exports.play = function(connection, msg) {
         connection.client.user.setActivity(`♫ ${song[1]}`, { type: "PLAYING" });
     }
     msg.guild.stream.dispatcher.on("finish", () => {
-        if (msg.guild.queue[0] && msg.guild.queue[0][4]) {
+        if (msg.guild.queue[0] && msg.guild.queue[0][4] >= 0) {
             module.exports.play(connection, msg);
         } else {
             if (msg.guild.stream.isLoop) {
