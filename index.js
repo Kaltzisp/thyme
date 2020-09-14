@@ -22,6 +22,7 @@ discord.Structures.extend("Guild", (Guild) => {
                 isLoop: false,
                 isNightcore: false,
                 seekTo: 0,
+                tryCount: 1,
                 volume: 0.4
             };
             this.meta = {

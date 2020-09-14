@@ -135,7 +135,16 @@ module.exports.play = function(connection, msg) {
     msg.guild.stream.dispatcher = connection.play(thisStream, streamOptions);
     setTimeout(() => {
         if (msg.guild.stream.dispatcher.streamTime === 0) {
-            module.exports.play(connection, msg);
+            if (msg.guild.stream.tryCount <= 3) {
+                msg.guild.stream.tryCount += 1;
+                module.exports.play(connection, msg);
+            } else {
+                msg.guild.stream.tryCount = 1;
+                msg.channel.send(`> Failed to play ${playURL} within 3 tries.`);
+                module.exports.skip(msg);
+            }
+        } else {
+            msg.guild.stream.tryCount = 1;
         }
     }, 2000);
     if (msg.guild.id === "473161851346092052") {
