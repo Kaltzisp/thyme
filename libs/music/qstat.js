@@ -31,7 +31,8 @@ function trackPos(m) {
     return positions[index];
 }
 
-async function queueEmbed(msg, short, user) {
+async function queueEmbed(msg, short) {
+    const user = await msg.client.users.fetch(msg.guild.queue[0][2]).catch((err) => console.log(err));
     let tMult = 1;
     if (msg.guild.stream.isNightcore) {
         tMult = 0.833;
@@ -74,16 +75,16 @@ async function queueEmbed(msg, short, user) {
     return embed;
 }
 
-module.exports.now = async function(msg) {
+module.exports.now = function(msg) {
     if (!msg.isPlaying()) {
         return false;
     }
-    const songUser = await msg.client.users.fetch(msg.guild.queue[0][2]).catch((err) => console.log(err));
-    const newEmbed = queueEmbed(msg, true, songUser);
-    msg.channel.send(newEmbed);
+    queueEmbed(msg, true).then((embed) => {
+        msg.channel.send(embed);
+    });
 };
 
-module.exports.queue = async function(msg) {
+module.exports.queue = function(msg) {
     if (!msg.isPlaying()) {
         return false;
     }
@@ -91,16 +92,16 @@ module.exports.queue = async function(msg) {
         msg.guild.meta.queueMessage.delete().catch((err) => console.log(err));
     }
     msg.guild.meta.index = 0;
-    const songUser = await msg.client.users.fetch(msg.guild.queue[0][2]).catch((err) => console.log(err));
-    const newEmbed = queueEmbed(msg, false, songUser);
-    msg.channel.send(newEmbed).then((m) => {
-        msg.guild.meta.queueMessage = m;
-        m.react("⬅");
-        m.react("➡");
-    }).catch((err) => console.log(err));
+    queueEmbed(msg).then((embed) => {
+        msg.channel.send(embed).then((m) => {
+            msg.guild.meta.queueMessage = m;
+            m.react("⬅");
+            m.react("➡");
+        }).catch((err) => console.log(err));
+    });
 };
 
-module.exports.scroll = async function(msg, reaction, user) {
+module.exports.scroll = function(msg, reaction, user) {
     if (user.bot || msg.id !== msg.guild.meta.queueMessage.id || msg.guild.queue.length === 0) {
         return false;
     }
@@ -118,16 +119,16 @@ module.exports.scroll = async function(msg, reaction, user) {
         return false;
     }
     reaction.users.remove(user).catch((err) => console.log(err));
-    const songUser = await msg.client.users.fetch(msg.guild.queue[0][2]).catch((err) => console.log(err));
-    const newEmbed = queueEmbed(msg, false, songUser);
-    msg.edit(newEmbed);
+    queueEmbed(msg).then((embed) => {
+        msg.edit(embed);
+    });
 };
 
-module.exports.refresh = async function(msg) {
+module.exports.refresh = function(msg) {
     if (!msg.guild.meta.queueMessage.id) {
         return false;
     }
-    const songUser = await msg.client.users.fetch(msg.guild.queue[0][2]).catch((err) => console.log(err));
-    const newEmbed = queueEmbed(msg, false, songUser);
-    msg.guild.meta.queueMessage.edit(newEmbed);
+    queueEmbed(msg).then((embed) => {
+        msg.guild.meta.queueMessage.edit(embed);
+    });
 };
