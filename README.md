@@ -6,10 +6,6 @@ Thyme music bot built on Discord.js.
 * Support:  Matte, Gargle, ProfWho
 * Sponsors: Zambini, Duckles, Glue, Madi, Sammy, Clock
 
-## Known bugs:
-* Quit age restricted videos after a few tries.
-* Get user avatar from discord avatar method (for !np).
-
 ## Upcoming features:
 * Add reminder function.
 * Specific !eval channel for debugging.

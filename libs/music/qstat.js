@@ -31,7 +31,8 @@ function trackPos(m) {
     return positions[index];
 }
 
-function queueEmbed(msg, short) {
+async function queueEmbed(msg, short) {
+    const user = await msg.client.users.fetch(msg.guild.queue[0][2]).catch((err) => console.log(err));
     let tMult = 1;
     if (msg.guild.stream.isNightcore) {
         tMult = 0.833;
@@ -40,10 +41,10 @@ function queueEmbed(msg, short) {
     const embed = new discord.MessageEmbed()
         .setColor("#0099ff")
         .setTitle(msg.guild.queue[0][1])
-        .setAuthor("Now playing ♪", msg.guild.iconURL())
+        .setAuthor("Now playing ♪", user.avatarURL())
         .setURL(`https://www.youtube.com/watch?v=${msg.guild.queue[0][0]}`)
         .setThumbnail(`https://i.ytimg.com/vi/${msg.guild.queue[0][0]}/default.jpg`)
-        .addField(`\`${trackPos(msg)}\``, `\`${time}\nRequested by: ${msg.guild.queue[0][2]}\``);
+        .addField(`\`${trackPos(msg)}\``, `\`${time}\nRequested by: ${user.username}\``);
     if (short) {
         return embed;
     }

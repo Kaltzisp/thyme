@@ -115,7 +115,7 @@ module.exports.song = async function(msg, silent, id) {
         console.log("No songdata items.");
         return false;
     }
-    const song = [songData.items[0].id.videoId, htmlParse(songData.items[0].snippet.title), msg.author.username];
+    const song = [songData.items[0].id.videoId, htmlParse(songData.items[0].snippet.title), msg.author.id];
     for (const i in msg.guild.queue) {
         if (song[0] === msg.guild.queue[i][0]) {
             qedit.move(msg, i, 1);

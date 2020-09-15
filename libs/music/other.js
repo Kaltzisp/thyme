@@ -22,10 +22,7 @@ module.exports.history = function(msg) {
     let songCount = 0;
     let maxInd = Number(msg.args[0]) || 10;
     maxInd = Math.min(maxInd, msg.guild.history.length);
-    const specUsers = [...msg.mentions.users.values()];
-    for (const i in specUsers) {
-        specUsers[i] = specUsers[i].username;
-    }
+    const specUsers = [...msg.mentions.users.keys()];
     for (let i = msg.guild.history.length - 1; i >= msg.guild.history.length - maxInd; i--) {
         if (sameUser(msg.guild.history[i][2], specUsers)) {
             newMessage += `\n${msg.guild.history.length - i}.\t${msg.guild.history[i][1]} - *${msg.guild.history[i][2]}*`;
@@ -74,10 +71,7 @@ module.exports.recycle = function(msg) {
     for (const i in msg.guild.queue) {
         addedIDs.push(msg.guild.queue[i][0]);
     }
-    const specUsers = [...msg.mentions.users.values()];
-    for (const i in specUsers) {
-        specUsers[i] = specUsers[i].username;
-    }
+    const specUsers = [...msg.mentions.users.keys()];
     for (let i = msg.guild.history.length - 1; i >= msg.guild.history.length - maxInd; i--) {
         if (addedIDs.indexOf(msg.guild.history[i][0]) === -1 && sameUser(msg.guild.history[i][2], specUsers)) {
             msg.guild.queue.push(msg.guild.history[i]);
