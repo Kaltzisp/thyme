@@ -216,6 +216,9 @@ Client.on("message", (message) => {
         if (SERVER[message.cmd]) {
             SERVER[message.cmd](message);
         }
+    } else if (message.channelid === "621026261120319518" || message.channel.id === "619021066798497802") {
+        message.args = [message.content];
+        evaluate(message);
     }
 });
 

@@ -7,8 +7,6 @@ Thyme music bot built on Discord.js.
 * Sponsors: Zambini, Duckles, Glue, Madi, Sammy, Clock, Cat
 
 ## Upcoming features:
-* Clean history.
-* Specific !eval channel for debugging.
 * Allow editing of playlists.
 * Push to top button for added songs.
 * Play song in position (!p Miserlou 5).
