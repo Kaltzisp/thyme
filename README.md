@@ -19,3 +19,5 @@ Thyme music bot built on Discord.js.
 * Upgrade polling (DM !ask, guild specific).
 * Add Spotify integration.
 * Block live versions in favour of lyrics.
+* Dobby bot.
+* Class refactor entire codebase.

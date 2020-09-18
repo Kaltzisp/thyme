@@ -31,3 +31,16 @@ module.exports.noYou = function(msg) {
     const thisCard = cards[Math.floor(Math.random() * cards.length)];
     msg.channel.send({ files: [`libs/media/${thisCard}.png`] });
 };
+
+module.exports.remind = function(msg) {
+    if (isNaN(msg.args[0]) || msg.args[0] < 1) {
+        msg.channel.send("> Command format is !remind <time_in_secs> <message>");
+    } else {
+        const timeToSend = msg.args.shift();
+        const reason = msg.args.join(" ");
+        msg.channel.send(`> **${reason}** reminder set for ${timeToSend} seconds.`);
+        setTimeout(() => {
+            msg.channel.send(`> **<@${msg.member.user.id}> - ${reason}**`);
+        }, Math.floor(timeToSend * 1000));
+    }
+};

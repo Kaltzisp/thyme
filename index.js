@@ -148,6 +148,7 @@ const SERVER = {
     queue: qstat.queue,
     r: qedit.remove,
     recycle: other.recycle,
+    remind: misc.remind,
     remove: qedit.remove,
     refer: misc.refer,
     resume: stream.resume,
