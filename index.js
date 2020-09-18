@@ -212,13 +212,15 @@ Client.on("guildCreate", (guild) => {
 Client.on("message", (message) => {
     if (message.channel.type === "dm") {
         Client.pollResponses.push(message.content.toLowerCase());
-    } else if (!message.author.bot && message.content.substring(0, core.prefix.length) === core.prefix) {
-        if (SERVER[message.cmd]) {
-            SERVER[message.cmd](message);
+    } else if (!message.author.bot) {
+        if (message.content.substring(0, core.prefix.length) === core.prefix) {
+            if (SERVER[message.cmd]) {
+                SERVER[message.cmd](message);
+            }
+        } else if (message.channel.id === "621026261120319518" || message.channel.id === "619021066798497802") {
+            message.args = [message.content];
+            evaluate(message);
         }
-    } else if (message.channelid === "621026261120319518" || message.channel.id === "619021066798497802") {
-        message.args = [message.content];
-        evaluate(message);
     }
 });
 
