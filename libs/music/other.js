@@ -25,7 +25,7 @@ module.exports.history = function(msg) {
     const specUsers = [...msg.mentions.users.keys()];
     for (let i = msg.guild.history.length - 1; i >= msg.guild.history.length - maxInd; i--) {
         if (sameUser(msg.guild.history[i][2], specUsers)) {
-            newMessage += `\n${msg.guild.history.length - i}.\t${msg.guild.history[i][1]} - *${msg.guild.history[i][2]}*`;
+            newMessage += `\n${msg.guild.history.length - i}.\t${msg.guild.history[i][1]}`;
             songCount += 1;
             if (songCount % 10 === 0) {
                 msg.channel.send(newMessage);

@@ -101,6 +101,7 @@ function reboot() {
             process.exit();
         }
     }).catch((err) => console.log(err));
+    return "Trying reboot.";
 }
 
 const SERVER = {
