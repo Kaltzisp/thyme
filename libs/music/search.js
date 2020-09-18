@@ -118,6 +118,15 @@ module.exports.song = async function(msg, silent, id) {
         stream.pause(msg);
         return false;
     }
+    let atIndex = msg.guild.queue.length;
+    if (msg.args[msg.args.length - 1].substring(0, 1) === "-") {
+        atIndex = Math.round(Number(msg.args.pop().substring(1)));
+        if (isNaN(atIndex) || atIndex < 1 || atIndex > msg.guild.queue.length) {
+            atIndex = msg.guild.queue.length;
+        }
+    } else if (msg.cmd === "pt" || msg.cmd === "playtop") {
+        atIndex = 1;
+    }
     const queryString = id || msg.args.join(" ");
     let msgUpdate;
     if (!silent) {
@@ -144,18 +153,10 @@ module.exports.song = async function(msg, silent, id) {
     const durationData = await get(`${yt.duration}${song[0]}&key=`).catch((err) => console.log(err));
     song[3] = ytLength(durationData.items[0].contentDetails.duration);
     msg.guild.history.push(song);
-    let timeUntil = 0;
-    let queuePosition = 1;
-    if (msg.cmd === "pt" || msg.cmd === "playtop") {
-        msg.guild.queue.splice(1, 0, song);
-        timeUntil = msg.guild.queue[0][3] - ((msg.guild.stream.dispatcher.streamTime || 0) / 1000);
-    } else {
-        msg.guild.queue.push(song);
-        queuePosition = msg.guild.queue.length - 1;
-        timeUntil = (-1 * song[3]) - ((msg.guild.stream.dispatcher.streamTime || 0) / 1000);
-        for (const i in msg.guild.queue) {
-            timeUntil += msg.guild.queue[i][3];
-        }
+    let timeUntil = -1 * ((msg.guild.stream.dispatcher.streamTime || 0) / 1000);
+    msg.guild.queue.splice(atIndex, 0, song);
+    for (let i = 0; i < atIndex; i++) {
+        timeUntil += msg.guild.queue[i][3];
     }
     if (msg.guild.queue.length === 1) {
         if (!silent) {
@@ -168,7 +169,7 @@ module.exports.song = async function(msg, silent, id) {
         }).catch((err) => console.log(err));
     } else if (!silent) {
         msgUpdate.then((m) => {
-            m.edit(`>>> Added to queue:\n${queuePosition}. **${song[1]}**\nDuration: ${mins(song[3])}\nTime until playing: ${mins(timeUntil)}`);
+            m.edit(`>>> Added to queue:\n${atIndex}. **${song[1]}**\nDuration: ${mins(song[3])}\nTime until playing: ${mins(timeUntil)}`);
             askTop(m, msg, song);
             askCancel(m, msg, song);
             qstat.refresh(msg);
