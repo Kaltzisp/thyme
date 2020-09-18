@@ -120,6 +120,7 @@ const SERVER = {
     invite: core.invite,
     j: stream.join,
     join: stream.join,
+    kill: other.kill,
     leave: stream.leave,
     list: lists.playlists,
     lists: lists.playlists,
