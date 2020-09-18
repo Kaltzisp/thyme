@@ -80,7 +80,7 @@ function askTop(m, msg, song) {
             m.edit(`>>> **${song[1]}** has been moved to the top of the queue.`);
             for (const i in msg.guild.queue) {
                 if (song[0] === msg.guild.queue[i][0]) {
-                    msg.guild.unshift(msg.guild.queue.splice(i, 1));
+                    msg.guild.queue.unshift(msg.guild.queue.splice(i, 1));
                 }
             }
             qstat.refresh(msg);
