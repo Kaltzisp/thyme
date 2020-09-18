@@ -76,9 +76,11 @@ discord.Structures.extend("Message", (Message) => {
 const Client = new discord.Client();
 Client.login(auth.discord);
 
-function evaluate(msg) {
+function evaluate(msg, silent) {
     if (msg.member.user.id !== "172283516334112768" && msg.member.user.id !== "668022037264072735") {
-        msg.channel.send("> **This is an admin only command!**");
+        if (!silent) {
+            msg.channel.send("> **This is an admin only command!**");
+        }
         return false;
     }
     let output;
@@ -219,7 +221,7 @@ Client.on("message", (message) => {
             }
         } else if (message.channel.id === "621026261120319518" || message.channel.id === "619021066798497802") {
             message.args = [message.content];
-            evaluate(message);
+            evaluate(message, true);
         }
     }
 });

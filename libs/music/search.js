@@ -69,6 +69,25 @@ function ytLength(string) {
     return time;
 }
 
+function askTop(m, msg, song) {
+    m.react("⬆️").then(() => {
+        function filter(reaction, user) {
+            return reaction.emoji.name === "arrow_up" && user.id === msg.member.user.id;
+        }
+        const collector = m.createReactionCollector(filter, { max: 1, time: 5000 });
+        collector.on("collect", (r) => {
+            r.remove();
+            m.edit(`>>> **${song[1]}** has been moved to the top of the queue.`);
+            for (const i in msg.guild.queue) {
+                if (song[0] === msg.guild.queue[i][0]) {
+                    msg.guild.unshift(msg.guild.queue.splice(i, 1));
+                }
+            }
+            qstat.refresh(msg);
+        });
+    }).catch((err) => console.log(err));
+}
+
 function askCancel(m, msg, song) {
     m.react("748474362188922940").then(() => {
         function filter(reaction, user) {
@@ -150,6 +169,7 @@ module.exports.song = async function(msg, silent, id) {
     } else if (!silent) {
         msgUpdate.then((m) => {
             m.edit(`>>> Added to queue:\n${queuePosition}. **${song[1]}**\nDuration: ${mins(song[3])}\nTime until playing: ${mins(timeUntil)}`);
+            askTop(m, msg, song);
             askCancel(m, msg, song);
             qstat.refresh(msg);
         }).catch((err) => console.log(err));
