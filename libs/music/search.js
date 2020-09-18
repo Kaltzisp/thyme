@@ -72,15 +72,15 @@ function ytLength(string) {
 function askTop(m, msg, song) {
     m.react("⬆️").then(() => {
         function filter(reaction, user) {
-            return reaction.emoji.name === "arrow_up" && user.id === msg.member.user.id;
+            return reaction.emoji.name === "⬆️" && user.id === msg.member.user.id;
         }
-        const collector = m.createReactionCollector(filter, { max: 1, time: 5000 });
+        const collector = m.createReactionCollector(filter, { max: 1, time: 10000 });
         collector.on("collect", (r) => {
             r.remove();
             m.edit(`>>> **${song[1]}** has been moved to the top of the queue.`);
             for (const i in msg.guild.queue) {
                 if (song[0] === msg.guild.queue[i][0]) {
-                    msg.guild.queue.unshift(msg.guild.queue.splice(i, 1));
+                    msg.guild.queue.splice(1, 0, msg.guild.queue.splice(i, 1)[0]);
                 }
             }
             qstat.refresh(msg);
@@ -93,7 +93,7 @@ function askCancel(m, msg, song) {
         function filter(reaction, user) {
             return reaction.emoji.name === "cx" && user.id === msg.member.user.id;
         }
-        const collector = m.createReactionCollector(filter, { max: 1, time: 5000 });
+        const collector = m.createReactionCollector(filter, { max: 1, time: 10000 });
         collector.on("collect", () => {
             m.reactions.removeAll();
             m.edit(`>>> **${song[1]}** has been removed from the queue.`);
