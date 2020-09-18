@@ -44,19 +44,54 @@ module.exports.move = function(msg, indexFrom, indexTo) {
     }
 };
 
-module.exports.remove = function(msg) {
+module.exports.trim = function(msg) {
     if (!msg.isPlaying()) {
         return false;
     }
     const index = Number(msg.args);
     if (msg.guild.queue[index]) {
         if (index > 0) {
-            msg.channel.send(`> Removed ${msg.guild.queue[index][1]} from queue.`).then(() => {
-                msg.guild.queue.splice(index, 1);
-                qstat.refresh(msg);
-            }).catch((err) => console.log(err));
-        } else if (index === 0) {
-            stream.skip(msg);
+            msg.channel.send(`> Trimmed queue from ${index}.`);
+            msg.guild.queue.length = index;
+            qstat.refresh(msg);
+        }
+    }
+};
+
+module.exports.remove = function(msg) {
+    if (!msg.isPlaying()) {
+        return false;
+    }
+    if (msg.args[0].indexOf("-") > -1) {
+        const span = msg.args[0].split("-");
+        const from = Number(span[0]);
+        const to = Number(span[1]);
+        if (msg.guild.queue[from] && msg.guild.queue[to] && to > from) {
+            msg.channel.send(`Removing songs between ${from} and ${to}.`);
+            msg.guild.queue.splice(from, (to - from) + 1);
+            qstat.refresh(msg);
+        }
+    } else {
+        for (const i in msg.args) {
+            msg.args[i] = Number(msg.args[i]);
+        }
+        msg.args.sort((a, b) => (b - a));
+        for (const i in msg.args) {
+            const index = msg.args[i];
+            if (msg.guild.queue[index]) {
+                if (index > 0) {
+                    msg.channel.send(`> Removed ${msg.guild.queue[index][1]} from queue.`).then(() => {
+                        if (msg.cmd === "prune" || msg.cmd === "trim") {
+                            msg.guild.queue.length = index;
+                        } else {
+                            msg.guild.queue.splice(index, 1);
+                        }
+                        qstat.refresh(msg);
+                    }).catch((err) => console.log(err));
+                } else if (index === 0) {
+                    stream.skip(msg);
+                }
+            }
         }
     }
 };

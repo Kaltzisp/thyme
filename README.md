@@ -8,8 +8,6 @@ Thyme music bot built on Discord.js.
 
 ## Upcoming features:
 * Allow editing of playlists.
-* Play song in position (!p Miserlou 5).
-* Prune from end of queue / remove selected indices
 
 ## Suggested features:
 * Interactive !np embed (moving dot & restart button).
