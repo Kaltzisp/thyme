@@ -1,73 +1,30 @@
-const axios = require("axios");
 const { mins } = require("../common.js");
-const auth = require("../auth.js");
 const stream = require("./stream.js");
 const qstat = require("./qstat.js");
 const qedit = require("./qedit.js");
+const ytget = require("./ytget.js");
 
-const yt = {
-    videos: "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=1&q=",
-    lists: "https://www.googleapis.com/youtube/v3/search?part=snippet&type=playlist&maxResults=1&q=",
-    items: "https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=50&playlistId=",
-    duration: "https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=",
-    index: 0,
-    keys: [auth.youtube_1, auth.youtube_2, auth.youtube_3, auth.youtube_4],
-    key() {
-        return this.keys[this.index];
+const response = {
+    searching(msg) {
+        return msg.channel.send(`> <:youtube:621172101390532614> **Searching** :mag_right: \`${msg.args.join(" ")}\``);
     },
-    cycle() {
-        this.index += 1;
-        if (this.index === this.keys.length) {
-            this.index = 0;
+    noneFound(msg) {
+        return msg.channel.send(`> No results found for ${msg.args.join(" ")}.`);
+    },
+    playing(msg, song) {
+        return msg.edit(`> **Playing** :notes: \`${song[1]}\` - Now!`);
+    },
+    queued(msg, song, index) {
+        let timeUntil = -1 * ((msg.guild.stream.dispatcher.streamTime || 0) / 1000);
+        for (let i = 0; i < index; i++) {
+            timeUntil += msg.guild.queue[i][3];
         }
+        return msg.edit(`>>> Added to queue:\n${index}. **${song[1]}**\nDuration: ${mins(song[3])}\nTime until playing: ${mins(timeUntil)}`);
     },
-    searching(string) {
-        return `<:youtube:621172101390532614> **Searching** :mag_right: \`${string}\``;
+    playlistDone(msg, playlist) {
+        return msg.edit(`> **Playing** :notes: \`${playlist[0]} - ${playlist[1].length} songs.\``);
     }
 };
-
-function get(url) {
-    return new Promise((resolve, reject) => {
-        axios.get(url + yt.key()).then((response) => {
-            resolve(response.data);
-        }).catch((err) => {
-            if (err.response && err.response.data.error.code === 403) {
-                yt.cycle();
-                resolve(get(url));
-            } else {
-                reject(err);
-            }
-        });
-    });
-}
-
-function htmlParse(string) {
-    return string.replace(/&amp;/g, "&").replace(/&quot;/g, "\"").replace(/&#39;/g, "'");
-}
-
-function ytLength(string) {
-    let time = 0;
-    string = string.substring(2, string.length);
-    const h = string.indexOf("H");
-    if (h > 0) {
-        const htime = Number(string.substring(h - 2, h)) || Number(string.substring(h - 1, h));
-        time += htime * 3600;
-        string = string.substring(h + 1, string.length);
-    }
-    const m = string.indexOf("M");
-    if (m > 0) {
-        const mtime = Number(string.substring(m - 2, m)) || Number(string.substring(m - 1, m));
-        time += mtime * 60;
-        string = string.substring(m + 1, string.length);
-    }
-    const s = string.indexOf("S");
-    if (s > 0) {
-        const stime = Number(string.substring(s - 2, s)) || Number(string.substring(s - 1, s));
-        time += stime;
-        string = string.substring(s + 1, string.length);
-    }
-    return time;
-}
 
 function askTop(m, msg, song) {
     m.react("⬆️").then(() => {
@@ -110,7 +67,22 @@ function askCancel(m, msg, song) {
     }).catch((err) => console.log(err));
 }
 
-module.exports.song = async function(msg, silent, id) {
+function getIndex(msg) {
+    if (msg.cmd === "pt" || msg.cmd === "playtop") {
+        return 1;
+    }
+    let index = msg.guild.queue.length;
+    if (msg.args[msg.args.length - 1].substring(0, 1) === "-") {
+        index = Math.round(Number(msg.args.pop().substring(1)));
+        if (isNaN(index) || index < 1 || index > msg.guild.queue.length) {
+            return msg.guild.queue.length;
+        }
+        return index;
+    }
+    return msg.guild.queue.length;
+}
+
+module.exports.song = async function(msg) {
     if (!msg.inVoice()) {
         return false;
     }
@@ -118,62 +90,38 @@ module.exports.song = async function(msg, silent, id) {
         stream.pause(msg);
         return false;
     }
-    let atIndex = msg.guild.queue.length;
-    if (msg.args[msg.args.length - 1].substring(0, 1) === "-") {
-        atIndex = Math.round(Number(msg.args.pop().substring(1)));
-        if (isNaN(atIndex) || atIndex < 1 || atIndex > msg.guild.queue.length) {
-            atIndex = msg.guild.queue.length;
-        }
-    } else if (msg.cmd === "pt" || msg.cmd === "playtop") {
-        atIndex = 1;
-    }
-    const queryString = id || msg.args.join(" ");
-    let msgUpdate;
-    if (!silent) {
-        msgUpdate = msg.channel.send(yt.searching(queryString));
-    }
-    const songData = await get(`${yt.videos}${encodeURI(queryString)}&key=`).catch((err) => {
-        console.log(err);
-        if (!silent) {
-            msg.channel.send(`> No results found for: \`${queryString}\``);
-            return false;
-        }
-    });
-    if (!songData.items[0]) {
-        console.log("No songdata items.");
+    let atIndex = getIndex(msg);
+    const msgUpdate = response.searching(msg);
+    const song = await ytget.song(msg, msg.args.join(" "));
+    if (!song) {
+        response.noneFound(msg);
         return false;
     }
-    const song = [songData.items[0].id.videoId, htmlParse(songData.items[0].snippet.title), msg.author.id];
     for (const i in msg.guild.queue) {
         if (song[0] === msg.guild.queue[i][0]) {
-            qedit.move(msg, i, 1);
+            if (atIndex >= msg.guild.queue.length) {
+                atIndex = 1;
+            }
+            qedit.move(msg, i, atIndex);
             return false;
         }
     }
-    const durationData = await get(`${yt.duration}${song[0]}&key=`).catch((err) => console.log(err));
-    song[3] = ytLength(durationData.items[0].contentDetails.duration);
     msg.guild.history.push(song);
-    let timeUntil = -1 * ((msg.guild.stream.dispatcher.streamTime || 0) / 1000);
     msg.guild.queue.splice(atIndex, 0, song);
-    for (let i = 0; i < atIndex; i++) {
-        timeUntil += msg.guild.queue[i][3];
-    }
     if (msg.guild.queue.length === 1) {
-        if (!silent) {
-            msgUpdate.then((m) => {
-                m.edit(`> **Playing** :notes: \`${song[1]}\` - Now!`);
-            });
-        }
-        msg.member.voice.channel.join().then((connection) => {
-            stream.play(connection, msg);
-        }).catch((err) => console.log(err));
-    } else if (!silent) {
         msgUpdate.then((m) => {
-            m.edit(`>>> Added to queue:\n${atIndex}. **${song[1]}**\nDuration: ${mins(song[3])}\nTime until playing: ${mins(timeUntil)}`);
+            response.playing(m, song);
+            msg.member.voice.channel.join().then((connection) => {
+                stream.play(connection, msg);
+            }).catch((err) => console.log(err));
+        });
+    } else {
+        msgUpdate.then((m) => {
+            response.queued(m, song, atIndex);
             askTop(m, msg, song);
             askCancel(m, msg, song);
             qstat.refresh(msg);
-        }).catch((err) => console.log(err));
+        });
     }
 };
 
@@ -181,35 +129,22 @@ module.exports.playlist = async function(msg) {
     if (!msg.inVoice()) {
         return false;
     }
-    const queryString = msg.args.join(" ");
-    const msgUpdate = msg.channel.send(yt.searching(queryString));
-    const playlistData = await get(`${yt.lists}${encodeURI(queryString)}&key=`).catch((err) => {
-        console.log(err);
-        msgUpdate.then((m) => {
-            m.edit(`No results found for: ${queryString}.`);
-            return false;
-        });
-    });
-    const playlistID = playlistData.items[0].id.playlistId;
-    let playlistItems = await get(`${yt.items}${playlistID}&key=`).catch((err) => console.log(err));
-    const playlistLength = playlistItems.pageInfo.totalResults;
-    msgUpdate.then((m) => {
-        m.edit(`>>> <:youtube:621172101390532614> **Getting ${playlistLength} songs...** :mag_right:\nPlease wait a few moments...`);
-    });
-    let pageIndex = 0;
-    let index = 0;
-    for (let i = 0; i < playlistLength; i++) {
-        if (i % 50 === 0 && i > 0) {
-            playlistItems = await get(`${yt.items}${playlistID}&pageToken=${playlistItems.nextPageToken}&key=`).catch((err) => console.log(err));
-            pageIndex -= 50;
-        }
-        index = i + pageIndex;
-        if (playlistItems.items[index]) {
-            module.exports.song(msg, true, playlistItems.items[index].contentDetails.videoId);
-        }
+    const msgUpdate = response.searching(msg);
+    const playlist = await ytget.playlist(msg);
+    if (!playlist[0]) {
+        response.noneFound(msg);
+        return false;
     }
     msgUpdate.then((m) => {
-        m.edit(`> **Playing** :notes: \`${playlistData.items[0].snippet.title} - ${playlistLength} songs.\``).catch((err) => console.log(err));
+        response.playlistDone(m, playlist);
         qstat.refresh(msg);
     });
+    for (const i in playlist[1]) {
+        msg.guild.queue.push(playlist[1][i]);
+        if (msg.guild.queue.length === 1) {
+            msg.member.voice.channel.join().then((connection) => {
+                stream.play(connection, msg);
+            }).catch((err) => console.log(err));
+        }
+    }
 };
