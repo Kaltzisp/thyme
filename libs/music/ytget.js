@@ -2,7 +2,7 @@ const axios = require("axios");
 const auth = require("../auth.js");
 
 const yt = {
-    videos: "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=1&q=",
+    videos: "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=2&q=",
     lists: "https://www.googleapis.com/youtube/v3/search?part=snippet&type=playlist&maxResults=1&q=",
     items: "https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=50&playlistId=",
     duration: "https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=",
@@ -63,12 +63,24 @@ function ytLength(string) {
     return time;
 }
 
+function noLive(data) {
+    let title = data.items[0].snippet.title.toLowerCase();
+    if (title.indexOf("(live") > -1 || title.indexOf("live at") > -1) {
+        title = data.items[1].snippet.title.toLowerCase();
+        if (!(title.indexOf("(live") > -1 || title.indexOf("live at")) > -1) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 module.exports.song = async function(msg, queryString) {
     const songData = await get(`${yt.videos}${encodeURI(queryString)}&key=`).catch((err) => console.log(err));
     if (!songData.items[0]) {
         return false;
     }
-    const song = [songData.items[0].id.videoId, htmlParse(songData.items[0].snippet.title), msg.author.id];
+    const index = noLive(songData);
+    const song = [songData.items[index].id.videoId, htmlParse(songData.items[index].snippet.title), msg.author.id];
     const durationData = await get(`${yt.duration}${song[0]}&key=`).catch((err) => console.log(err));
     if (!durationData.items[0]) {
         return false;
