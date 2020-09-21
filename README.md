@@ -7,10 +7,8 @@ Thyme music bot built on Discord.js.
 * Sponsors: Zambini, Duckles, Glue, Madi, Sammy, Clock, Cat
 
 ## Bugfixes:
-* !r crashes if no arguments.
 
 ## Upcoming features:
-* Allow !r to skip and remove during loop.
 * Allow editing of playlists.
 
 ## Suggested features:

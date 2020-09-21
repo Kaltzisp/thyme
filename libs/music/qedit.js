@@ -59,7 +59,7 @@ module.exports.trim = function(msg) {
 };
 
 module.exports.remove = function(msg) {
-    if (!msg.isPlaying()) {
+    if (!msg.isPlaying() || msg.args.length === 0) {
         return false;
     }
     if (msg.args[0].indexOf("-") > -1) {
@@ -90,6 +90,11 @@ module.exports.remove = function(msg) {
                     }).catch((err) => console.log(err));
                 } else if (index === 0) {
                     stream.skip(msg);
+                    if (msg.guild.stream.isLoop) {
+                        const song = msg.guild.queue.pop();
+                        qstat.refresh();
+                        msg.channel.send(`> Removed ${song[1]} from queue.`);
+                    }
                 }
             }
         }
