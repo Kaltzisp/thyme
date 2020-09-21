@@ -64,11 +64,16 @@ function ytLength(string) {
 }
 
 function noLive(data) {
-    let title = data.items[0].snippet.title.toLowerCase();
-    if (title.indexOf("(live") > -1 || title.indexOf("live at") > -1) {
-        title = data.items[1].snippet.title.toLowerCase();
-        if (!(title.indexOf("(live") > -1 || title.indexOf("live at")) > -1) {
-            return 1;
+    for (const i in data.items) {
+        const title = data.items[i].snippet.title.toLowerCase();
+        if (title.indexOf("live") === -1) {
+            return i;
+        }
+    }
+    for (const i in data.items) {
+        const title = data.items[i].snippet.title.toLowerCase();
+        if (title.indexOf("(live") === -1 && title.indexOf("live at") === -1) {
+            return i;
         }
     }
     return 0;
