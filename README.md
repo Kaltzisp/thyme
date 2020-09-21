@@ -6,11 +6,6 @@ Thyme music bot built on Discord.js.
 * Support:  Matte, Gargle, ProfWho
 * Sponsors: Zambini, Duckles, Glue, Madi, Sammy, Clock, Cat
 
-## Bugfixes:
-
-## Upcoming features:
-* Allow editing of playlists.
-
 ## Suggested features:
 * Interactive !np embed (moving dot & restart button).
 * Upgrade polling (DM !ask, guild specific).

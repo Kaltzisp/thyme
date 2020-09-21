@@ -170,6 +170,7 @@ const SERVER = {
     times: locale.time,
     trim: qedit.trim,
     unloop: qedit.unloop,
+    update: lists.update,
     uptime: core.uptime,
     v: stream.volume,
     vol: stream.volume,

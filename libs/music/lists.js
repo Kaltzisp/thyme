@@ -26,6 +26,14 @@ module.exports.curate = function(msg) {
     msg.channel.send(`>>> Playlist created\nID: \`${playlistIndex}\`\nName: \`${playlistName}\`.`);
 };
 
+module.exports.update = function(msg) {
+    const index = getIndex(msg);
+    if (msg.client.save.playlists[index] && msg.guild.queue.length > 0) {
+        msg.client.save.playlists[index].tracks = msg.guild.queue;
+    }
+    msg.channel.send(`>>> Playlist updated\nID: \`${index}\`\nName: \`${msg.client.save.playlists[index][1]}\`.`);
+};
+
 module.exports.retrieve = function(msg) {
     if (!msg.inVoice()) {
         return false;
