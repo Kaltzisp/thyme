@@ -1,3 +1,5 @@
+const axios = require("axios");
+
 try {
     // eslint-disable-next-line global-require
     module.exports = require("./data/keys.js");
@@ -9,6 +11,19 @@ try {
         youtube_1: process.env.youtube_1,
         youtube_2: process.env.youtube_2,
         youtube_3: process.env.youtube_3,
-        youtube_4: process.env.youtube_4
+        youtube_4: process.env.youtube_4,
+        spotify_id: process.env.spotify_id,
+        spotify_secret: process.env.spotify_secret
     };
 }
+
+axios.post("https://accounts.spotify.com/api/token", "grant_type=client_credentials", {
+    auth: {
+        username: module.exports.spotify_id,
+        password: module.exports.spotify_secret
+    }
+}).then((res) => {
+    module.exports.spotify = res.data.access_token;
+}).catch((err) => {
+    console.log(err);
+});

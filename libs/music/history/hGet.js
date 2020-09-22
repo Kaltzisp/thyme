@@ -1,6 +1,5 @@
-const axios = require("axios");
-const stream = require("./stream.js");
-const qstat = require("./qstat.js");
+const { refreshQueue } = require("../queue/qStatus.js");
+const { playStream } = require("../stream/sMethods.js");
 
 function sameUser(songUser, users) {
     if (users.length === 0) {
@@ -14,7 +13,7 @@ function sameUser(songUser, users) {
     return false;
 }
 
-module.exports.history = function(msg) {
+module.exports.getHistory = function(msg) {
     if (Number(msg.args[1]) && !Number(msg.args[0])) {
         msg.args[0] = msg.args[1];
     }
@@ -40,25 +39,7 @@ module.exports.history = function(msg) {
     }
 };
 
-module.exports.lyrics = async function(msg) {
-    let queryString = msg.args.join(" ");
-    if (msg.guild.queue[0]) {
-        queryString = (msg.args.join(" ") || msg.guild.queue[0][1]);
-    } else if (queryString.length === 0) {
-        msg.channel.send("> Nothing is playing!");
-    }
-    queryString = encodeURI(queryString);
-    const response = await axios.get(`https://api.ksoft.si/lyrics/search?q=${queryString}`, {
-        headers: {
-            Authorization: "Bearer c6304dfb604a422ca3b8c8b494161fa6baa920df"
-        }
-    }).catch((err) => console.log(err));
-    const songData = response.data.data[0];
-    const header = `>>> **Song Lyrics by KSoft.Si**\n**Title:** ${songData.name}\n**Artist:** ${songData.artist}\n\n`;
-    msg.channel.send(header + songData.lyrics);
-};
-
-module.exports.recycle = function(msg) {
+module.exports.recycleHistory = function(msg) {
     if (!msg.inVoice()) {
         return false;
     }
@@ -78,36 +59,13 @@ module.exports.recycle = function(msg) {
             addedIDs.push(msg.guild.history[i][0]);
             if (msg.guild.queue.length === 1) {
                 msg.member.voice.channel.join().then((connection) => {
-                    stream.play(connection, msg);
+                    playStream(connection, msg);
                 }).catch((err) => console.log(err));
             }
         } else if (maxInd < msg.guild.history.length) {
             maxInd += 1;
         }
     }
-    qstat.refresh(msg);
+    refreshQueue(msg);
     msg.channel.send("> **Queue recycled!**");
-};
-
-module.exports.kill = function(msg) {
-    if (!msg.isPlaying()) {
-        return false;
-    }
-    const index = Number(msg.args);
-    if (msg.guild.queue[index]) {
-        const songId = msg.guild.queue[index][0];
-        if (index > 0) {
-            msg.channel.send(`> Removed ${msg.guild.queue[index][1]} from queue and history.`).then(() => {
-                msg.guild.queue.splice(index, 1);
-                qstat.refresh(msg);
-            }).catch((err) => console.log(err));
-        } else if (index === 0) {
-            stream.skip(msg);
-        }
-        for (const i in msg.guild.history) {
-            if (msg.guild.history[i][0] === songId) {
-                msg.guild.history.splice(i, 1);
-            }
-        }
-    }
 };

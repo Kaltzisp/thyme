@@ -31,7 +31,7 @@ function trackPos(m) {
     return positions[index];
 }
 
-async function queueEmbed(msg, short) {
+module.exports.queueEmbed = async function(msg, short) {
     const user = await msg.client.users.fetch(msg.guild.queue[0][2]).catch((err) => console.log(err));
     let tMult = 1;
     if (msg.guild.stream.isNightcore) {
@@ -73,62 +73,4 @@ async function queueEmbed(msg, short) {
     embed.addField("\u200b", "\u200b");
     embed.addField(totalTracks, totalDuration);
     return embed;
-}
-
-module.exports.now = function(msg) {
-    if (!msg.isPlaying()) {
-        return false;
-    }
-    queueEmbed(msg, true).then((embed) => {
-        msg.channel.send(embed);
-    });
-};
-
-module.exports.queue = function(msg) {
-    if (!msg.isPlaying()) {
-        return false;
-    }
-    if (msg.guild.meta.queueMessage.delete) {
-        msg.guild.meta.queueMessage.delete().catch((err) => console.log(err));
-    }
-    msg.guild.meta.index = 0;
-    queueEmbed(msg).then((embed) => {
-        msg.channel.send(embed).then((m) => {
-            msg.guild.meta.queueMessage = m;
-            m.react("⬅");
-            m.react("➡");
-        }).catch((err) => console.log(err));
-    });
-};
-
-module.exports.scroll = function(msg, reaction, user) {
-    if (user.bot || msg.id !== msg.guild.meta.queueMessage.id || msg.guild.queue.length === 0) {
-        return false;
-    }
-    if (reaction.emoji.name === "⬅") {
-        msg.guild.meta.index -= 1;
-        if (msg.guild.meta.index < 0) {
-            msg.guild.meta.index = 0;
-        }
-    } else if (reaction.emoji.name === "➡") {
-        msg.guild.meta.index += 1;
-        if (msg.guild.meta.index > Math.ceil((msg.guild.queue.length - 1) / 10) - 1) {
-            msg.guild.meta.index = Math.ceil((msg.guild.queue.length - 1) / 10) - 1;
-        }
-    } else {
-        return false;
-    }
-    reaction.users.remove(user).catch((err) => console.log(err));
-    queueEmbed(msg).then((embed) => {
-        msg.edit(embed);
-    });
-};
-
-module.exports.refresh = function(msg) {
-    if (!msg.guild.meta.queueMessage.id) {
-        return false;
-    }
-    queueEmbed(msg).then((embed) => {
-        msg.guild.meta.queueMessage.edit(embed);
-    });
 };

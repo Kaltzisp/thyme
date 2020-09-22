@@ -1,8 +1,9 @@
+const ytGet = require("./ytGet.js");
 const { mins } = require("../common.js");
-const stream = require("./stream.js");
-const qstat = require("./qstat.js");
-const qedit = require("./qedit.js");
-const ytget = require("./ytget.js");
+const { refreshQueue } = require("../queue/qStatus.js");
+const { moveSong } = require("../queue/qEdit.js");
+const { pauseStream } = require("../stream/sEdit.js");
+const { playStream } = require("../stream/sMethods.js");
 
 const response = {
     searching(msg) {
@@ -40,7 +41,7 @@ function askTop(m, msg, song) {
                     msg.guild.queue.splice(1, 0, msg.guild.queue.splice(i, 1)[0]);
                 }
             }
-            qstat.refresh(msg);
+            refreshQueue(msg);
         });
     }).catch((err) => console.log(err));
 }
@@ -59,7 +60,7 @@ function askCancel(m, msg, song) {
                     msg.guild.queue.splice(i, 1);
                 }
             }
-            qstat.refresh(msg);
+            refreshQueue(msg);
         });
         collector.on("end", () => {
             m.reactions.removeAll();
@@ -82,17 +83,17 @@ function getIndex(msg) {
     return msg.guild.queue.length;
 }
 
-module.exports.song = async function(msg) {
+module.exports.searchSong = async function(msg) {
     if (!msg.inVoice()) {
         return false;
     }
     if (msg.args.length === 0) {
-        stream.pause(msg);
+        pauseStream(msg);
         return false;
     }
     let atIndex = getIndex(msg);
     const msgUpdate = response.searching(msg);
-    const song = await ytget.song(msg, msg.args.join(" "));
+    const song = await ytGet.getSong(msg, msg.args.join(" "));
     if (!song) {
         response.noneFound(msg);
         return false;
@@ -102,7 +103,7 @@ module.exports.song = async function(msg) {
             if (atIndex >= msg.guild.queue.length) {
                 atIndex = 1;
             }
-            qedit.move(msg, i, atIndex);
+            moveSong(msg, i, atIndex);
             return false;
         }
     }
@@ -112,7 +113,7 @@ module.exports.song = async function(msg) {
         msgUpdate.then((m) => {
             response.playing(m, song);
             msg.member.voice.channel.join().then((connection) => {
-                stream.play(connection, msg);
+                playStream(connection, msg);
             }).catch((err) => console.log(err));
         });
     } else {
@@ -120,30 +121,30 @@ module.exports.song = async function(msg) {
             response.queued(m, song, atIndex);
             askTop(m, msg, song);
             askCancel(m, msg, song);
-            qstat.refresh(msg);
+            refreshQueue(msg);
         });
     }
 };
 
-module.exports.playlist = async function(msg) {
+module.exports.searchPlaylist = async function(msg) {
     if (!msg.inVoice()) {
         return false;
     }
     const msgUpdate = response.searching(msg);
-    const playlist = await ytget.playlist(msg);
+    const playlist = await ytGet.getPlaylist(msg);
     if (!playlist[0]) {
         response.noneFound(msg);
         return false;
     }
     msgUpdate.then((m) => {
         response.playlistDone(m, playlist);
-        qstat.refresh(msg);
+        refreshQueue(msg);
     });
     for (const i in playlist[1]) {
         msg.guild.queue.push(playlist[1][i]);
         if (msg.guild.queue.length === 1) {
             msg.member.voice.channel.join().then((connection) => {
-                stream.play(connection, msg);
+                playStream(connection, msg);
             }).catch((err) => console.log(err));
         }
     }

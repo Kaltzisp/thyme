@@ -1,32 +1,15 @@
-const qstat = require("./qstat.js");
-const stream = require("./stream.js");
+const { refreshQueue } = require("./qStatus");
+const { skipSong } = require("../stream/sEdit.js");
 
-module.exports.clear = function(msg) {
+module.exports.clearQueue = function(msg) {
     if (msg.guild.queue.length > 1) {
         msg.guild.queue.length = 1;
     }
     msg.channel.send("> Queue cleared!");
-    qstat.refresh(msg);
+    refreshQueue(msg);
 };
 
-module.exports.loop = function(msg) {
-    if (msg.guild.stream.isLoop) {
-        msg.channel.send("> :repeat: **Loop disabled!**");
-        msg.guild.stream.isLoop = false;
-    } else {
-        msg.channel.send("> :repeat: **Loop enabled!**");
-        msg.guild.stream.isLoop = true;
-    }
-    qstat.refresh(msg);
-};
-
-module.exports.unloop = function(msg) {
-    msg.guild.stream.isLoop = true;
-    module.exports.loop(msg);
-    qstat.refresh(msg);
-};
-
-module.exports.move = function(msg, indexFrom, indexTo) {
+module.exports.moveSong = function(msg, indexFrom, indexTo) {
     if (!msg.isPlaying()) {
         return false;
     }
@@ -36,7 +19,7 @@ module.exports.move = function(msg, indexFrom, indexTo) {
         if (from > 0 && to > 0) {
             msg.channel.send(`> **Moved ${msg.guild.queue[from][1]} from position ${from} to position ${to}.**`).then(() => {
                 msg.guild.queue.splice(to, 0, msg.guild.queue.splice(from, 1)[0]);
-                qstat.refresh(msg);
+                refreshQueue(msg);
             }).catch((err) => console.log(err));
         } else {
             msg.channel.send("> Use skip to change the current track.");
@@ -44,7 +27,7 @@ module.exports.move = function(msg, indexFrom, indexTo) {
     }
 };
 
-module.exports.trim = function(msg) {
+module.exports.trimQueue = function(msg) {
     if (!msg.isPlaying()) {
         return false;
     }
@@ -53,12 +36,12 @@ module.exports.trim = function(msg) {
         if (index > 0) {
             msg.channel.send(`> Trimmed queue from ${index}.`);
             msg.guild.queue.length = index;
-            qstat.refresh(msg);
+            refreshQueue(msg);
         }
     }
 };
 
-module.exports.remove = function(msg) {
+module.exports.removeSongs = function(msg) {
     if (!msg.isPlaying() || msg.args.length === 0) {
         return false;
     }
@@ -69,7 +52,7 @@ module.exports.remove = function(msg) {
         if (msg.guild.queue[from] && msg.guild.queue[to] && to > from) {
             msg.channel.send(`Removing songs between ${from} and ${to}.`);
             msg.guild.queue.splice(from, (to - from) + 1);
-            qstat.refresh(msg);
+            refreshQueue(msg);
         }
     } else {
         for (const i in msg.args) {
@@ -86,31 +69,17 @@ module.exports.remove = function(msg) {
                         } else {
                             msg.guild.queue.splice(index, 1);
                         }
-                        qstat.refresh(msg);
+                        refreshQueue(msg);
                     }).catch((err) => console.log(err));
                 } else if (index === 0) {
-                    stream.skip(msg);
+                    skipSong(msg);
                     if (msg.guild.stream.isLoop) {
                         const song = msg.guild.queue.pop();
-                        qstat.refresh();
+                        refreshQueue();
                         msg.channel.send(`> Removed ${song[1]} from queue.`);
                     }
                 }
             }
         }
     }
-};
-
-module.exports.shuffle = function(msg) {
-    if (!msg.isPlaying()) {
-        return false;
-    }
-    for (let i = 1; i < msg.guild.queue.length; i++) {
-        const j = Math.floor(Math.random() * (msg.guild.queue.length - 1) + 1);
-        const tempSong = msg.guild.queue[i];
-        msg.guild.queue[i] = msg.guild.queue[j];
-        msg.guild.queue[j] = tempSong;
-    }
-    msg.channel.send("> :twisted_rightwards_arrows: **Queue shuffled!**");
-    qstat.refresh(msg);
 };
