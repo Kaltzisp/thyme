@@ -1,5 +1,21 @@
 const axios = require("axios");
 
+function getSpotifyToken() {
+    axios.post("https://accounts.spotify.com/api/token", "grant_type=client_credentials", {
+        auth: {
+            username: module.exports.spotify_id,
+            password: module.exports.spotify_secret
+        }
+    }).then((res) => {
+        module.exports.spotify = res.data.access_token;
+    }).catch((err) => {
+        console.log(err);
+    });
+    setTimeout(() => {
+        getSpotifyToken();
+    }, 2700000);
+}
+
 try {
     // eslint-disable-next-line global-require
     module.exports = require("./data/keys.js");
@@ -17,13 +33,4 @@ try {
     };
 }
 
-axios.post("https://accounts.spotify.com/api/token", "grant_type=client_credentials", {
-    auth: {
-        username: module.exports.spotify_id,
-        password: module.exports.spotify_secret
-    }
-}).then((res) => {
-    module.exports.spotify = res.data.access_token;
-}).catch((err) => {
-    console.log(err);
-});
+getSpotifyToken();

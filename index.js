@@ -4,6 +4,7 @@ const core = require("./libs/core.js");
 const locale = require("./libs/text/locale.js");
 const misc = require("./libs/text/misc.js");
 const music = require("./libs/music/music.js");
+const spotify = require("./libs/music/spotify/spSearch.js");
 
 discord.Structures.extend("Guild", (Guild) => {
     class ThymeGuild extends Guild {
@@ -27,6 +28,20 @@ discord.Structures.extend("Guild", (Guild) => {
         }
     }
     return ThymeGuild;
+});
+
+discord.Structures.extend("User", (User) => {
+    class ThymeUser extends User {
+        constructor(client, data) {
+            super(client, data);
+            this.seeds = {
+                tracks: [],
+                artists: [],
+                genres: []
+            };
+        }
+    }
+    return ThymeUser;
 });
 
 discord.Structures.extend("Message", (Message) => {
@@ -111,6 +126,8 @@ const SERVER = {
     disconnect: music.leaveVoice,
     e: evaluate,
     eval: evaluate,
+    gen: spotify.fromSeed,
+    generate: spotify.fromSeed,
     h: music.getHistory,
     help: core.help,
     history: music.getHistory,
@@ -155,16 +172,20 @@ const SERVER = {
     retrieve: music.retrievePlaylist,
     s: music.skipSong,
     say: misc.say,
+    seed: spotify.addSeed,
     seek: music.seekCurrent,
     shuf: music.shuffleQueue,
     shuff: music.shuffleQueue,
     shuffle: music.shuffleQueue,
     skip: music.skipSong,
+    spot: spotify.searchTrack,
+    spotify: spotify.searchTrack,
     t: locale.time,
     time: locale.time,
     times: locale.time,
     trim: music.trimQueue,
     unloop: music.unloopQueue,
+    unseed: spotify.removeSeed,
     update: music.updatePlaylist,
     uptime: core.uptime,
     v: music.setVolume,
@@ -210,7 +231,7 @@ Client.on("guildCreate", (guild) => {
 });
 
 Client.on("message", (message) => {
-    if (message.channel.type === "dm") {
+    if (message.channel.type === "dm" && !message.author.bot) {
         Client.pollResponses.push(message.content.toLowerCase());
     } else if (!message.author.bot) {
         if (message.content.substring(0, core.prefix.length) === core.prefix) {
