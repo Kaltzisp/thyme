@@ -4,7 +4,7 @@
 * Features full YouTube audio support and indirect Spotify compatibility.
 * Many additional and discretionary features.
 * Use the **!help** command to find out what else we are capable of.
-
+___
 ## Installation
 ### Downloading the project:
 To clone the repository enter in the terminal<br>
@@ -28,7 +28,6 @@ To request a merge into `master`:<br>
 `git checkout branch_to_merge`<br>
 `git merge master`<br>
 
-___
 ### Porting the project:
 
 Run the following code in the terminal to install npm<br>
@@ -42,7 +41,7 @@ To run the bot you will need to start the process using<br>
 
 The list of available Weatherbit.io cities is available from<br>
 `https://www.weatherbit.io/static/exports/cities_all.csv.gz`
-___
+
 **To run the server, you will also require API keys for used services, including:**
 - [Discord Developer portal](https://discord.com/developers/) (discord authentication)
 - Jsonbin.io (Data Storage)
@@ -50,12 +49,12 @@ ___
 - [Google Developer's Console](https://console.developers.google.com/) (YouTube Data V3 API)
 - [Spotify](https://developer.spotify.com/) (Web API)
 - KSoft.si (Lyrics API)
-___
+
 ## Contributors
 *  **Author:** Linke (founding member)
 *  **Support:** Matte (discord.js assistance)
 *  **Sponsoring:** CoCo, UZo, IMan, et al.
-___
+
 ## Development:
 ### Bugfixes:
 * !seek does not work.
