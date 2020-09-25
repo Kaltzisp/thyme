@@ -44,11 +44,11 @@ The list of available Weatherbit.io cities is available from<br>
 
 **To run the server, you will also require API keys for used services, including:**
 - [Discord Developer portal](https://discord.com/developers/) (discord authentication)
-- Jsonbin.io (Data Storage)
-- Weatherbit.io (Weather API)
+- [Jsonbin.io](jsonbin.io) (Data Storage)
+- [Weatherbit.io](weatherbit.io) (Weather API)
 - [Google Developer's Console](https://console.developers.google.com/) (YouTube Data V3 API)
 - [Spotify](https://developer.spotify.com/) (Web API)
-- KSoft.si (Lyrics API)
+- [KSoft.si](ksoft.si) (Lyrics API)
 
 ## Contributors
 *  **Author:** Linke (founding member)
