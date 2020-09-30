@@ -5,6 +5,7 @@ const locale = require("./libs/text/locale.js");
 const misc = require("./libs/text/misc.js");
 const music = require("./libs/music/music.js");
 const spotify = require("./libs/music/spotify/spSearch.js");
+const marriage = require("./libs/text/marriage.js");
 
 discord.Structures.extend("Guild", (Guild) => {
     class ThymeGuild extends Guild {
@@ -39,6 +40,7 @@ discord.Structures.extend("User", (User) => {
                 artists: [],
                 genres: []
             };
+            this.marriages = {};
         }
     }
     return ThymeUser;
@@ -142,6 +144,7 @@ const SERVER = {
     loop: music.loopQueue,
     lyrics: music.getLyrics,
     m: music.moveSong,
+    marriages: marriage.list,
     move: music.moveSong,
     nc: music.toggleNightcore,
     nightcore: music.toggleNightcore,
@@ -199,8 +202,9 @@ Client.on("ready", () => {
     console.log("Retrieving savedata...");
     core.get().then((data) => {
         console.log("Checking guilds...");
-        Client.save = data;
         Client.pollResponses = [];
+        Client.save = data[0];
+        Client.userSave = data[1];
         Client.guilds.cache.forEach((guild) => {
             console.log(`ID: ${guild.id}\tGUILD: ${guild.name}`);
             if (!Client.save.guilds[guild.id]) {

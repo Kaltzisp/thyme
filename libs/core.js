@@ -2,15 +2,24 @@ const axios = require("axios");
 const auth = require("./auth");
 
 const binLocation = "https://api.jsonbin.io/b/5e738c34c4a5cb162867166b";
+const metaLocation = "https://api.jsonbin.io/b/5f719d93302a837e956f5bd6";
+
+const getOptions = {
+    headers: {
+        "secret-key": auth.jsonbin
+    }
+};
 
 module.exports.prefix = "!";
 
-module.exports.get = function() {
-    return new Promise((resolve, reject) => {
-        axios.get(binLocation, { headers: { "secret-key": auth.jsonbin } }).then((response) => {
-            resolve(response.data);
-        }).catch((err) => reject(err));
-    });
+module.exports.get = async function() {
+    const getPromises = [
+        axios.get(binLocation, getOptions),
+        axios.get(metaLocation, getOptions)
+    ];
+    let response = await Promise.all(getPromises).catch((err) => console.log(err));
+    response = [response[0].data, response[1].data];
+    return response;
 };
 
 module.exports.put = function(data) {

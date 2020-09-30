@@ -64,7 +64,10 @@ The list of available Weatherbit.io cities is available from<br>
 * Complete Spotify integration into code.
 
 ### Suggested features:
+* !ship, !marry, !marriages, !leaderboard (Sora).
 * Test file for development git push pipeline.
+* Refactor text modules into single module.
+* Refactor spotify and marriage into modules.
 * Class based refactor of entire code base.
 * Interactive !np embed (moving dot & restart button).
 * Upgraded polling (DM !ask, guild specific functionality).
