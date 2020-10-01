@@ -14,6 +14,14 @@ module.exports.searchTrack = async function(msg) {
     console.log(trackData.id);
 };
 
+module.exports.clearSeeds = function(msg) {
+    msg.member.user.seeds = {
+        tracks: [],
+        artists: [],
+        genres: []
+    };
+};
+
 module.exports.addSeed = async function(msg) {
     let queryString = msg.args.join("%20");
     let type = "track";
