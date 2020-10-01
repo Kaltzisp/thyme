@@ -10,6 +10,7 @@ const sEdit = require("./stream/sEdit.js");
 const sMethods = require("./stream/sMethods.js");
 const sProps = require("./stream/sProps.js");
 const ytSearch = require("./youtube/ytSearch.js");
+const spSearch = require("./spotify/spSearch.js");
 
 module.exports = {
     ...hEdit,
@@ -23,5 +24,6 @@ module.exports = {
     ...sEdit,
     ...sMethods,
     ...sProps,
-    ...ytSearch
+    ...ytSearch,
+    ...spSearch
 };

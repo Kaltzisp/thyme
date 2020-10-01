@@ -60,6 +60,7 @@ The list of available Weatherbit.io cities is available from<br>
 * !seek does not work.
 
 ### Current tasks:
+* Add common.js function to get target user from a message.
 * Add an informative !help function.
 * Complete Spotify integration into code.
 

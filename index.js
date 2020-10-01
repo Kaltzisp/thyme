@@ -1,11 +1,8 @@
 const discord = require("discord.js");
 const auth = require("./libs/auth.js");
 const core = require("./libs/core.js");
-const locale = require("./libs/text/locale.js");
-const misc = require("./libs/text/misc.js");
+const text = require("./libs/text/text.js");
 const music = require("./libs/music/music.js");
-const spotify = require("./libs/music/spotify/spSearch.js");
-const marriage = require("./libs/text/marriage.js");
 
 discord.Structures.extend("Guild", (Guild) => {
     class ThymeGuild extends Guild {
@@ -119,7 +116,7 @@ function reboot() {
 }
 
 const SERVER = {
-    choose: misc.choose,
+    choose: text.choose,
     clear: music.clearQueue,
     curate: music.curatePlaylist,
     dc: music.leaveVoice,
@@ -128,8 +125,8 @@ const SERVER = {
     disconnect: music.leaveVoice,
     e: evaluate,
     eval: evaluate,
-    gen: spotify.fromSeed,
-    generate: spotify.fromSeed,
+    gen: music.fromSeed,
+    generate: music.fromSeed,
     h: music.getHistory,
     help: core.help,
     history: music.getHistory,
@@ -144,58 +141,58 @@ const SERVER = {
     loop: music.loopQueue,
     lyrics: music.getLyrics,
     m: music.moveSong,
-    marriages: marriage.list,
+    marriages: text.list,
     move: music.moveSong,
     nc: music.toggleNightcore,
     nightcore: music.toggleNightcore,
-    no: misc.noYou,
-    nou: misc.noYou,
+    no: text.noYou,
+    nou: text.noYou,
     now: music.sendCurrent,
     np: music.sendCurrent,
     p: music.searchSong,
     pause: music.pauseStream,
     pl: music.searchPlaylist,
     pt: music.searchSong,
-    pick: misc.choose,
+    pick: text.choose,
     ping: core.ping,
     play: music.searchSong,
     playlist: music.searchPlaylist,
     playlists: music.listPlaylists,
     playtop: music.searchSong,
-    poll: misc.poll,
+    poll: text.poll,
     prune: music.trimQueue,
     q: music.sendQueue,
     queue: music.sendQueue,
     r: music.removeSongs,
     recycle: music.recycleHistory,
-    remind: misc.remind,
+    remind: text.remind,
     remove: music.removeSongs,
-    refer: misc.refer,
+    refer: text.refer,
     resume: music.resumeStream,
     retrieve: music.retrievePlaylist,
     s: music.skipSong,
-    say: misc.say,
-    seed: spotify.addSeed,
+    say: text.say,
+    seed: music.addSeed,
     seek: music.seekCurrent,
     shuf: music.shuffleQueue,
     shuff: music.shuffleQueue,
     shuffle: music.shuffleQueue,
     skip: music.skipSong,
-    spot: spotify.searchTrack,
-    spotify: spotify.searchTrack,
-    t: locale.time,
-    time: locale.time,
-    times: locale.time,
+    spot: music.searchTrack,
+    spotify: music.searchTrack,
+    t: text.time,
+    time: text.time,
+    times: text.time,
     trim: music.trimQueue,
     unloop: music.unloopQueue,
-    unseed: spotify.removeSeed,
+    unseed: music.removeSeed,
     update: music.updatePlaylist,
     uptime: core.uptime,
     v: music.setVolume,
     vol: music.setVolume,
     volume: music.setVolume,
-    w: locale.weather,
-    weather: locale.weather
+    w: text.weather,
+    weather: text.weather
 };
 
 Client.on("ready", () => {

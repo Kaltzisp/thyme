@@ -1,4 +1,7 @@
 const { get } = require("./spGet.js");
+const { getSong } = require("../youtube/ytGet.js");
+const { playStream } = require("../stream/sMethods.js");
+const { refreshQueue } = require("../queue/qStatus.js");
 const genreArray = require("./genres.js");
 const seed = require("./seed.js");
 
@@ -38,12 +41,20 @@ module.exports.addSeed = async function(msg) {
 module.exports.fromSeed = async function(msg) {
     const data = await get("recommendations", seed.getString(msg.member.user));
     const tracks = data.tracks;
-    let outputString = "**Generated Tracks:\n**";
+    const m = msg.channel.send("> Getting tracks from seeds...");
     for (const i in tracks) {
-        console.log(`${tracks[i].name} - by ${tracks[i].artists[0].name}`);
-        outputString += `${tracks[i].name} - by ${tracks[i].artists[0].name}\n`;
+        const song = await getSong(msg, tracks[i].name + tracks[i].artists[0].name).catch((err) => console.log(err));
+        if (song) {
+            msg.guild.queue.push(song);
+        }
+        if (msg.guild.queue.length === 1) {
+            msg.member.voice.channel.join().then((connection) => {
+                playStream(connection, msg);
+            }).catch((err) => console.log(err));
+        }
     }
-    msg.channel.send(outputString);
+    m.edit("> Playlist generated from seeds.");
+    refreshQueue(msg);
 };
 
 module.exports.listGenres = async function(msg) {
