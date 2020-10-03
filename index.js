@@ -235,7 +235,7 @@ Client.on("message", (message) => {
     if (message.channel.type === "dm" && !message.author.bot) {
         Client.pollResponses.push(message.content.toLowerCase());
     } else if (!message.author.bot) {
-        if (message.content.substring(0, core.prefix.length) === core.prefix) {
+        if (message.guild.id !== "713295590603227166" && message.content.substring(0, core.prefix.length) === core.prefix) {
             if (SERVER[message.cmd]) {
                 SERVER[message.cmd](message);
             }
