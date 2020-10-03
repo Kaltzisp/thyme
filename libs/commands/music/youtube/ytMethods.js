@@ -1,5 +1,5 @@
 const axios = require("axios");
-const auth = require("../../auth.js");
+const auth = require("../../../server/auth");
 
 module.exports.yt = {
     videos: "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=2&q=",

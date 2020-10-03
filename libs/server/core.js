@@ -10,8 +10,6 @@ const getOptions = {
     }
 };
 
-module.exports.prefix = "!";
-
 module.exports.get = async function() {
     const getPromises = [
         axios.get(binLocation, getOptions),
@@ -34,4 +32,36 @@ module.exports.put = function(data) {
             resolve(response.data);
         }).catch((err) => reject(err));
     });
+};
+
+module.exports.eval = function(msg, silent) {
+    if (msg.member.user.id !== "172283516334112768" && msg.member.user.id !== "668022037264072735") {
+        if (!silent) {
+            msg.channel.send("> **This is an admin only command!**");
+        }
+        return false;
+    }
+    let output;
+    try {
+        output = eval(msg.args.join(" "));
+    } catch (err) {
+        output = err;
+    }
+    console.log(output);
+    msg.channel.send(`\`\`\`js\n${output}\`\`\``).catch((err) => console.log(err));
+};
+
+module.exports.reboot = function(client) {
+    module.exports.put(client.save).then(() => {
+        console.log("Savedata uploaded.");
+        if (client.guilds.cache.get("320535195902148609").queue[0]) {
+            setTimeout(() => {
+                module.exports.reboot(client);
+            }, 7200000);
+        } else {
+            console.log("Process terminated.");
+            process.exit();
+        }
+    }).catch((err) => console.log(err));
+    return "Trying reboot.";
 };

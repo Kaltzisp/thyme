@@ -18,7 +18,7 @@ function getSpotifyToken() {
 
 try {
     // eslint-disable-next-line global-require
-    module.exports = require("./data/keys.js");
+    module.exports = require("../data/keys");
 } catch {
     module.exports = {
         discord: process.env.discord,

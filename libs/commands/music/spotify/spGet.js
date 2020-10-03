@@ -1,5 +1,5 @@
 const axios = require("axios");
-const auth = require("../../auth.js");
+const auth = require("../../../server/auth");
 
 module.exports.get = function(endpoint, paramString) {
     if (!paramString) {

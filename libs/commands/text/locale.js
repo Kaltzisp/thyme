@@ -1,7 +1,7 @@
 const axios = require("axios");
 const discord = require("discord.js");
-const auth = require("../auth.js");
-const users = require("../data/users.js");
+const auth = require("../../server/auth.js");
+const users = require("../../data/users.js");
 
 const weatherURL = "http://api.weatherbit.io/v2.0/current?key=";
 
