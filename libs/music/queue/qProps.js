@@ -27,6 +27,6 @@ module.exports.loopQueue = function(msg) {
 
 module.exports.unloopQueue = function(msg) {
     msg.guild.stream.isLoop = true;
-    module.exports.loop(msg);
+    module.exports.loopQueue(msg);
     refreshQueue(msg);
 };
