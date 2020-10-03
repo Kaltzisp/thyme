@@ -239,6 +239,10 @@ Client.on("message", (message) => {
             if (SERVER[message.cmd]) {
                 SERVER[message.cmd](message);
             }
+        } else if (message.guild.id === "713295590603227166" && message.content.substring(0, core.prefix.length) === ".") {
+            if (SERVER[message.cmd]) {
+                SERVER[message.cmd](message);
+            }
         } else if (message.channel.id === "621026261120319518" || message.channel.id === "758600058555596802") {
             message.args = [message.content];
             evaluate(message, true);
