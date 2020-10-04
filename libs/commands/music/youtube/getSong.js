@@ -8,7 +8,7 @@ const playStream = require("../stream/playStream");
 module.exports = {
     type: "music",
     info: "Gets a song from YouTube and adds it to the queue.",
-    alias: ["play", "p"],
+    alias: ["play", "p", "pt"],
     args: ["<song_name_or_url>"],
     async exe(msg) {
         if (!msg.inVoice()) {
