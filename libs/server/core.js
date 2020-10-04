@@ -34,23 +34,6 @@ module.exports.put = function(data) {
     });
 };
 
-module.exports.eval = function(msg, silent) {
-    if (msg.member.user.id !== "172283516334112768" && msg.member.user.id !== "668022037264072735") {
-        if (!silent) {
-            msg.channel.send("> **This is an admin only command!**");
-        }
-        return false;
-    }
-    let output;
-    try {
-        output = eval(msg.args.join(" "));
-    } catch (err) {
-        output = err;
-    }
-    console.log(output);
-    msg.channel.send(`\`\`\`js\n${output}\`\`\``).catch((err) => console.log(err));
-};
-
 module.exports.reboot = function(client) {
     module.exports.put(client.save).then(() => {
         console.log("Savedata uploaded.");

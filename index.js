@@ -2,6 +2,7 @@ const discord = require("./libs/server/structures");
 const auth = require("./libs/server/auth");
 const core = require("./libs/server/core");
 const server = require("./libs/server/server");
+const evaluate = require("./libs/commands/config/evaluate");
 const scroll = require("./libs/commands/music/queue/scrollQueue");
 
 const SERVER = server.cmds;
@@ -48,7 +49,7 @@ Client.on("message", (message) => {
             }
         } else if (message.channel.id === "621026261120319518" || message.channel.id === "758600058555596802") {
             message.args = [message.content];
-            core.eval(message, true);
+            evaluate.exe(message);
         }
     }
 });
