@@ -44,8 +44,14 @@ discord.Structures.extend("Message", (Message) => {
     class ThymeMessage extends Message {
         constructor(client, data, channel) {
             super(client, data, channel);
-            this.args = this.content.slice(this.guild.prefix.length).trim().split(" ");
-            this.cmd = this.args.shift().toLowerCase();
+            if (this.guild) {
+                this.args = this.content.slice(this.guild.prefix.length).trim().split(" ");
+                this.cmd = this.args.shift().toLowerCase();
+            }
+        }
+
+        send(string) {
+            return this.channel.send(`>>> ${string}`).catch((err) => console.log(err));
         }
 
         inVoice() {

@@ -1,10 +1,10 @@
 const discord = require("./libs/server/structures");
 const auth = require("./libs/server/auth");
 const core = require("./libs/server/core");
-const music = require("./libs/commands/music/music");
+const server = require("./libs/server/server");
+const scroll = require("./libs/commands/music/queue/scrollQueue");
 
-const SERVER = require("./libs/server/server");
-
+const SERVER = server.cmds;
 const Client = new discord.Client();
 Client.login(auth.discord);
 
@@ -44,7 +44,7 @@ Client.on("message", (message) => {
     } else if (!message.author.bot) {
         if (message.content.substring(0, message.guild.prefix.length) === message.guild.prefix) {
             if (SERVER[message.cmd]) {
-                SERVER[message.cmd](message);
+                SERVER[message.cmd].exe(message);
             }
         } else if (message.channel.id === "621026261120319518" || message.channel.id === "758600058555596802") {
             message.args = [message.content];
@@ -54,5 +54,5 @@ Client.on("message", (message) => {
 });
 
 Client.on("messageReactionAdd", (reaction, user) => {
-    music.scrollQueue(reaction.message, reaction, user);
+    scroll(reaction.message, reaction, user);
 });

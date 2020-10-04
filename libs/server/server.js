@@ -1,83 +1,41 @@
-const core = require("./core.js");
-const text = require("../commands/text/text");
-const music = require("../commands/music/music");
+/* eslint-disable import/no-dynamic-require */
+/* eslint-disable global-require */
+
+const path = require("path");
+const fs = require("fs");
 
 module.exports = {
-    choose: text.choose,
-    clear: music.clearQueue,
-    curate: music.curatePlaylist,
-    dc: music.leaveVoice,
-    del: music.deletePlaylist,
-    delete: music.deletePlaylist,
-    disconnect: music.leaveVoice,
-    e: core.eval,
-    eval: core.eval,
-    gen: music.fromSeed,
-    generate: music.fromSeed,
-    h: music.getHistory,
-    help: text.help,
-    history: music.getHistory,
-    inv: text.invite,
-    invite: text.invite,
-    j: music.joinVoice,
-    join: music.joinVoice,
-    kill: music.killSong,
-    leave: music.leaveVoice,
-    list: music.listPlaylists,
-    lists: music.listPlaylists,
-    loop: music.loopQueue,
-    lyrics: music.getLyrics,
-    m: music.moveSong,
-    marriages: text.list,
-    move: music.moveSong,
-    nc: music.toggleNightcore,
-    nightcore: music.toggleNightcore,
-    no: text.noYou,
-    nou: text.noYou,
-    now: music.sendCurrent,
-    np: music.sendCurrent,
-    p: music.searchSong,
-    pause: music.pauseStream,
-    pl: music.searchPlaylist,
-    pt: music.searchSong,
-    pick: text.choose,
-    ping: text.ping,
-    play: music.searchSong,
-    playlist: music.searchPlaylist,
-    playlists: music.listPlaylists,
-    playtop: music.searchSong,
-    poll: text.poll,
-    prune: music.trimQueue,
-    q: music.sendQueue,
-    queue: music.sendQueue,
-    r: music.removeSongs,
-    recycle: music.recycleHistory,
-    remind: text.remind,
-    remove: music.removeSongs,
-    refer: text.refer,
-    resume: music.resumeStream,
-    retrieve: music.retrievePlaylist,
-    s: music.skipSong,
-    say: text.say,
-    seed: music.addSeed,
-    seek: music.seekCurrent,
-    shuf: music.shuffleQueue,
-    shuff: music.shuffleQueue,
-    shuffle: music.shuffleQueue,
-    skip: music.skipSong,
-    spot: music.searchTrack,
-    spotify: music.searchTrack,
-    t: text.time,
-    time: text.time,
-    times: text.time,
-    trim: music.trimQueue,
-    unloop: music.unloopQueue,
-    unseed: music.clearSeeds,
-    update: music.updatePlaylist,
-    uptime: text.uptime,
-    v: music.setVolume,
-    vol: music.setVolume,
-    volume: music.setVolume,
-    w: text.weather,
-    weather: text.weather
+    cmds: {},
+    types: {}
 };
+
+function recursiveReq(dir) {
+    const relPaths = fs.readdirSync(dir);
+    relPaths.forEach((relPath) => {
+        const filePath = path.resolve(dir, relPath);
+        const file = fs.statSync(filePath);
+        if (file.isDirectory()) {
+            recursiveReq(filePath);
+        } else {
+            const lib = require(filePath);
+            if (lib.alias) {
+                if (module.exports.types[lib.type]) {
+                    module.exports.types[lib.type].push(lib.alias[0]);
+                } else {
+                    module.exports.types[lib.type] = [lib.alias[0]];
+                }
+                lib.alias.forEach((alias) => {
+                    if (module.exports.cmds[alias]) {
+                        console.log(`ALIAS CONFLICT: ${alias}`);
+                        console.log(module.exports[alias].info);
+                        console.log(lib.info);
+                    } else {
+                        module.exports.cmds[alias] = lib;
+                    }
+                });
+            }
+        }
+    });
+}
+
+recursiveReq(path.join(__dirname, "../commands"));

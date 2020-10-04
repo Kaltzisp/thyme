@@ -1,7 +1,7 @@
 const axios = require("axios");
 const auth = require("../../../server/auth");
 
-module.exports.yt = {
+module.exports = {
     videos: "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=2&q=",
     lists: "https://www.googleapis.com/youtube/v3/search?part=snippet&type=playlist&maxResults=1&q=",
     items: "https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=50&playlistId=",
@@ -20,12 +20,12 @@ module.exports.yt = {
     },
     get(url) {
         return new Promise((resolve, reject) => {
-            axios.get(url + module.exports.yt.key()).then((response) => {
+            axios.get(url + this.key()).then((response) => {
                 resolve(response.data);
             }).catch((err) => {
                 if (err.response && err.response.data.error.code === 403) {
-                    module.exports.yt.cycle();
-                    resolve(module.exports.yt.get(url));
+                    this.cycle();
+                    resolve(this.get(url));
                 } else {
                     reject(err);
                 }

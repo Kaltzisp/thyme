@@ -31,7 +31,7 @@ function trackPos(m) {
     return positions[index];
 }
 
-module.exports.queueEmbed = async function(msg, short) {
+module.exports = async function(msg, short) {
     const user = await msg.client.users.fetch(msg.guild.queue[0][2]).catch((err) => console.log(err));
     let tMult = 1;
     if (msg.guild.stream.isNightcore) {

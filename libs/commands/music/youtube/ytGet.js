@@ -1,4 +1,4 @@
-const { yt } = require("./ytMethods.js");
+const yt = require("./ytMethods.js");
 
 function noLive(data) {
     for (const i in data.items) {

@@ -1,4 +1,4 @@
-module.exports.getIndex = function(msg) {
+module.exports = function(msg) {
     const index = Number(msg.args[0]);
     if (!(index + 1)) {
         const listTitle = msg.args.join(" ").toLowerCase();

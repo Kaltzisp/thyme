@@ -29,7 +29,8 @@ try {
         youtube_3: process.env.youtube_3,
         youtube_4: process.env.youtube_4,
         spotify_id: process.env.spotify_id,
-        spotify_secret: process.env.spotify_secret
+        spotify_secret: process.env.spotify_secret,
+        ksoft: process.env.ksoft
     };
 }
 

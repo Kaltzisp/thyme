@@ -60,18 +60,11 @@ The list of available Weatherbit.io cities is available from<br>
 * !seek does not work.
 
 ### Current tasks:
-* Add !setprefix.
-* Add common.js function to get target user from a message.
-* Add an informative !help function.
-* Complete Spotify integration into code.
+* Complete Sora overhaul (!ship, !marry, !leaderboard).
+* Complete Spotify integration.
 
 ### Suggested features:
-* Add user data to jsonbin.io.
-* !ship, !marry, !marriages, !leaderboard (Sora).
-* Test file for development git push pipeline.
-* Refactor text modules into single module.
-* Refactor spotify and marriage into modules.
-* Class based refactor of entire code base.
+* Test file for development pipeline.
 * Interactive !np embed (moving dot & restart button).
 * Upgraded polling (DM !ask, guild specific functionality).
 * Monash Muggles: !iam <role_name>
