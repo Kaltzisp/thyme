@@ -39,3 +39,6 @@ function recursiveReq(dir) {
 }
 
 recursiveReq(path.join(__dirname, "../commands"));
+for (const i in module.exports.types) {
+    module.exports.types[i].sort();
+}

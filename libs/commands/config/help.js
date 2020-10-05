@@ -29,7 +29,7 @@ module.exports = {
                     args.push(types[cmd][i]);
                 }
                 embed.setTitle(`Category: ${cmd}`);
-                embed.addField(`Try running ${msg.guild.prefix}help on one of the following commands:`, args.join(" "));
+                embed.addField(`AVAILABLE COMMANDS - Use ${msg.guild.prefix}help on them to find out what they do:`, args.join(" "));
             } else {
                 alias = [cmd];
                 info = `Command ${msg.args[0]} does not exist.`;
