@@ -27,8 +27,6 @@ function recursiveReq(dir) {
                 lib.alias.forEach((alias) => {
                     if (module.exports.cmds[alias]) {
                         console.log(`ALIAS CONFLICT: ${alias}`);
-                        console.log(module.exports[alias].info);
-                        console.log(lib.info);
                     } else {
                         module.exports.cmds[alias] = lib;
                     }

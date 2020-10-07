@@ -10,6 +10,13 @@ module.exports = {
     alias: ["generate", "gen"],
     args: [],
     async exe(msg) {
+        const totalSeeds = msg.member.user.seeds.artists + msg.member.user.seeds.tracks + msg.member.user.seeds.genres;
+        if (totalSeeds < 1) {
+            return msg.send(`You need at least one seed! Use ${msg.guild.prefix}help seed.`);
+        }
+        if (totalSeeds > 5) {
+            return msg.send(`You have too many seeds (5 max)! Use ${msg.guild.prefix}help unseed.`);
+        }
         const data = await get("recommendations", seed.getString(msg.member.user));
         const tracks = data.tracks;
         const m = msg.send("Getting tracks from seeds...");
