@@ -4,6 +4,7 @@ module.exports = {
     alias: ["leave", "l", "disconnect", "dc", "stop"],
     args: [],
     exe(msg) {
+        if (!msg.withBot()) return false;
         msg.guild.queue.length = 0;
         if (msg.guild.stream.dispatcher.player) {
             msg.guild.stream.dispatcher.end();
