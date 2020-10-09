@@ -1,6 +1,7 @@
 const seed = require("./seedMethods");
 const generate = require("./generate");
 const get = require("./spGet");
+const { clean } = require("../common");
 
 module.exports = {
     type: "music",
@@ -11,7 +12,8 @@ module.exports = {
         seed.clear(msg);
         const promised = [];
         for (let i = 0; i < Math.min(msg.guild.queue.length, 5); i++) {
-            promised[i] = get("search", `?q=${msg.guild.queue[i][1]}&type=track`).catch((err) => console.log(err));
+            const query = clean(msg.guild.queue[i][1]);
+            promised[i] = get("search", `?q=${query}&type=track`).catch((err) => console.log(err));
         }
         Promise.all(promised).then((dataArray) => {
             for (const i in dataArray) {
