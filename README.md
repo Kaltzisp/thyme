@@ -57,7 +57,6 @@ The list of available Weatherbit.io cities is available from<br>
 
 ## Development:
 ### Bugfixes:
-* Error checking for !dc.
 * !seek does not work.
 
 ### Current tasks:

@@ -25,7 +25,7 @@ module.exports = {
         for (const i in playlist[1]) {
             msg.guild.queue.push(playlist[1][i]);
             if (msg.guild.queue.length === 1) {
-                msg.member.voice.channel.join().then((connection) => {
+                msg.join().then((connection) => {
                     playStream(connection, msg);
                 }).catch((err) => console.log(err));
             }

@@ -39,7 +39,7 @@ module.exports = {
         if (msg.guild.queue.length === 1) {
             msgUpdate.then((m) => {
                 methods.response.playing(m, song);
-                msg.member.voice.channel.join().then((connection) => {
+                msg.join().then((connection) => {
                     playStream(connection, msg);
                 }).catch((err) => console.log(err));
             });

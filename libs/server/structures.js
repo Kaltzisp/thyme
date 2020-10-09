@@ -50,6 +50,16 @@ discord.Structures.extend("Message", (Message) => {
             }
         }
 
+        async join() {
+            if (this.inVoice()) {
+                const connection = await this.member.voice.channel.join().catch((err) => console.log(err));
+                connection.on("disconnect", () => {
+                    this.guild.queue.length = 0;
+                });
+                return connection;
+            }
+        }
+
         send(string) {
             return this.channel.send(`>>> ${string}`).catch((err) => console.log(err));
         }
@@ -58,7 +68,7 @@ discord.Structures.extend("Message", (Message) => {
             if (this.member.voice.channel) {
                 return true;
             }
-            this.channel.send("> You must be connected to a voice channel to use that command!");
+            this.send("You must be connected to a voice channel to use that command!");
             return false;
         }
 
@@ -68,7 +78,7 @@ discord.Structures.extend("Message", (Message) => {
                 if (userIDs.indexOf(String(this.client.user.id)) > -1) {
                     return true;
                 }
-                this.channel.send("> I am not connected to that voice channel!");
+                this.send("I am not connected to that voice channel!");
                 return false;
             }
             return false;
@@ -78,7 +88,7 @@ discord.Structures.extend("Message", (Message) => {
             if (this.guild.queue[0]) {
                 return true;
             }
-            this.channel.send("> Nothing is playing!");
+            this.send("Nothing is playing!");
             return false;
         }
     }

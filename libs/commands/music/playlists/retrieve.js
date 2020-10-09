@@ -22,7 +22,7 @@ module.exports = {
                     msg.guild.queue.push(msg.client.save.playlists[index][2][i]);
                 }
                 if (msg.guild.queue.length === 1) {
-                    msg.member.voice.channel.join().then((connection) => {
+                    msg.join().then((connection) => {
                         playStream(connection, msg);
                     }).catch((err) => console.log(err));
                 }

@@ -4,10 +4,8 @@ module.exports = {
     alias: ["join", "j", "connect"],
     args: [],
     exe(msg) {
-        if (!msg.inVoice()) {
-            return false;
-        }
-        msg.member.voice.channel.join();
-        msg.send("Connected to voice.");
+        msg.join().then(() => {
+            msg.send("Connected to voice.");
+        });
     }
 };
