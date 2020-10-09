@@ -1,4 +1,11 @@
 module.exports = {
+    clear(msg) {
+        msg.member.user.seeds = {
+            tracks: [],
+            artists: [],
+            genres: []
+        };
+    },
     add(user, type, value, index) {
         if (user.seeds[type][index]) {
             user.seeds[type][index] = value;
