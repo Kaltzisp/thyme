@@ -57,7 +57,7 @@ The list of available Weatherbit.io cities is available from<br>
 
 ## Development:
 ### Bugfixes:
-* !seek does not work.
+* Misuse bugchecks.
 
 ### Current tasks:
 * Complete Sora overhaul (!ship, !marry, !leaderboard).

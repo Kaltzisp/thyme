@@ -10,7 +10,10 @@ module.exports = {
             return false;
         }
         const from = indexFrom || Number(msg.args[0]);
-        const to = indexTo || Number(msg.args[1]);
+        let to = indexTo || Number(msg.args[1]);
+        if (msg.args.length === 1) {
+            to = 1;
+        }
         if (msg.guild.queue[from] && msg.guild.queue[to]) {
             if (from > 0 && to > 0) {
                 msg.send(`**Moved ${msg.guild.queue[from][1]} from position ${from} to position ${to}.**`).then(() => {

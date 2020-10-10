@@ -12,7 +12,9 @@ module.exports = {
             for (const i in msg.guild.queue) {
                 msg.client.save.playlists[index][2].push(msg.guild.queue[i]);
             }
+            msg.send(`Playlist updated\nID: \`${index}\`\nName: \`${msg.client.save.playlists[index][1]}\`.`);
+        } else {
+            msg.send("Cannot create playlist, as the queue is empty!");
         }
-        msg.send(`Playlist updated\nID: \`${index}\`\nName: \`${msg.client.save.playlists[index][1]}\`.`);
     }
 };

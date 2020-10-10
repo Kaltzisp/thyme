@@ -29,13 +29,13 @@ module.exports = {
                     args.push(types[cmd][i]);
                 }
                 embed.setTitle(`Category: ${cmd}`);
-                embed.addField(`AVAILABLE COMMANDS - Use ${msg.guild.prefix}help on them to find out what they do:`, args.join(" "));
+                embed.addField(`AVAILABLE COMMANDS - Use ${msg.guild.prefix}help on them to find out what they do:`, args.join("   "));
             } else {
                 alias = [cmd];
                 info = `Command ${msg.args[0]} does not exist.`;
                 args = [`: use ${msg.guild.prefix}help for a list of commands.`];
                 embed.setTitle(`Aliases: ${alias.join(", ")}`);
-                embed.addField(info, `${msg.guild.prefix}${alias[0]} ${args.join(" ")}`);
+                embed.addField(info, `${msg.guild.prefix}${alias[0]} ${args.join("  ")}`);
             }
         } else {
             args = [];

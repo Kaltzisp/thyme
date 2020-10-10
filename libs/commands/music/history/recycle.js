@@ -5,7 +5,7 @@ const sameUser = require("./sameUser");
 module.exports = {
     type: "music",
     info: "Recycles a number of songs back into the queue.",
-    alias: ["recycle"],
+    alias: ["recycle", "re"],
     args: ["<optional: number_of_songs>", "<optional: @users>"],
     exe(msg) {
         if (!msg.inVoice()) {
