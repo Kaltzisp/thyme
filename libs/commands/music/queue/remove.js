@@ -40,7 +40,7 @@ module.exports = {
                         skipSong.exe(msg);
                         if (msg.guild.stream.isLoop) {
                             const song = msg.guild.queue.pop();
-                            refreshQueue();
+                            refreshQueue(msg);
                             msg.send(`Removed ${song[1]} from queue.`);
                         }
                     }
