@@ -57,13 +57,13 @@ The list of available Weatherbit.io cities is available from<br>
 
 ## Development:
 ### Bugfixes:
-* Misuse bugchecks.
 
 ### Current tasks:
 * Complete Sora overhaul (!ship, !marry, !leaderboard).
 * Complete Spotify integration.
 
 ### Suggested features:
+* Add search for multiple songs?
 * Test file for development pipeline.
 * Interactive !np embed (moving dot & restart button).
 * Upgraded polling (DM !ask, guild specific functionality).

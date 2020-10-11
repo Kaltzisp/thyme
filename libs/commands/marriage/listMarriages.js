@@ -6,20 +6,27 @@ module.exports = {
     alias: ["marriages", "married"],
     args: ["<optional: @users>"],
     async exe(msg) {
-        const embed = new discord.MessageEmbed();
-        if (!msg.client.userSave[msg.member.id]) {
-            embed.setColor("#eb3434");
-            embed.setTitle(`**${msg.member.user.tag} has no active marriages!**`);
-        } else {
-            embed.setColor("#0099ff");
-            embed.setTitle(`:revolving_hearts: **Marriages of ${msg.member.user.tag}**`);
-            embed.setThumbnail(msg.member.user.avatarURL());
-            for (const i in msg.client.userSave[msg.member.id].marriages) {
-                const user = await msg.client.users.fetch(i).catch((err) => console.log(err));
-                const newDate = new Date(msg.client.userSave[msg.member.id].marriages[i]);
-                embed.addField(user.tag, newDate.toDateString().substring(3));
-            }
+        let target = [msg.member.user];
+        const users = [...msg.mentions.users.values()];
+        if (users.length > 0) {
+            target = users;
         }
-        msg.channel.send(embed);
+        for (const i in target) {
+            const embed = new discord.MessageEmbed();
+            if (!msg.client.userSave[target[i].id]) {
+                embed.setColor("#eb3434");
+                embed.setTitle(`**${target[i].tag} has no active marriages!**`);
+            } else {
+                embed.setColor("#0099ff");
+                embed.setTitle(`:revolving_hearts: **Marriages of ${target[i].tag}**`);
+                embed.setThumbnail(target[i].avatarURL());
+                for (const j in msg.client.userSave[target[i].id].marriages) {
+                    const user = await msg.client.users.fetch(j).catch((err) => console.log(err));
+                    const newDate = new Date(msg.client.userSave[target[i].id].marriages[j]);
+                    embed.addField(user.tag, newDate.toDateString().substring(3));
+                }
+            }
+            msg.channel.send(embed);
+        }
     }
 };
