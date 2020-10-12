@@ -13,9 +13,9 @@
         "node": "14.x"
     },
     "dependencies": {
-        "@discordjs/opus": "^0.3.2",
+        "@discordjs/opus": "latest",
         "axios": "latest",
-        "discord.js": "^12.3.1",
+        "discord.js": "latest",
         "ffmpeg-static": "latest",
         "prism-media": "latest",
         "ytdl-core": "latest"
