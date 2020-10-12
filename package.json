@@ -9,6 +9,9 @@
         "type": "git",
         "url": "git://github.com/Kaltzisp/thyme.git"
     },
+    "engines": {
+        "node": "14.x"
+    },
     "dependencies": {
         "@discordjs/opus": "^0.3.2",
         "axios": "latest",

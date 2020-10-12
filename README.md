@@ -63,8 +63,7 @@ The list of available Weatherbit.io cities is available from<br>
 * Complete Spotify integration.
 
 ### Suggested features:
-* Add search for multiple songs?
-* Test file for development pipeline.
+* Add search for multiple songs.
 * Interactive !np embed (moving dot & restart button).
 * Upgraded polling (DM !ask, guild specific functionality).
-* Monash Muggles: !iam <role_name>
+* Monash Muggles: !iam <role_name>.
