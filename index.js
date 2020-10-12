@@ -59,7 +59,7 @@ Client.on("messageReactionAdd", (reaction, user) => {
 });
 
 Client.on("voiceStateUpdate", (oldState) => {
-    if (oldState.channel?.members.has(Client.user.id) && oldState.channel?.members.size === 1 && oldState.guild.queue.length === 0) {
+    if (oldState.channel?.members.has(Client.user.id) && oldState.channel?.members.size === 1 && oldState.guild.queue.length === 0 && !oldState.member.user.bot) {
         oldState.channel.leave();
     }
 });
