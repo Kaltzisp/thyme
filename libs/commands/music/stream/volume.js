@@ -1,7 +1,7 @@
 module.exports = {
     type: "music",
     info: "Changes the guild stream volume.",
-    alias: ["volume", "vol"],
+    alias: ["volume", "vol", "v"],
     args: ["<value_between_0_and_1>"],
     exe(msg) {
         const setVolume = Number(msg.args[0]);

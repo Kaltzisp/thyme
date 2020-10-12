@@ -31,7 +31,7 @@ Client.on("ready", () => {
         });
         console.log("Client initialised.\n");
     });
-    Client.user.setActivity("!help", { type: "LISTENING" });
+    Client.user.setActivity("@Thyme | !help", { type: "LISTENING" });
     setTimeout(core.reboot, 43200000);
 });
 
@@ -50,6 +50,8 @@ Client.on("message", (message) => {
         } else if (message.channel.id === "621026261120319518" || message.channel.id === "758600058555596802") {
             message.args = [message.content];
             evaluate.exe(message);
+        } else if (message.content === "<@!620463494961299470>") {
+            message.send(`Use **${message.guild.prefix}help** to see what I can do!`);
         }
     }
 });
