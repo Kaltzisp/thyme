@@ -3,7 +3,7 @@ const removeSongs = require("../queue/remove");
 
 module.exports = {
     type: "music",
-    info: "Removes a song from queue and purges from history.",
+    info: "Removes a song from queue and purges from history and playlists.",
     alias: ["rh", "purge", "kill"],
     args: ["<queue_index>"],
     exe(msg) {
@@ -25,6 +25,13 @@ module.exports = {
             for (const i in msg.guild.history) {
                 if (msg.guild.history[i][0] === songId) {
                     msg.guild.history.splice(i, 1);
+                }
+            }
+            for (const i in msg.client.save.playlists) {
+                for (const j in msg.client.save.playlists[i][2]) {
+                    if (msg.client.save.playlists[i][2][j][0] === songId) {
+                        msg.client.save.playlists[i][2].splice(j, 1);
+                    }
                 }
             }
         }
