@@ -1,7 +1,7 @@
 module.exports = {
     type: "fun",
     info: "Reflects any statement towards the speaker.",
-    alias: ["no u", "nou", "no"],
+    alias: ["nou", "no"],
     args: [],
     exe(msg) {
         msg.delete();
