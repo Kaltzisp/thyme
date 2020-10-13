@@ -6,10 +6,10 @@ module.exports = {
     exe(msg) {
         if (msg.guild.stream.isNightcore) {
             msg.guild.stream.isNightcore = false;
-            msg.send("Nightcore disabled.  <:worm:578960243250167816>");
+            msg.send("Nightcore disabled.  <:worm:578959696426303507>");
         } else {
             msg.guild.stream.isNightcore = true;
-            msg.send("**Nightcore enabled.**  <:antiworm:578965571165749248>");
+            msg.send("**Nightcore enabled.**  <:antiworm:765450403974217739>");
         }
     }
 };

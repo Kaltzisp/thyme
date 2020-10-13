@@ -3,7 +3,7 @@ const { mins } = require("../common.js");
 
 module.exports.response = {
     searching(msg) {
-        return msg.send(`<:youtube:621172101390532614> **Searching** :mag_right: \`${msg.args.join(" ")}\``);
+        return msg.send(`<:youtube:765450386139906058> **Searching** :mag_right: \`${msg.args.join(" ")}\``);
     },
     noneFound(msg) {
         return msg.send(`No results found for ${msg.args.join(" ")}.`);
