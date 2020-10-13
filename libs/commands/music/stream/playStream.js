@@ -76,7 +76,7 @@ module.exports = function(connection, msg) {
             if (msg.guild.queue[0]) {
                 module.exports(connection, msg);
             } else {
-                connection.client.user.setActivity("!help", { type: "LISTENING" });
+                connection.client.user.setActivity("@Thyme | !help", { type: "LISTENING" });
             }
         }
     });
