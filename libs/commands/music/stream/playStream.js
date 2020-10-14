@@ -77,6 +77,9 @@ module.exports = function(connection, msg) {
                 module.exports(connection, msg);
             } else {
                 connection.client.user.setActivity("@Thyme | !help", { type: "LISTENING" });
+                if (connection.channel.members.size === 1) {
+                    connection.disconnect();
+                }
             }
         }
     });
