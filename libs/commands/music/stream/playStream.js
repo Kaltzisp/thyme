@@ -34,7 +34,7 @@ function secs(t) {
     if (t.length === 5) {
         return (60 * Number(t.substring(0, 2)) + Number(t.substring(3, 5)));
     }
-    console.log(`> Failed to seek to: ${t}`);
+    return 0;
 }
 
 module.exports = function(connection, msg) {
@@ -60,12 +60,12 @@ module.exports = function(connection, msg) {
         if (msg.guild.stream.dispatcher.streamTime === 0) {
             module.exports(connection, msg);
         }
-    }, 2000);
+    }, 2000 + msg.guild.stream.seekTo * 100);
     if (msg.guild.id === "473161851346092052") {
         connection.client.user.setActivity(`♫ ${song[1]}`, { type: "PLAYING" });
     }
     msg.guild.stream.dispatcher.on("finish", () => {
-        if (msg.guild.queue[0] && msg.guild.queue[0][4] >= 0) {
+        if (msg.guild.queue[0] && msg.guild.queue[0][4] !== undefined) {
             module.exports(connection, msg);
         } else {
             if (msg.guild.stream.isLoop) {

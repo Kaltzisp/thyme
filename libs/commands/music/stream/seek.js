@@ -7,7 +7,7 @@ module.exports = {
         if (!msg.isPlaying()) {
             return false;
         }
-        const seekPosition = msg.args[0] || 0;
+        const seekPosition = msg.args[0] || "0";
         msg.guild.queue[0][4] = seekPosition;
         msg.guild.stream.dispatcher.end();
         msg.send(`Seeking position ${seekPosition}`);
