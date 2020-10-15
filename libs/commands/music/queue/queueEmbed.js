@@ -1,5 +1,6 @@
 const discord = require("discord.js");
-const { mins } = require("../common.js");
+const { mins } = require("../common");
+const { clean } = require("../common");
 
 function trackPos(m) {
     const position = 1000 * m.guild.stream.seekTo + m.guild.stream.dispatcher.streamTime;
@@ -52,7 +53,7 @@ module.exports = async function(msg, short) {
     let queueData = "";
     for (let i = (10 * msg.guild.meta.index) + 1; i < (10 * msg.guild.meta.index) + songLimit; i++) {
         if (msg.guild.queue[i]) {
-            queueData += `${i}: ${msg.guild.queue[i][1]} | ${mins(msg.guild.queue[i][3])}\n`;
+            queueData += `${i}: ${clean(msg.guild.queue[i][1], true)} | ${mins(msg.guild.queue[i][3])}\n`;
         }
     }
     if (queueData === "") {
@@ -70,7 +71,6 @@ module.exports = async function(msg, short) {
     totalDuration = `Total duration: ${mins(totalDuration)}`;
     embed.addField("\u200b", "\u200b");
     embed.addField(upNext, queueData);
-    embed.addField("\u200b", "\u200b");
     embed.addField(totalTracks, totalDuration);
     return embed;
 };

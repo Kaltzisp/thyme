@@ -1,6 +1,7 @@
 const prism = require("prism-media");
 const ytdl = require("ytdl-core");
 const refreshQueue = require("../queue/refresh");
+const { clean } = require("../common");
 
 const stream = {
     config(msg) {
@@ -65,7 +66,7 @@ module.exports = function(connection, msg) {
         }
     }, 2000 + msg.guild.stream.seekTo * 100);
     if (msg.guild.id === "473161851346092052") {
-        connection.client.user.setActivity(`♫ ${song[1]}`, { type: "PLAYING" });
+        connection.client.user.setActivity(`♫ ${clean(song[1], true)}`, { type: "PLAYING" });
     }
     msg.guild.stream.dispatcher.on("finish", () => {
         if (msg.guild.queue[0] && msg.guild.queue[0][4] !== undefined) {
