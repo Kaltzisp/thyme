@@ -15,7 +15,7 @@ module.exports = {
             try {
                 output = eval(msg.args.join(" "));
             } catch (err) {
-                output = err;
+                output = err.message;
             }
             console.log(output);
             msg.channel.send(`\`\`\`js\n${output}\`\`\``).catch((err) => console.log(err));
