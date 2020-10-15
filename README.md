@@ -5,6 +5,24 @@
 * Many additional and discretionary features.
 * Use the **!help** command to find out what else we are capable of.
 ___
+## Contributors
+*  **Author:** Linke (founding member)
+*  **Support:** Matte (discord.js assistance)
+*  **Sponsoring:** CoCo, UZo, IMan, et al.
+
+## Development:
+### Bugfixes:
+
+### Current tasks:
+* Complete Sora overhaul (!ship, !marry, !leaderboard).
+* Complete Spotify integration.
+
+### Suggested features:
+* Add search for multiple songs.
+* Interactive !np embed (moving dot & restart button).
+* Upgraded polling (DM !ask, guild specific functionality).
+* Monash Muggles: !iam <role_name>.
+___
 ## Installation
 ### Downloading the project:
 To clone the repository enter in the terminal<br>
@@ -49,21 +67,3 @@ The list of available Weatherbit.io cities is available from<br>
 - [Google Developer's Console](https://console.developers.google.com/) (YouTube Data V3 API)
 - [Spotify](https://developer.spotify.com/) (Web API)
 - [KSoft.si](ksoft.si) (Lyrics API)
-
-## Contributors
-*  **Author:** Linke (founding member)
-*  **Support:** Matte (discord.js assistance)
-*  **Sponsoring:** CoCo, UZo, IMan, et al.
-
-## Development:
-### Bugfixes:
-
-### Current tasks:
-* Complete Sora overhaul (!ship, !marry, !leaderboard).
-* Complete Spotify integration.
-
-### Suggested features:
-* Add search for multiple songs.
-* Interactive !np embed (moving dot & restart button).
-* Upgraded polling (DM !ask, guild specific functionality).
-* Monash Muggles: !iam <role_name>.
