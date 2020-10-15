@@ -5,6 +5,7 @@
 * Many additional and discretionary features.
 * Use the **!help** command to find out what else we are capable of.
 ___
+
 ## Contributors
 *  **Author:** Linke (founding member)
 *  **Support:** Matte (discord.js assistance)
@@ -23,6 +24,7 @@ ___
 * Upgraded polling (DM !ask, guild specific functionality).
 * Monash Muggles: !iam <role_name>.
 ___
+
 ## Installation
 ### Downloading the project:
 To clone the repository enter in the terminal<br>

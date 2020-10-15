@@ -5,7 +5,7 @@ const getIndex = require("./getIndex");
 module.exports = {
     type: "music",
     info: "Retrieves a playlist.",
-    alias: ["retrieve"],
+    alias: ["retrieve", "get"],
     args: ["<playlist_index OR playlist_title>"],
     exe(msg) {
         if (!msg.inVoice()) {
