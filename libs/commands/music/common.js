@@ -1,10 +1,13 @@
 const filters = [
     /official music video/gi,
+    /official lyrics video/gi,
+    /official lyric video/gi,
     /official video/gi,
     /official audio/gi,
     /music video/gi,
     /lyrics video/gi,
     /lyric video/gi,
+    /audio only/gi,
     /audio/gi,
     /lyrics/gi,
     /[^0-z,\s]/gi,

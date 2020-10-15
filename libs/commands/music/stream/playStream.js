@@ -25,6 +25,9 @@ const stream = {
 };
 
 function secs(t) {
+    if (t === null) {
+        return 0;
+    }
     if (t.length <= 2) {
         return Number(t);
     }
