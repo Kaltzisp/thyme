@@ -15,12 +15,11 @@ ___
 ### Bugfixes:
 
 ### Current tasks:
+* !np Restart button.
 * Complete Sora overhaul (!ship, !marry, !leaderboard).
-* Complete Spotify integration.
 
 ### Suggested features:
 * Add search for multiple songs.
-* Interactive !np embed (moving dot & restart button).
 * Upgraded polling (DM !ask, guild specific functionality).
 * Monash Muggles: !iam <role_name>.
 ___
