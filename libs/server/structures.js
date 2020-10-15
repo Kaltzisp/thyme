@@ -58,6 +58,7 @@ discord.Structures.extend("Message", (Message) => {
                 });
                 return connection;
             }
+            return false;
         }
 
         send(string) {

@@ -4,8 +4,10 @@ module.exports = {
     alias: ["join", "j", "connect"],
     args: [],
     exe(msg) {
-        msg.join().then(() => {
-            msg.send("Connected to voice.");
+        msg.join().then((connection) => {
+            if (connection) {
+                msg.send("Connected to voice.");
+            }
         });
     }
 };
