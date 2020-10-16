@@ -15,7 +15,7 @@ ___
 ### Bugfixes:
 
 ### Current tasks:
-* !np Restart button.
+* !np Playback buttons.
 * Complete Sora overhaul (!ship, !marry, !leaderboard).
 
 ### Suggested features:
