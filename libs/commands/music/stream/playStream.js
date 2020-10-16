@@ -64,7 +64,7 @@ module.exports = function(connection, msg) {
         if (msg.guild.stream.dispatcher.streamTime === 0) {
             module.exports(connection, msg);
         }
-    }, 2000 + msg.guild.stream.seekTo * 100);
+    }, 5000);
     if (msg.guild.id === "473161851346092052") {
         connection.client.user.setActivity(`♫ ${clean(song[1], true)}`, { type: "PLAYING" });
     }
