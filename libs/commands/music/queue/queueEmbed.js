@@ -31,10 +31,7 @@ function trackPos(position, duration) {
 
 module.exports = async function(msg, short) {
     const user = await msg.client.users.fetch(msg.guild.queue[0][2]).catch((err) => console.log(err));
-    let tMult = 1;
-    if (msg.guild.stream.isNightcore) {
-        tMult = 0.833;
-    }
+    const tMult = 1 / msg.guild.stream.bitrate;
     const timePlaying = msg.guild.stream.seekTo * tMult + (msg.guild.stream.dispatcher.streamTime - msg.guild.stream.dispatcher.pausedTime) / 1000;
     const songDuration = msg.guild.queue[0][3] * tMult;
     const time = `${mins(timePlaying)} / ${mins(songDuration)}`;

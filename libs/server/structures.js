@@ -11,7 +11,7 @@ discord.Structures.extend("Guild", (Guild) => {
                 dispatcher: {},
                 isPause: false,
                 isLoop: false,
-                isNightcore: false,
+                bitrate: 1,
                 seekTo: 0,
                 tryCount: 1,
                 volume: 0.4

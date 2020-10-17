@@ -11,17 +11,17 @@ const stream = {
             seek: msg.guild.stream.seekTo,
             type: "unknown"
         };
-        if (msg.guild.stream.isNightcore) {
+        if (msg.guild.stream.bitrate !== 1) {
             streamConfig.type = "converted";
         }
         return streamConfig;
     },
     pipe(strm, msg) {
-        if (!msg.guild.stream.isNightcore) {
+        if (msg.guild.stream.bitrate === 1) {
             return strm;
         }
-        const nightMode = new prism.FFmpeg({ args: ["-f", "s16le", "-ar", "40000"] });
-        return strm.pipe(nightMode);
+        const pipeConfig = new prism.FFmpeg({ args: ["-f", "s16le", "-ar", Math.round(48000 / msg.guild.stream.bitrate)] });
+        return strm.pipe(pipeConfig);
     }
 };
 

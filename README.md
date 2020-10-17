@@ -15,7 +15,6 @@ ___
 ### Bugfixes:
 
 ### Current tasks:
-* Multiple !nc speeds.
 * FFMpeg manipulation (speed, pitch, bass boosting).
 * !np Playback buttons.
 * Complete Sora overhaul (!ship, !marry, !leaderboard).
