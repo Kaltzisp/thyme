@@ -57,7 +57,7 @@ module.exports.askCancel = function(m, msg, song) {
                 }
             }
             for (let i = msg.guild.history.length; i > -1; i--) {
-                if (msg.guild.history[i][0] === msg.guild.queue[i][0]) {
+                if (song[0] === msg.guild.history[i][0]) {
                     msg.guild.history.splice(i, 1);
                     i = -1;
                 }
