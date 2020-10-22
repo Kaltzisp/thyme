@@ -56,7 +56,7 @@ module.exports.askCancel = function(m, msg, song) {
                     msg.guild.queue.splice(i, 1);
                 }
             }
-            for (let i = msg.guild.history.length; i > -1; i--) {
+            for (let i = msg.guild.history.length - 1; i > -1; i--) {
                 if (song[0] === msg.guild.history[i][0]) {
                     msg.guild.history.splice(i, 1);
                     i = -1;
