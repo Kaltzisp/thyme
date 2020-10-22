@@ -16,13 +16,13 @@ function noLive(data) {
     return 0;
 }
 
-module.exports.getSong = async function(msg, queryString) {
+module.exports.getSong = async function(msg, queryString, author) {
     const songData = await yt.get(`${yt.videos}${encodeURI(queryString)}&key=`).catch((err) => console.log(err));
     if (!songData.items[0]) {
         return false;
     }
     const index = noLive(songData);
-    const song = [songData.items[index].id.videoId, yt.parse(songData.items[index].snippet.title), msg.author.id];
+    const song = [songData.items[index].id.videoId, yt.parse(songData.items[index].snippet.title), author || msg.author.id];
     const durationData = await yt.get(`${yt.duration}${song[0]}&key=`).catch((err) => console.log(err));
     if (!durationData.items[0]) {
         return false;

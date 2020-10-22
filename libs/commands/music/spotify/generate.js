@@ -21,14 +21,22 @@ module.exports = {
         const tracks = data.tracks;
         const m = msg.send("Getting tracks from seeds...");
         for (const i in tracks) {
-            const song = await getSong(msg, tracks[i].name + tracks[i].artists[0].name).catch((err) => console.log(err));
+            const song = await getSong(msg, tracks[i].name + tracks[i].artists[0].name, msg.client.user.id).catch((err) => console.log(err));
             if (song) {
-                msg.guild.queue.push(song);
-            }
-            if (msg.guild.queue.length === 1) {
-                msg.join().then((connection) => {
-                    playStream(connection, msg);
-                }).catch((err) => console.log(err));
+                let queued = false;
+                for (const j in msg.guild.queue) {
+                    if (song[0] === msg.guild.queue[j][0]) {
+                        queued = true;
+                    }
+                }
+                if (!queued) {
+                    msg.guild.queue.push(song);
+                    if (msg.guild.queue.length === 1) {
+                        msg.join().then((connection) => {
+                            playStream(connection, msg);
+                        }).catch((err) => console.log(err));
+                    }
+                }
             }
         }
         m.then((nm) => {
