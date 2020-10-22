@@ -7,7 +7,7 @@ const types = server.types;
 module.exports = {
     type: "config",
     info: "Thyme for some experimentation.",
-    alias: ["help", "h"],
+    alias: ["help"],
     args: ["<optional: command_name>"],
     exe(msg) {
         let info = this.info;

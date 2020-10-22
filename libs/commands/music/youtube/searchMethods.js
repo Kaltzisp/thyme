@@ -52,8 +52,14 @@ module.exports.askCancel = function(m, msg, song) {
             m.reactions.removeAll();
             m.edit(`>>> **${song[1]}** has been removed from the queue.`);
             for (const i in msg.guild.queue) {
-                if (song[0] === msg.guild.queue[i][0]) {
+                if (song[0] === msg.guild.queue[i][0] && i !== "0") {
                     msg.guild.queue.splice(i, 1);
+                }
+            }
+            for (let i = msg.guild.history.length; i > -1; i--) {
+                if (msg.guild.history[i][0] === msg.guild.queue[i][0]) {
+                    msg.guild.history.splice(i, 1);
+                    i = -1;
                 }
             }
             refreshQueue(msg);

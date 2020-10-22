@@ -3,7 +3,7 @@ const sameUser = require("./sameUser");
 module.exports = {
     type: "music",
     info: "Sends a number of songs from guild history, or for a specific user.",
-    alias: ["history"],
+    alias: ["history", "h"],
     args: ["<optional: number_of_songs>", "<optional: @users>"],
     exe(msg) {
         if (Number(msg.args[1]) && !Number(msg.args[0])) {
