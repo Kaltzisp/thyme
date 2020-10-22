@@ -31,6 +31,7 @@ module.exports = {
                 }
                 if (!queued) {
                     msg.guild.queue.push(song);
+                    msg.guild.history.push(song);
                     if (msg.guild.queue.length === 1) {
                         msg.join().then((connection) => {
                             playStream(connection, msg);
