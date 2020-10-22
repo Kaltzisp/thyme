@@ -13,6 +13,7 @@ ___
 
 ## Development:
 ### Bugfixes:
+* Cancel song should remove from history also.
 
 ### Current tasks:
 * FFMpeg manipulation (speed, pitch, bass boosting).

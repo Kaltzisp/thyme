@@ -1,4 +1,5 @@
 const queueEmbed = require("./queueEmbed");
+const addMusicBar = require("./addMusicBar");
 
 module.exports = {
     type: "music",
@@ -10,7 +11,9 @@ module.exports = {
             return false;
         }
         queueEmbed(msg, true).then((embed) => {
-            msg.channel.send(embed);
+            msg.channel.send(embed).then((m) => {
+                addMusicBar(m);
+            });
         });
     }
 };
