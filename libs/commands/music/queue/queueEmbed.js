@@ -1,6 +1,5 @@
 const positions = [
     "🔘▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬",
-    "🔘▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬",
     "▬🔘▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬",
     "▬▬🔘▬▬▬▬▬▬▬▬▬▬▬▬▬▬",
     "▬▬▬🔘▬▬▬▬▬▬▬▬▬▬▬▬▬",
@@ -25,7 +24,7 @@ const { mins } = require("../common");
 const { clean } = require("../common");
 
 function trackPos(position, duration) {
-    const index = Math.floor((positions.length + 1) * (position / duration));
+    const index = Math.floor(positions.length * (position / duration));
     return positions[index];
 }
 
