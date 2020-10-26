@@ -21,6 +21,6 @@ module.exports = {
         }).catch((err) => console.log(err));
         const songData = response.data.data[0];
         const header = `**Song Lyrics by KSoft.Si**\n**Title:** ${songData.name}\n**Artist:** ${songData.artist}\n\n`;
-        msg.send(header + songData.lyrics);
+        msg.channel.send(header + songData.lyrics, { split: true });
     }
 };
