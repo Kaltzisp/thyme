@@ -59,10 +59,9 @@ module.exports = function(connection, msg) {
     }
     refreshQueue(msg);
     const thisStream = ytdl(playURL, { highWaterMark: 2 ** 25, filter: () => ["251"] });
-    msg.guild.stream.dispatcher = connection.play(thisStream, stream.config(msg));
+    msg.guild.stream.dispatcher = connection.play(stream.pipe(thisStream, msg), stream.config(msg));
     setTimeout(() => {
         if (msg.guild.stream.dispatcher.streamTime === 0) {
-            console.log(thisStream);
             module.exports(connection, msg);
         }
     }, 5000);
