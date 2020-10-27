@@ -13,6 +13,7 @@ ___
 
 ## Development:
 ### Bugfixes:
+* Remove indices from playlists.
 
 ### Current tasks:
 * FFMpeg manipulation (speed, pitch, bass boosting).
