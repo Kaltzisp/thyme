@@ -14,6 +14,8 @@ ___
 ## Development:
 ### Bugfixes:
 * Remove indices from playlists.
+* Remove current song doesn't work.
+* Bitrate and bass need to log current.
 
 ### Current tasks:
 * FFMpeg manipulation (speed, pitch, bass boosting).

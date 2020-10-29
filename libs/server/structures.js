@@ -12,6 +12,7 @@ discord.Structures.extend("Guild", (Guild) => {
                 isPause: false,
                 isLoop: false,
                 bitrate: 1,
+                bass: 0,
                 seekTo: 0,
                 tryCount: 1,
                 volume: 0.4
