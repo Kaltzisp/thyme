@@ -15,7 +15,6 @@ ___
 ### Bugfixes:
 * Command for gain frequency.
 * Remove indices from playlists.
-* Bitrate and bass need to log current.
 
 ### Current tasks:
 * FFMpeg manipulation (speed, pitch, bass boosting).

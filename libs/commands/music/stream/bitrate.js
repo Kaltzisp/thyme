@@ -20,6 +20,8 @@ module.exports = {
                 emoji = "<:antiworm:765450403974217739>";
             }
             msg.send(`Bitrate set to \`${newRate.toFixed(2)}\` ${emoji}`);
+        } else if (msg.args.length === 0) {
+            msg.send(`The current bitrate is ${msg.guild.stream.bitrate}.`);
         } else {
             msg.send("Bitrate modifier must be larger than 0.");
         }
