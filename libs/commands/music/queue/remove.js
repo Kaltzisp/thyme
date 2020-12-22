@@ -18,10 +18,10 @@ module.exports = {
     alias: ["remove", "r"],
     args: ["<song_indexes>"],
     exe(msg) {
-        if (!msg.isPlaying() || msg.args.length === 0 || (msg.guild.queue.length === 1 && msg.guild.stream.isLoop)) {
+        if (!msg.isPlaying() || (msg.guild.queue.length === 1 && msg.guild.stream.isLoop)) {
             return false;
         }
-        if (msg.args[0] === "") {
+        if (msg.args.length === 0) {
             skipRemove(msg);
         } else if (msg.args[0].indexOf("-") > -1) {
             const span = msg.args[0].split("-");
