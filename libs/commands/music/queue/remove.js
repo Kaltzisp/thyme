@@ -1,16 +1,29 @@
 const refreshQueue = require("./refresh");
 const skipSong = require("../stream/skip");
 
+function skipRemove(m) {
+    skipSong.exe(m);
+    if (m.guild.stream.isLoop) {
+        setTimeout(() => {
+            const song = m.guild.queue.pop();
+            refreshQueue(m);
+            m.send(`Removed ${song[1]} from queue.`);
+        }, 2000);
+    }
+}
+
 module.exports = {
     type: "music",
     info: "Removes a song or multiple songs from the queue.",
     alias: ["remove", "r"],
     args: ["<song_indexes>"],
     exe(msg) {
-        if (!msg.isPlaying() || msg.args.length === 0) {
+        if (!msg.isPlaying() || msg.args.length === 0 || (msg.guild.queue.length === 1 && msg.guild.stream.isLoop)) {
             return false;
         }
-        if (msg.args[0].indexOf("-") > -1) {
+        if (msg.args.length === 0) {
+            skipRemove(msg);
+        } else if (msg.args[0].indexOf("-") > -1) {
             const span = msg.args[0].split("-");
             const from = Number(span[0]);
             const to = Number(span[1]);
@@ -37,12 +50,7 @@ module.exports = {
                             refreshQueue(msg);
                         }).catch((err) => console.log(err));
                     } else if (index === 0) {
-                        skipSong.exe(msg);
-                        if (msg.guild.stream.isLoop) {
-                            const song = msg.guild.queue.pop();
-                            refreshQueue(msg);
-                            msg.send(`Removed ${song[1]} from queue.`);
-                        }
+                        skipRemove(msg);
                     }
                 }
             }

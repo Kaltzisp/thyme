@@ -15,7 +15,6 @@ ___
 ### Bugfixes:
 * Command for gain frequency.
 * Remove indices from playlists.
-* Remove current song doesn't work.
 * Bitrate and bass need to log current.
 
 ### Current tasks:
