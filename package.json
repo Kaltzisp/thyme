@@ -14,10 +14,10 @@
     },
     "dependencies": {
         "@discordjs/opus": "latest",
-        "axios": "latest",
+        "axios": "^0.21.1",
         "discord.js": "latest",
         "ffmpeg-static": "latest",
         "prism-media": "latest",
-        "ytdl-core": "latest"
+        "ytdl-core": "^4.2.1"
     }
 }
