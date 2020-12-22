@@ -21,7 +21,7 @@ module.exports = {
         if (!msg.isPlaying() || msg.args.length === 0 || (msg.guild.queue.length === 1 && msg.guild.stream.isLoop)) {
             return false;
         }
-        if (msg.args.length === 0) {
+        if (msg.args[0] === "") {
             skipRemove(msg);
         } else if (msg.args[0].indexOf("-") > -1) {
             const span = msg.args[0].split("-");
