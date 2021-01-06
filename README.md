@@ -15,14 +15,13 @@ ___
 ### Bugfixes:
 
 ### Current tasks:
-* FFMpeg manipulation (speed, pitch, bass boosting).
 * !np Playback buttons.
 * Complete Sora overhaul (!ship, !marry, !leaderboard).
 
 ### Suggested features:
+* FFMpeg manipulation.
 * Add search for multiple songs.
 * Upgraded polling (DM !ask, guild specific functionality).
-* Monash Muggles: !iam <role_name>.
 ___
 
 ## Installation
