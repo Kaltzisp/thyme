@@ -8,12 +8,12 @@ module.exports = {
     exe(msg) {
         const index = getIndex(msg);
         if (msg.client.save.playlists[index]) {
-            let newMessage = `**Playlist: ${msg.client.save.playlists[index][1]}**`;
-            newMessage += ` (${msg.client.save.playlists[index][2].length} songs)\n`;
-            for (let i = 0; i < Math.min(10, msg.client.save.playlists[index][2].length); i++) {
-                newMessage += `${i + 1}. ${msg.client.save.playlists[index][2][i][1]}\n`;
+            let newMessage = `**Playlist: ${msg.client.save.playlists[index][0]}**`;
+            newMessage += ` (${msg.client.save.playlists[index][1].length} songs)\n\n`;
+            for (let i = 0; i < msg.client.save.playlists[index][1].length; i++) {
+                newMessage += `${i + 1}. ${msg.client.save.playlists[index][1][i][1]}\n`;
             }
-            msg.send(newMessage);
+            msg.channel.send(newMessage, { split: true });
         } else {
             msg.send("Playlist does not exist!");
         }

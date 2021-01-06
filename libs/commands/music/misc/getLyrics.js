@@ -12,6 +12,7 @@ module.exports = {
             queryString = (msg.args.join(" ") || msg.guild.queue[0][1]);
         } else if (queryString.length === 0) {
             msg.send("Nothing is playing!");
+            return false;
         }
         queryString = encodeURI(queryString);
         const response = await axios.get(`https://api.ksoft.si/lyrics/search?q=${queryString}`, {

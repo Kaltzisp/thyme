@@ -17,9 +17,9 @@ module.exports = {
             for (const i in msg.guild.queue) {
                 addedIDs.push(msg.guild.queue[i][0]);
             }
-            for (const i in msg.client.save.playlists[index][2]) {
-                if (addedIDs.indexOf(msg.client.save.playlists[index][2][i][0]) === -1) {
-                    msg.guild.queue.push(msg.client.save.playlists[index][2][i]);
+            for (const i in msg.client.save.playlists[index][1]) {
+                if (addedIDs.indexOf(msg.client.save.playlists[index][1][i][0]) === -1) {
+                    msg.guild.queue.push(msg.client.save.playlists[index][1][i]);
                 }
                 if (msg.guild.queue.length === 1) {
                     msg.join().then((connection) => {
@@ -27,7 +27,7 @@ module.exports = {
                     }).catch((err) => console.log(err));
                 }
             }
-            msg.send(`Playlist retrieved: \`${msg.client.save.playlists[index][1]}\`.`);
+            msg.send(`Playlist retrieved: \`${msg.client.save.playlists[index][0]}\`.`);
         } else {
             msg.send("Playlist does not exist!");
         }

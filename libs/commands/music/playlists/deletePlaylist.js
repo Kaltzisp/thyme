@@ -8,7 +8,7 @@ module.exports = {
     exe(msg) {
         const index = getIndex(msg);
         if (msg.client.save.playlists[index]) {
-            msg.send(`The following playlist should be deleted?\n**${msg.client.save.playlists[index][1]}**`).then((m) => {
+            msg.send(`The following playlist should be deleted?\n**${msg.client.save.playlists[index][0]}**`).then((m) => {
                 m.react("✅");
                 m.react("748474362188922940");
                 function filter(reaction, user) {
@@ -18,10 +18,10 @@ module.exports = {
                 collector.on("collect", (reaction) => {
                     m.reactions.removeAll();
                     if (reaction.emoji.name === "✅") {
-                        m.edit(`>>> **${msg.client.save.playlists[index][1]}** has been deleted.`);
+                        m.edit(`>>> **${msg.client.save.playlists[index][0]}** has been deleted.`);
                         msg.client.save.playlists.splice(index, 1);
                     } else {
-                        m.edit(`>>> **${msg.client.save.playlists[index][1]}** has been retained.`);
+                        m.edit(`>>> **${msg.client.save.playlists[index][0]}** has been retained.`);
                     }
                 });
             }).catch((err) => console.log(err));

@@ -3,7 +3,7 @@ module.exports = function(msg) {
     if (!(index + 1)) {
         const listTitle = msg.args.join(" ").toLowerCase();
         for (const i in msg.client.save.playlists) {
-            if (msg.client.save.playlists[i][1].toLowerCase() === listTitle) {
+            if (msg.client.save.playlists[i][0].toLowerCase() === listTitle) {
                 return i;
             }
         }
