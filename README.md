@@ -13,7 +13,6 @@ ___
 
 ## Development:
 ### Bugfixes:
-* Command for gain frequency.
 * Remove indices from playlists.
 
 ### Current tasks:

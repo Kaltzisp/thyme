@@ -6,25 +6,18 @@ const { clean } = require("../common");
 const stream = {
     config(msg) {
         const streamConfig = {
-            bitrate: "auto",
-            volume: msg.guild.stream.volume,
-            seek: msg.guild.stream.seekTo,
-            type: "unknown"
+            type: "converted",
+            volume: msg.guild.stream.volume
         };
-        if (msg.guild.stream.bitrate !== 1) {
-            streamConfig.type = "converted";
-        }
         return streamConfig;
     },
     pipe(strm, msg) {
-        if (msg.guild.stream.bitrate === 1 && msg.guild.stream.bass === 0 && msg.guild.stream.freq === 100) {
-            return strm;
-        }
         const pipeConfig = new prism.FFmpeg({
             args: [
                 "-f", "s16le",
                 "-ar", Math.round(48000 / msg.guild.stream.bitrate),
-                "-af", `bass=g=${msg.guild.stream.bass}:f=200`
+                "-af", `bass=g=${msg.guild.stream.bass}:f=200`,
+                "-ss", msg.guild.stream.seekTo
             ]
         });
         return strm.pipe(pipeConfig);
@@ -64,7 +57,7 @@ module.exports = function(connection, msg) {
         song[4] = undefined;
     }
     refreshQueue(msg);
-    const thisStream = ytdl(playURL, { highWaterMark: 2 ** 25, filter: () => ["251"] });
+    const thisStream = ytdl(playURL, { highWaterMark: 2 ** 25, filter: () => ["171"] });
     msg.guild.stream.dispatcher = connection.play(stream.pipe(thisStream, msg), stream.config(msg));
     setTimeout(() => {
         if (msg.guild.stream.dispatcher.streamTime === 0) {

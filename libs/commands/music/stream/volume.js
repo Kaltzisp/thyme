@@ -12,5 +12,8 @@ module.exports = {
         } else {
             msg.send(`Current volume is \`${msg.guild.stream.volume}\`.`);
         }
+        if (msg.guild.stream.dispatcher.volume) {
+            msg.guild.stream.dispatcher.setVolume(setVolume);
+        }
     }
 };
