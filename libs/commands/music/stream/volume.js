@@ -9,11 +9,11 @@ module.exports = {
             msg.guild.stream.volume = setVolume;
             msg.client.save.guilds[msg.guild.id].volume = setVolume;
             msg.send(`Volume set to \`${setVolume}\`.`);
+            if (msg.guild.stream.dispatcher.volume) {
+                msg.guild.stream.dispatcher.setVolume(setVolume);
+            }
         } else {
             msg.send(`Current volume is \`${msg.guild.stream.volume}\`.`);
-        }
-        if (msg.guild.stream.dispatcher.volume) {
-            msg.guild.stream.dispatcher.setVolume(setVolume);
         }
     }
 };
