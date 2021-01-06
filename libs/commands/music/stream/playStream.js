@@ -24,7 +24,7 @@ const stream = {
             args: [
                 "-f", "s16le",
                 "-ar", Math.round(48000 / msg.guild.stream.bitrate),
-                "-af", `bass=g=${msg.guild.stream.bass}:f=${msg.guild.stream.freq}:w=1.0`
+                "-af", `bass=g=${msg.guild.stream.bass}:f=200`
             ]
         });
         return strm.pipe(pipeConfig);
