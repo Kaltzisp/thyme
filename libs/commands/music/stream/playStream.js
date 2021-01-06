@@ -17,14 +17,14 @@ const stream = {
         return streamConfig;
     },
     pipe(strm, msg) {
-        if (msg.guild.stream.bitrate === 1) {
+        if (msg.guild.stream.bitrate === 1 && msg.guild.stream.bass === 0 && msg.guild.stream.freq === 100) {
             return strm;
         }
         const pipeConfig = new prism.FFmpeg({
             args: [
                 "-f", "s16le",
                 "-ar", Math.round(48000 / msg.guild.stream.bitrate),
-                "-af", `bass:g=${msg.guild.stream.bass}:f${msg.guild.stream.freq}`
+                "-af", `bass=g=${msg.guild.stream.bass}:f=${msg.guild.stream.freq}:w=1.0`
             ]
         });
         return strm.pipe(pipeConfig);
