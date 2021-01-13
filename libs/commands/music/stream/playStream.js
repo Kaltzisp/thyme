@@ -57,7 +57,7 @@ module.exports = function(connection, msg) {
         song[4] = undefined;
     }
     refreshQueue(msg);
-    const thisStream = ytdl(playURL, { highWaterMark: 2 ** 25, filter: () => ["171"] });
+    const thisStream = ytdl(playURL, { highWaterMark: 2 ** 25, quality: "highestaudio", filter: "audioonly" });
     msg.guild.stream.dispatcher = connection.play(stream.pipe(thisStream, msg), stream.config(msg));
     setTimeout(() => {
         if (msg.guild.stream.dispatcher.streamTime === 0) {

@@ -13,6 +13,7 @@ ___
 
 ## Development:
 ### Bugfixes:
+* Seek broken.
 
 ### Current tasks:
 * !np Playback buttons.
