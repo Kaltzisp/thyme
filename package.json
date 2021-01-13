@@ -10,14 +10,14 @@
         "url": "git://github.com/Kaltzisp/thyme.git"
     },
     "engines": {
-        "node": "14.x"
+        "node": "latest"
     },
     "dependencies": {
         "@discordjs/opus": "latest",
-        "axios": "^0.21.1",
+        "axios": "latest",
         "discord.js": "latest",
         "ffmpeg-static": "latest",
         "prism-media": "latest",
-        "ytdl-core": "^4.4.3"
+        "ytdl-core": "latest"
     }
 }
