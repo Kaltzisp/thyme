@@ -25,6 +25,9 @@ const stream = {
 };
 
 function secs(t) {
+    if (typeof t === "number") {
+        return t;
+    }
     if (t === null) {
         return 0;
     }
@@ -63,7 +66,7 @@ module.exports = function(connection, msg) {
         if (msg.guild.stream.dispatcher.streamTime === 0) {
             module.exports(connection, msg);
         }
-    }, 5000);
+    }, 10000);
     if (msg.guild.id === "473161851346092052") {
         connection.client.user.setActivity(`♫ ${clean(song[1], true)}`, { type: "PLAYING" });
     }
