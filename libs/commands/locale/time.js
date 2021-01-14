@@ -13,7 +13,11 @@ module.exports = {
         if (userIDs.length === 0) {
             for (const i in users.main) {
                 const flag = `${users.main[i][0]}  `;
-                const time = `${today.toLocaleString("en-GB", options(users.main[i][1]))}\n`;
+                let time = `${today.toLocaleString("en-GB", options(users.main[i][1]))}\n`;
+                const changeIndex = time.indexOf("00:");
+                if (changeIndex > -1) {
+                    time = `${time.substring(0, changeIndex)}12:${time.substring(changeIndex + 3, time.length)}`;
+                }
                 newMessage += flag + time;
             }
         } else {
@@ -23,7 +27,11 @@ module.exports = {
                 }
                 const flag = `${users.find[userIDs[i]][0]}: `;
                 const city = `**${users.find[userIDs[i]][1]}:** `;
-                const time = `${today.toLocaleString("en-GB", options(users.find[userIDs[i]][2]))}\n`;
+                let time = `${today.toLocaleString("en-GB", options(users.find[userIDs[i]][2]))}\n`;
+                const changeIndex = time.indexOf("00:");
+                if (changeIndex > -1) {
+                    time = `${time.substring(0, changeIndex)}12:${time.substring(changeIndex + 3, time.length)}`;
+                }
                 newMessage += flag + city + time;
             }
         }
