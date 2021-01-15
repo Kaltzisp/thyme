@@ -2,6 +2,7 @@ const prism = require("prism-media");
 const ytdl = require("ytdl-core");
 const refreshQueue = require("../queue/refresh");
 const { clean } = require("../common");
+const yt = require("../youtube/ytMethods");
 
 const stream = {
     config(msg) {
@@ -71,13 +72,28 @@ module.exports = function(connection, msg) {
     if (msg.guild.id === "473161851346092052") {
         connection.client.user.setActivity(`♫ ${clean(song[1], true)}`, { type: "PLAYING" });
     }
-    msg.guild.stream.dispatcher.on("finish", () => {
+    msg.guild.stream.dispatcher.on("finish", async() => {
         if (msg.guild.queue[0] && msg.guild.queue[0][4] !== undefined) {
             module.exports(connection, msg);
         } else {
             if (msg.guild.stream.isLoop) {
                 msg.guild.queue.push(msg.guild.queue.shift());
             } else {
+                if (msg.guild.stream.autoplay) {
+                    const songData = await ytdl.getInfo(msg.guild.queue[0][0]);
+                    let songIndex = 0;
+                    for (let i = 1; i <= Math.min(20, msg.guild.history.length); i++) {
+                        if (songData.related_videos[songIndex].id === msg.guild.history[msg.guild.history.length - i][0]) {
+                            songIndex += 1;
+                            i = 1;
+                        }
+                        if (songIndex === 20) {
+                            songIndex = 0;
+                        }
+                    }
+                    const nextSong = songData.related_videos[songIndex];
+                    msg.guild.queue.push([nextSong.id, yt.parse(nextSong.title), msg.client.user.id, nextSong.length_seconds]);
+                }
                 msg.guild.queue.shift();
             }
             if (msg.guild.queue[0]) {
