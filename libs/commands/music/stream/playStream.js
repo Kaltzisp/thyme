@@ -82,17 +82,25 @@ module.exports = function(connection, msg) {
                 if (msg.guild.stream.autoplay) {
                     const songData = await ytdl.getInfo(msg.guild.queue[0][0]);
                     let songIndex = 0;
+                    for (let i = songData.related_videos.length - 1; i >= 0; i--) {
+                        const nextTitle = songData.related_videos[i].title.toLowerCase();
+                        if (nextTitle.indexOf("(live") !== -1 || nextTitle.indexOf("live at") !== -1) {
+                            songData.related_videos.splice(i, 1);
+                        }
+                    }
                     for (let i = 1; i <= Math.min(20, msg.guild.history.length); i++) {
                         if (songData.related_videos[songIndex].id === msg.guild.history[msg.guild.history.length - i][0]) {
                             songIndex += 1;
-                            i = 1;
+                            i = 0;
                         }
                         if (songIndex === 20) {
                             songIndex = 0;
                         }
                     }
-                    const nextSong = songData.related_videos[songIndex];
-                    msg.guild.queue.push([nextSong.id, yt.parse(nextSong.title), msg.client.user.id, nextSong.length_seconds]);
+                    const nextSongData = songData.related_videos[songIndex];
+                    const nextSong = [nextSongData.id, yt.parse(nextSongData.title), msg.client.user.id, nextSongData.length_seconds];
+                    msg.guild.queue.push(nextSong);
+                    msg.guild.history.push(nextSong);
                 }
                 msg.guild.queue.shift();
             }
