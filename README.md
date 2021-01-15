@@ -13,8 +13,6 @@ ___
 
 ## Development:
 ### Bugfixes:
-* Seek broken.
-* Elle me dit bitrate broken.
 
 ### Current tasks:
 * !np Playback buttons.
