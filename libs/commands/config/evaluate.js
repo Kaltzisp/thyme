@@ -17,7 +17,8 @@ module.exports = {
             } catch (err) {
                 output = `Error: ${err.message}`;
             }
-            console.log(`EVALMSG: ${output}`);
+            console.log("EVALMSG:");
+            console.log(output);
             msg.channel.send(`\`\`\`js\n${output}\`\`\``).catch((err) => console.log(err));
         } else {
             msg.send("This is an admin only command!");
