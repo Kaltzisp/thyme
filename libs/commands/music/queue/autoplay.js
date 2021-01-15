@@ -6,10 +6,10 @@ module.exports = {
     exe(msg) {
         if (msg.guild.stream.autoplay) {
             msg.guild.stream.autoplay = false;
-            msg.send("> Autoplay disabled.");
+            msg.send("Autoplay disabled.");
         } else {
             msg.guild.stream.autoplay = true;
-            msg.send("> Autoplay enabled.");
+            msg.send("Autoplay enabled.");
         }
     }
 };
