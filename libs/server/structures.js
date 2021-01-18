@@ -8,6 +8,7 @@ discord.Structures.extend("Guild", (Guild) => {
             this.history = [];
             this.queue = [];
             this.stream = {
+                type: "queue",
                 autoplay: false,
                 dispatcher: {},
                 isPause: false,

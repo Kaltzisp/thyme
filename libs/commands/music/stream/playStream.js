@@ -46,6 +46,7 @@ function secs(t) {
 }
 
 module.exports = function(connection, msg) {
+    msg.guild.stream.type = "queue";
     msg.guild.stream.isPause = false;
     const song = msg.guild.queue[0];
     if (!song) {
