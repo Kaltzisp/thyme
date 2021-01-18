@@ -18,7 +18,7 @@ module.exports = {
             }
         }
         if (station) {
-            msg.send(`Now streaming: \`**${stationQuery}**\`.`);
+            msg.send(`Now streaming: \`${stationQuery}\`.`);
             msg.guild.stream.type = "radio";
             msg.guild.queue.length = 0;
             msg.join().then((connection) => {
