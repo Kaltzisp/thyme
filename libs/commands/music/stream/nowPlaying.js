@@ -20,14 +20,16 @@ module.exports = {
             });
         } else {
             axios.get("https://music.abcradio.net.au/api/v1/plays/triplej/now.json").then((response) => {
-                const song = response.data.now.release;
+                const song = response.data.now.recording;
+                const release = response.data.now.release;
                 if (song) {
                     const embed = new discord.MessageEmbed()
                         .setColor("#0099ff")
-                        .setTitle(`${song.title} [${song.format}]`)
-                        .setAuthor(song.artists[0].name, "https://www.abc.net.au/cm/lb/8645346/thumbnail/triple-j-on-thumbnail.png")
+                        .setTitle(`${song.title} [${release.format}]`)
+                        .setAuthor("Triple J", "https://www.abc.net.au/cm/lb/8645346/thumbnail/triple-j-on-thumbnail.png")
                         .setURL("https://www.abc.net.au/triplej/listen-live/player/")
-                        .setThumbnail(song.artwork[0].url);
+                        .setThumbnail(release.artwork[0].url)
+                        .addField(song.artists[0].name, `${release.title} - ${release.release_year}`);
                     msg.channel.send(embed);
                 } else {
                     msg.send("No song is playing.");
