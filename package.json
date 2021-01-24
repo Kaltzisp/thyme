@@ -10,7 +10,7 @@
         "url": "git://github.com/Kaltzisp/thyme.git"
     },
     "engines": {
-        "node": "latest"
+        "node": "15.x"
     },
     "dependencies": {
         "@discordjs/opus": "latest",
