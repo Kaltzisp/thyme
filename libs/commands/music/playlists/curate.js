@@ -1,7 +1,7 @@
 module.exports = {
     type: "music",
     info: "Curates a playlist.",
-    alias: ["curate", "save"],
+    alias: ["curate"],
     args: ["<playlist_title>"],
     exe(msg) {
         const playlistName = msg.args.join(" ");
