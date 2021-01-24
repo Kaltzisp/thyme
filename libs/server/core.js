@@ -34,17 +34,8 @@ module.exports.put = function(data) {
     });
 };
 
-module.exports.reboot = function(client) {
+module.exports.save = function(client) {
     module.exports.put(client.save).then(() => {
         console.log("Savedata uploaded.");
-        if (client.guilds.cache.get("320535195902148609").queue[0]) {
-            setTimeout(() => {
-                module.exports.reboot(client);
-            }, 7200000);
-        } else {
-            console.log("Process terminated.");
-            process.exit();
-        }
     }).catch((err) => console.log(err));
-    return "Trying reboot.";
 };

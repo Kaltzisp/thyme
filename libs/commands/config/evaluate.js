@@ -1,5 +1,3 @@
-const { reboot } = require("../../server/core");
-
 module.exports = {
     type: "config",
     info: "Evaluates an expression.",
@@ -7,9 +5,6 @@ module.exports = {
     args: ["<expression>"],
     permit: ["172283516334112768", "668022037264072735"],
     exe(msg) {
-        if (msg.args[0] === "reboot()" || msg.content === "reboot()") {
-            reboot(msg.client);
-        }
         if (this.permit.indexOf(msg.member.user.id) > -1) {
             let output;
             try {

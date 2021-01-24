@@ -32,13 +32,9 @@ Client.on("ready", () => {
         console.log("Client initialised.\n");
     });
     Client.user.setActivity("@Thyme | !help", { type: "LISTENING" });
-    setTimeout(() => {
-        core.reboot(Client);
-    }, 43200000);
-});
-
-Client.on("guildCreate", () => {
-    core.reboot(Client);
+    setInterval(() => {
+        core.save(Client);
+    }, 86400000);
 });
 
 Client.on("message", (message) => {
