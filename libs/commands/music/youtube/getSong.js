@@ -20,7 +20,12 @@ module.exports = {
         }
         let atIndex = methods.getIndex(msg);
         const msgUpdate = methods.response.searching(msg);
-        const song = await ytGet.getSong(msg, msg.args.join(" "));
+        let song;
+        try {
+            song = await ytGet.getSong(msg, msg.args.join(" "));
+        } catch (err) {
+            console.log(err);
+        }
         if (!song) {
             methods.response.noneFound(msg);
             return false;
