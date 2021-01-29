@@ -23,6 +23,9 @@ module.exports = {
             msg.guild.queue.length = 0;
             msg.join().then((connection) => {
                 connection.play(station, { volume: msg.guild.stream.volume });
+                if (msg.guild.id === "473161851346092052") {
+                    connection.client.user.setActivity(`♫ ${stationQuery}`, { type: "PLAYING" });
+                }
             });
         } else {
             msg.send(`No station found matching: \`${stationQuery}\`.`);
