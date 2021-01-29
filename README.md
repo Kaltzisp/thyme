@@ -13,6 +13,7 @@ ___
 
 ## Development:
 ### Bugfixes:
+* Reset bot activity on radio end stream / song finish.
 
 ### Current tasks:
 * !np Playback buttons.
