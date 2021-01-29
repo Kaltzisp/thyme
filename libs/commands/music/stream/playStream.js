@@ -64,7 +64,8 @@ module.exports = function(connection, msg) {
     }
     refreshQueue(msg);
     const thisStream = ytdl(playURL, { highWaterMark: 2 ** 25, quality: "highestaudio", filter: "audioonly" });
-    msg.guild.stream.dispatcher = connection.play(stream.pipe(thisStream, msg), stream.config(msg));
+    const playStream = stream.pipe(thisStream, msg);
+    msg.guild.stream.dispatcher = connection.play(playStream, stream.config(msg));
     setTimeout(() => {
         if (msg.guild.stream.dispatcher.streamTime === 0) {
             module.exports(connection, msg);
@@ -74,7 +75,7 @@ module.exports = function(connection, msg) {
         connection.client.user.setActivity(`♫ ${clean(song[1], true)}`, { type: "PLAYING" });
     }
     msg.guild.stream.dispatcher.on("finish", async() => {
-        msg.guild.stream.dispatcher.destroy();
+        playStream.destroy();
         if (msg.guild.queue[0] && msg.guild.queue[0][4] !== undefined) {
             module.exports(connection, msg);
         } else {
