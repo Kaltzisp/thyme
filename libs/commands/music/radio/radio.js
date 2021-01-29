@@ -26,7 +26,7 @@ module.exports = {
             msg.join().then((connection) => {
                 connection.play(audioLink, { volume: msg.guild.stream.volume });
                 if (msg.guild.id === "749662420397719643") {
-                    connection.client.user.setActivity(`♫ ${station}`, { type: "STREAMING" });
+                    connection.client.user.setActivity(`♫ ${station}`, { type: "LISTENING" });
                 }
             });
         } else {

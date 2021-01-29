@@ -8,5 +8,6 @@ module.exports = {
         msg.guild.queue.length = 0;
         msg.member.voice.channel.leave();
         msg.send("Disconnected from voice.");
+        msg.client.user.setActivity("@Thyme | !help", { type: "LISTENING" });
     }
 };
