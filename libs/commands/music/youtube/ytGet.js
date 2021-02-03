@@ -3,7 +3,7 @@ const yt = require("./ytMethods.js");
 function noLive(data) {
     for (const i in data.items) {
         const title = data.items[i].snippet.title.toLowerCase();
-        if (title.indexOf("live") === -1) {
+        if (title.indexOf("live") === -1 && title.indexOf("in the open") === -1) {
             return i;
         }
     }
