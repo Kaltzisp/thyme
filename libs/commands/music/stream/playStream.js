@@ -63,6 +63,7 @@ module.exports = function(connection, msg) {
         song[4] = undefined;
     }
     refreshQueue(msg);
+    console.log(playURL);
     const thisStream = ytdl(playURL, { highWaterMark: 2 ** 25, quality: "highestaudio", filter: "audioonly" });
     const playStream = stream.pipe(thisStream, msg);
     msg.guild.stream.dispatcher = connection.play(playStream, stream.config(msg));
