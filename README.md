@@ -17,6 +17,7 @@ ___
 * Remove in the open from music plays.
 * Fix pause.
 * Reset bot activity on radio end stream / song finish.
+* Video unavailable: https://www.youtube.com/watch?v=GdeaLnnWM18
 
 ### Current tasks:
 * Remove song from playlist.
