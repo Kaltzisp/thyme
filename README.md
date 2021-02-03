@@ -13,6 +13,8 @@ ___
 
 ## Development:
 ### Bugfixes:
+* Verbose save messages.
+* Region change broke playlists?
 * 11 minute plus songs fail?
 * Remove in the open from music plays.
 * Fix pause.
