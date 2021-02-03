@@ -1,5 +1,5 @@
+package-lock.json
 /libs/data/cities.xlsx
 /libs/data/keys.js
 /node_modules
-.package-lock.json
 .vscode
