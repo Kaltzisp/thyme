@@ -13,9 +13,13 @@ ___
 
 ## Development:
 ### Bugfixes:
+* 11 minute plus songs fail?
+* Remove in the open from music plays.
+* Fix pause.
 * Reset bot activity on radio end stream / song finish.
 
 ### Current tasks:
+* Remove song from playlist.
 * !np Playback buttons.
 * Complete Sora overhaul (!ship, !marry, !leaderboard).
 
