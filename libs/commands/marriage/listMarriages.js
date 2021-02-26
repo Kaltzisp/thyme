@@ -13,16 +13,16 @@ module.exports = {
         }
         for (const i in target) {
             const embed = new discord.MessageEmbed();
-            if (!msg.client.userSave[target[i].id]) {
+            if (!msg.client.save.users[target[i].id]) {
                 embed.setColor("#eb3434");
                 embed.setTitle(`**${target[i].tag} has no active marriages!**`);
             } else {
                 embed.setColor("#0099ff");
                 embed.setTitle(`:revolving_hearts: **Marriages of ${target[i].tag}**`);
                 embed.setThumbnail(target[i].avatarURL());
-                for (const j in msg.client.userSave[target[i].id].marriages) {
+                for (const j in msg.client.save.users[target[i].id].marriages) {
                     const user = await msg.client.users.fetch(j).catch((err) => console.log(err));
-                    const newDate = new Date(msg.client.userSave[target[i].id].marriages[j]);
+                    const newDate = new Date(msg.client.save.users[target[i].id].marriages[j]);
                     embed.addField(user.tag, newDate.toDateString().substring(3));
                 }
             }

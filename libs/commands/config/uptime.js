@@ -18,6 +18,6 @@ module.exports = {
         if (tSeconds < 10) {
             tSeconds = `0${tSeconds}`;
         }
-        msg.send(`**Uptime: ${tHours}:${tMinutes}:${tSeconds}.**\nSystem reboot after 12 hours.`);
+        msg.send(`**Uptime: ${tHours}:${tMinutes}:${tSeconds}.**`);
     }
 };

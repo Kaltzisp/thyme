@@ -6,7 +6,8 @@ const fs = require("fs");
 
 module.exports = {
     cmds: {},
-    types: {}
+    types: {},
+    modules: {}
 };
 
 function recursiveReq(dir) {
@@ -31,6 +32,8 @@ function recursiveReq(dir) {
                         module.exports.cmds[alias] = lib;
                     }
                 });
+            } else {
+                module.exports.modules[relPath.substring(0, relPath.length - 3)] = lib;
             }
         }
     });

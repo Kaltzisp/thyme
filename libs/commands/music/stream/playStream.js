@@ -63,7 +63,6 @@ module.exports = function(connection, msg) {
         song[4] = undefined;
     }
     refreshQueue(msg);
-    console.log(playURL);
     const thisStream = ytdl(playURL, { highWaterMark: 2 ** 25, quality: "highestaudio", filter: "audioonly" });
     const playStream = stream.pipe(thisStream, msg);
     msg.guild.stream.dispatcher = connection.play(playStream, stream.config(msg));
@@ -72,7 +71,7 @@ module.exports = function(connection, msg) {
             module.exports(connection, msg);
         }
     }, 10000);
-    if (msg.guild.id === "473161851346092052") {
+    if (msg.guild.id === msg.client.config.homeGuild) {
         connection.client.user.setActivity(`♫ ${clean(song[1], true)}`, { type: "PLAYING" });
     }
     msg.guild.stream.dispatcher.on("finish", async() => {
@@ -111,7 +110,7 @@ module.exports = function(connection, msg) {
             if (msg.guild.queue[0]) {
                 module.exports(connection, msg);
             } else {
-                connection.client.user.setActivity("@Thyme | !help", { type: "LISTENING" });
+                connection.client.resetStatus();
                 if (connection.channel.members.size === 1) {
                     connection.disconnect();
                 }

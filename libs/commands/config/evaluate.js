@@ -3,9 +3,8 @@ module.exports = {
     info: "Evaluates an expression.",
     alias: ["e", "eval", "evaluate"],
     args: ["<expression>"],
-    permit: ["172283516334112768", "668022037264072735"],
     exe(msg) {
-        if (this.permit.indexOf(msg.member.user.id) > -1) {
+        if (msg.client.config.admins.indexOf(msg.member.user.id) > -1) {
             let output;
             try {
                 output = eval(msg.args.join(" "));

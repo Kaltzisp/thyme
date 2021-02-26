@@ -1,66 +1,69 @@
 const discord = require("./libs/server/structures");
-const auth = require("./libs/server/auth");
+const config = require("./libs/data/config");
 const core = require("./libs/server/core");
-const server = require("./libs/server/server");
-const evaluate = require("./libs/commands/config/evaluate");
-const scroll = require("./libs/commands/music/queue/scrollQueue");
+const SERVER = require("./libs/server/server");
 
-const SERVER = server.cmds;
-const Client = new discord.Client();
-Client.login(auth.discord);
+class Bot {
+    constructor(clientConfig) {
+        this.client = new discord.Client();
+        this.client.login(clientConfig.discordToken);
+        this.client.config = clientConfig;
+    }
 
-Client.on("ready", () => {
-    console.log("Retrieving savedata...");
-    core.get().then((data) => {
-        console.log("Checking guilds...");
-        Client.pollResponses = [];
-        Client.save = data[0];
-        Client.userSave = data[1];
-        Client.guilds.cache.forEach((guild) => {
-            console.log(`ID: ${guild.id}\tGUILD: ${guild.name}`);
-            if (!Client.save.guilds[guild.id]) {
-                Client.save.guilds[guild.id] = {
-                    prefix: "!",
-                    history: [],
-                    volume: 0.4
-                };
-            }
-            guild.prefix = Client.save.guilds[guild.id].prefix || "!";
-            guild.history = Client.save.guilds[guild.id].history || [];
-            guild.volume = Client.save.guilds[guild.id].volume || 0.4;
+    activate() {
+        this.client.on("ready", async() => {
+            this.client.resetStatus = function() {
+                this.user.setActivity(`@${this.config.name} | ${this.guilds.cache.get(this.config.homeGuild).prefix}help`, { type: "LISTENING" });
+            };
+            this.client.pollResponses = [];
+            this.client.save = await core.get(this.client);
+            this.client.guilds.cache.forEach((guild) => {
+                if (this.client.save.guilds[guild.id]) {
+                    const savedGuild = this.client.save.guilds[guild.id];
+                    for (const i in savedGuild) {
+                        guild[i] = savedGuild[i];
+                    }
+                } else {
+                    this.client.save.guilds[guild.id] = {
+                        history: [],
+                        prefix: "!",
+                        volume: 0.4
+                    };
+                }
+            });
+            console.log(`${this.client.config.name} initialised!`);
+            this.client.resetStatus();
+            setInterval(() => {
+                core.put(this.client);
+            }, 86400000);
         });
-        console.log("Client initialised.\n");
-    });
-    Client.user.setActivity("@Thyme | !help", { type: "LISTENING" });
-    setInterval(() => {
-        core.save(Client);
-    }, 86400000);
-});
-
-Client.on("message", (message) => {
-    if (message.channel.type === "dm" && !message.author.bot) {
-        Client.pollResponses.push(message.content.toLowerCase());
-    } else if (!message.author.bot) {
-        if (message.content.substring(0, message.guild.prefix.length) === message.guild.prefix) {
-            if (SERVER[message.cmd]) {
-                SERVER[message.cmd].exe(message);
+        this.client.on("message", (message) => {
+            if (message.channel.type === "dm" && !message.author.bot) {
+                this.client.pollResponses.push(message.content.toLowerCase());
+            } else if (!message.author.bot) {
+                if (message.content.substring(0, message.guild.prefix.length) === message.guild.prefix) {
+                    if (SERVER.cmds[message.cmd]) {
+                        SERVER.cmds[message.cmd].exe(message);
+                    }
+                } else if (this.client.config.debugs.indexOf(message.channel.id)) {
+                    message.args = [message.content];
+                    SERVER.cmds.evaluate.exe(message);
+                } else if (message.content === `<@!${this.client.user.id}>`) {
+                    message.send(`Use **${message.guild.prefix}help** to see what I can do!`);
+                }
             }
-        } else if (message.channel.id === "621026261120319518" || message.channel.id === "758600058555596802") {
-            message.args = [message.content];
-            evaluate.exe(message);
-        } else if (message.content === "<@!620463494961299470>") {
-            message.send(`Use **${message.guild.prefix}help** to see what I can do!`);
-        }
+        });
+        this.client.on("messageReactionAdd", (reaction, user) => {
+            SERVER.modules.scrollQueue(reaction.message, reaction, user);
+        });
+        this.client.on("voiceStateUpdate", (oldState) => {
+            if (oldState.channel?.members.has(this.client.user.id) && oldState.channel?.members.size === 1 && oldState.guild.queue.length === 0 && !oldState.member.user.bot) {
+                oldState.channel.leave();
+                this.client.resetStatus();
+            }
+        });
     }
-});
+}
 
-Client.on("messageReactionAdd", (reaction, user) => {
-    scroll(reaction.message, reaction, user);
-});
-
-Client.on("voiceStateUpdate", (oldState) => {
-    if (oldState.channel?.members.has(Client.user.id) && oldState.channel?.members.size === 1 && oldState.guild.queue.length === 0 && !oldState.member.user.bot) {
-        oldState.channel.leave();
-        Client.user.setActivity("@Thyme | !help", { type: "LISTENING" });
-    }
-});
+const thyme = new Bot(config.clients.thyme);
+thyme.activate();

@@ -4,6 +4,7 @@
 * Features full YouTube audio support and indirect Spotify compatibility.
 * Many additional and discretionary features.
 * Use the **!help** command to find out what else we are capable of.
+* Official provider for the **Monash Muggles!**
 ___
 
 ## Contributors
@@ -13,6 +14,7 @@ ___
 
 ## Development:
 ### Bugfixes:
+* Playlist owners.
 * Verbose save messages.
 * Region change broke playlists?
 * 11 minute plus songs fail?
@@ -32,37 +34,8 @@ ___
 * Upgraded polling (DM !ask, guild specific functionality).
 ___
 
-## Installation
-### Downloading the project:
-To clone the repository enter in the terminal<br>
-`git clone https://github.com/Kaltzisp/thymebot.git`
-
-This project uses a branched workflow - updates should be made on new branches.
-
-To update code to current version<br>
-`git checkout master`<br>
-`git pull`
-
-To create a new branch<br>
-`git checkout -b new_branch_name`
-
-Staging changes, committing, and pushing<br>
-`git add .`<br>
-`git commit -a -m "commit_message"`<br>
-`git push`<br>
-
-To request a merge into `master`:<br>
-`git checkout branch_to_merge`<br>
-`git merge master`<br>
-
+## Metadata:
 ### Porting the project:
-
-Run the following code in the terminal to install npm<br>
-`[sudo] npm install npm -g`
-
-Next to install project dependencies enter the directory and run<br>
-`npm install --prune`
-
 To run the bot you will need to start the process using<br>
 `node index.js`
 
