@@ -3,6 +3,23 @@ const config = require("./libs/data/config");
 const core = require("./libs/server/core");
 const SERVER = require("./libs/server/server");
 
+function setServer(client) {
+    client.server = {
+        cmds: {},
+        types: {}
+    };
+    for (const i in SERVER.cmds) {
+        if (client.config.classes.indexOf(SERVER.cmds[i].type) > -1) {
+            client.server.cmds[i] = SERVER.cmds[i];
+        }
+    }
+    for (const i in SERVER.types) {
+        if (client.config.classes.indexOf(i) > -1) {
+            client.server.types[i] = SERVER.types[i];
+        }
+    }
+}
+
 class Bot {
     constructor(clientConfig) {
         this.client = new discord.Client();
@@ -12,6 +29,7 @@ class Bot {
 
     activate() {
         this.client.on("ready", async() => {
+            setServer(this.client);
             this.client.resetStatus = function() {
                 this.user.setActivity(`@${this.config.name} | ${this.guilds.cache.get(this.config.homeGuild).prefix}help`, { type: "LISTENING" });
             };
@@ -42,12 +60,12 @@ class Bot {
                 this.client.pollResponses.push(message.content.toLowerCase());
             } else if (!message.author.bot) {
                 if (message.content.substring(0, message.guild.prefix.length) === message.guild.prefix) {
-                    if (SERVER.cmds[message.cmd]) {
-                        SERVER.cmds[message.cmd].exe(message);
+                    if (this.client.server.cmds[message.cmd]) {
+                        this.client.server.cmds[message.cmd].exe(message);
                     }
-                } else if (this.client.config.debugs.indexOf(message.channel.id) > 0) {
+                } else if (this.client.config.debugs.indexOf(message.channel.id) > -1) {
                     message.args = [message.content];
-                    SERVER.cmds.evaluate.exe(message);
+                    this.client.server.cmds.evaluate.exe(message);
                 } else if (message.content === `<@!${this.client.user.id}>`) {
                     message.send(`Use **${message.guild.prefix}help** to see what I can do!`);
                 }
@@ -57,7 +75,8 @@ class Bot {
             SERVER.modules.scrollQueue(reaction.message, reaction, user);
         });
         this.client.on("voiceStateUpdate", (oldState) => {
-            if (oldState.channel?.members.has(this.client.user.id) && oldState.channel?.members.size === 1 && oldState.guild.queue.length === 0 && !oldState.member.user.bot) {
+            if (oldState.channel?.members.has(this.client.user.id) && oldState.channel?.members.size === 1
+            && oldState.guild.queue.length === 0 && !oldState.member.user.bot) {
                 oldState.channel.leave();
                 this.client.resetStatus();
             }

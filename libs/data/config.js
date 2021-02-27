@@ -2,6 +2,7 @@ module.exports = {
     clients: {
         thyme: {
             name: "Thyme",
+            classes: ["config", "fun", "locale", "marriage", "misc", "music"],
             debugs: ["621026261120319518", "758600058555596802"],
             admins: ["172283516334112768", "668022037264072735"],
             discordToken: "NjIwNDYzNDk0OTYxMjk5NDcw.XpdVOQ.gtpDqP5tFefcOP1yEpwkxFPOd-Y",
@@ -9,6 +10,7 @@ module.exports = {
         },
         fawkes: {
             name: "Fawkes",
+            classes: ["config", "fun", "misc", "muggles", "music"],
             debugs: ["804552142999650335"],
             admins: ["172283516334112768", "460780812082741258", "695463807564120114", "749082709749661798"],
             discordToken: "NzU2NDA2MjQ1MDk0ODUwNTkx.X2RYNg.Rb5drrSuw5hLmky_xW-kyt8rxXs",
