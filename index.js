@@ -49,7 +49,7 @@ class Bot {
                     };
                 }
             });
-            console.log(`${this.client.config.name} initialised!`);
+            console.log(`${this.client.config.name} initialised! (${this.client.guilds.cache.size} guilds)`);
             this.client.resetStatus();
             setInterval(() => {
                 core.put(this.client);
@@ -59,6 +59,13 @@ class Bot {
             if (message.channel.type === "dm" && !message.author.bot) {
                 this.client.pollResponses.push(message.content.toLowerCase());
             } else if (!message.author.bot) {
+                if (this.client.config.adminChannels.indexOf(message.channel.id) < 0) {
+                    if (this.client.save.users[message.member.id]) {
+                        this.client.save.users[message.member.id].messageCount += 1;
+                    } else {
+                        this.client.save.users[message.member.id] = { messageCount: 0 };
+                    }
+                }
                 if (message.content.substring(0, message.guild.prefix.length) === message.guild.prefix) {
                     if (this.client.server.cmds[message.cmd]) {
                         this.client.server.cmds[message.cmd].exe(message);
@@ -81,8 +88,16 @@ class Bot {
                 this.client.resetStatus();
             }
         });
+        this.client.on("guildMemberAdd", (member) => {
+            if (this.client.config.welcome) {
+                SERVER.modules[this.client.config.welcome](member);
+            }
+        });
     }
 }
 
 const thyme = new Bot(config.clients.thyme);
 thyme.activate();
+
+const fawkes = new Bot(config.clients.fawkes);
+fawkes.activate();

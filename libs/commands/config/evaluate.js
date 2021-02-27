@@ -11,7 +11,7 @@ module.exports = {
             } catch (err) {
                 output = `Error: ${err.message}`;
             }
-            console.log("EVALMSG:");
+            console.log(`${msg.client.config.name} : EVALMSG`);
             console.log(output);
             msg.channel.send(`\`\`\`js\n${output}\`\`\``).catch((err) => console.log(err));
         } else {
