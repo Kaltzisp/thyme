@@ -45,7 +45,7 @@ class Bot {
                     if (SERVER.cmds[message.cmd]) {
                         SERVER.cmds[message.cmd].exe(message);
                     }
-                } else if (this.client.config.debugs.indexOf(message.channel.id)) {
+                } else if (this.client.config.debugs.indexOf(message.channel.id) > 0) {
                     message.args = [message.content];
                     SERVER.cmds.evaluate.exe(message);
                 } else if (message.content === `<@!${this.client.user.id}>`) {
