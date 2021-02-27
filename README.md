@@ -14,6 +14,7 @@ ___
 
 ## Development:
 ### Bugfixes:
+* End ffmpeg streams.
 * Playlist owners.
 * Verbose save messages.
 * Region change broke playlists?

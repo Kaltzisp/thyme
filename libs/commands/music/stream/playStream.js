@@ -13,7 +13,7 @@ const stream = {
         return streamConfig;
     },
     pipe(strm, msg) {
-        const pipeConfig = new prism.FFmpeg({
+        const writeStream = new prism.FFmpeg({
             args: [
                 "-f", "s16le",
                 "-ac", "2",
@@ -22,7 +22,8 @@ const stream = {
                 "-ss", msg.guild.stream.seekTo
             ]
         });
-        return strm.pipe(pipeConfig);
+        strm.pipe(writeStream);
+        return writeStream;
     }
 };
 
@@ -66,16 +67,11 @@ module.exports = function(connection, msg) {
     const thisStream = ytdl(playURL, { highWaterMark: 2 ** 25, quality: "highestaudio", filter: "audioonly" });
     const playStream = stream.pipe(thisStream, msg);
     msg.guild.stream.dispatcher = connection.play(playStream, stream.config(msg));
-    setTimeout(() => {
-        if (msg.guild.stream.dispatcher.streamTime === 0) {
-            module.exports(connection, msg);
-        }
-    }, 10000);
     if (msg.guild.id === msg.client.config.homeGuild) {
         connection.client.user.setActivity(`♫ ${clean(song[1], true)}`, { type: "PLAYING" });
     }
     msg.guild.stream.dispatcher.on("finish", async() => {
-        playStream.destroy();
+        playStream.destroy("err");
         if (msg.guild.queue[0] && msg.guild.queue[0][4] !== undefined) {
             module.exports(connection, msg);
         } else {

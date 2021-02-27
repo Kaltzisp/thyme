@@ -57,6 +57,7 @@ discord.Structures.extend("Message", (Message) => {
                 const connection = await this.member.voice.channel.join().catch((err) => console.log(err));
                 connection.once("disconnect", () => {
                     this.guild.queue.length = 0;
+                    this.client.resetStatus();
                 });
                 return connection;
             }

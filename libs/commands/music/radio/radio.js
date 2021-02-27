@@ -25,7 +25,7 @@ module.exports = {
             msg.guild.queue.length = 0;
             msg.join().then((connection) => {
                 connection.play(audioLink, { volume: msg.guild.stream.volume });
-                if (msg.guild.id === "749662420397719643") {
+                if (msg.guild.id === msg.client.config.homeGuild) {
                     connection.client.user.setActivity(`♫ ${station}`, { type: "LISTENING" });
                 }
             });
