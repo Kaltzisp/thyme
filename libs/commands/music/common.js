@@ -57,3 +57,22 @@ module.exports.mins = function(integer) {
     }
     return time.join(":");
 };
+
+module.exports.secs = function(t) {
+    if (typeof t === "number") {
+        return t;
+    }
+    if (t === null) {
+        return 0;
+    }
+    if (t.length <= 2) {
+        return Number(t);
+    }
+    if (t.length === 4) {
+        return (60 * Number(t.substring(0, 1)) + Number(t.substring(2, 4)));
+    }
+    if (t.length === 5) {
+        return (60 * Number(t.substring(0, 2)) + Number(t.substring(3, 5)));
+    }
+    return 0;
+};

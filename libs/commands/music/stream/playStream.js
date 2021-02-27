@@ -1,50 +1,27 @@
 const prism = require("prism-media");
 const ytdl = require("ytdl-core");
 const refreshQueue = require("../queue/refresh");
-const { clean } = require("../common");
+const { clean, secs } = require("../common");
 const yt = require("../youtube/ytMethods");
 
-const stream = {
-    config(msg) {
-        const streamConfig = {
-            type: "converted",
-            volume: msg.guild.stream.volume
-        };
-        return streamConfig;
-    },
-    pipe(strm, msg) {
-        const writeStream = new prism.FFmpeg({
-            args: [
-                "-f", "s16le",
-                "-ac", "2",
-                "-ar", Math.round(48000 / msg.guild.stream.bitrate),
-                "-af", `bass=g=${msg.guild.stream.bass}:f=200`,
-                "-ss", msg.guild.stream.seekTo
-            ]
-        });
-        strm.pipe(writeStream);
-        return writeStream;
-    }
+const config = function(msg) {
+    return {
+        type: "converted",
+        volume: msg.guild.stream.volume
+    };
 };
 
-function secs(t) {
-    if (typeof t === "number") {
-        return t;
-    }
-    if (t === null) {
-        return 0;
-    }
-    if (t.length <= 2) {
-        return Number(t);
-    }
-    if (t.length === 4) {
-        return (60 * Number(t.substring(0, 1)) + Number(t.substring(2, 4)));
-    }
-    if (t.length === 5) {
-        return (60 * Number(t.substring(0, 2)) + Number(t.substring(3, 5)));
-    }
-    return 0;
-}
+const getWritable = function(msg) {
+    return new prism.FFmpeg({
+        args: [
+            "-f", "s16le",
+            "-ac", "2",
+            "-ar", Math.round(48000 / msg.guild.stream.bitrate),
+            "-af", `bass=g=${msg.guild.stream.bass}:f=200`,
+            "-ss", msg.guild.stream.seekTo
+        ]
+    });
+};
 
 module.exports = function(connection, msg) {
     msg.guild.stream.type = "queue";
@@ -64,14 +41,15 @@ module.exports = function(connection, msg) {
         song[4] = undefined;
     }
     refreshQueue(msg);
-    const thisStream = ytdl(playURL, { highWaterMark: 2 ** 25, quality: "highestaudio", filter: "audioonly" });
-    const playStream = stream.pipe(thisStream, msg);
-    msg.guild.stream.dispatcher = connection.play(playStream, stream.config(msg));
+    const readStream = ytdl(playURL, { highWaterMark: 2 ** 25, quality: "highestaudio", filter: "audioonly" });
+    msg.guild.writeStream = getWritable(msg);
+    readStream.pipe(msg.guild.writeStream);
+    msg.guild.stream.dispatcher = connection.play(msg.guild.writeStream, config(msg));
     if (msg.guild.id === msg.client.config.homeGuild) {
         connection.client.user.setActivity(`♫ ${clean(song[1], true)}`, { type: "PLAYING" });
     }
     msg.guild.stream.dispatcher.on("finish", async() => {
-        playStream.destroy("err");
+        msg.guild.writeStream.destroy();
         if (msg.guild.queue[0] && msg.guild.queue[0][4] !== undefined) {
             module.exports(connection, msg);
         } else {
