@@ -8,7 +8,8 @@ module.exports = {
             debugs: ["621026261120319518", "758600058555596802"],
             discordToken: "NjIwNDYzNDk0OTYxMjk5NDcw.XpdVOQ.gtpDqP5tFefcOP1yEpwkxFPOd-Y",
             homeGuild: "473161851346092052",
-            welcome: false
+            entryMessage: false,
+            memberRole: false
         },
         fawkes: {
             name: "Fawkes",
@@ -18,7 +19,8 @@ module.exports = {
             debugs: ["804552142999650335"],
             discordToken: "NzU2NDA2MjQ1MDk0ODUwNTkx.X2RYNg.Rb5drrSuw5hLmky_xW-kyt8rxXs",
             homeGuild: "749662420397719643",
-            welcome: "welcomeStudent"
+            entryMessage: "815718514547359744",
+            memberRole: "804918761022947370"
         }
     },
     keys: {

@@ -1,9 +1,6 @@
 const queueEmbed = require("./queueEmbed");
 
 module.exports = function(msg, reaction, user) {
-    if (user.bot || msg.id !== msg.guild.meta.queueMessage.id || msg.guild.queue.length === 0) {
-        return false;
-    }
     if (reaction.emoji.name === "⬅") {
         msg.guild.meta.index -= 1;
         if (msg.guild.meta.index < 0) {

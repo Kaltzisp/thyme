@@ -22,7 +22,7 @@ function setServer(client) {
 
 class Bot {
     constructor(clientConfig) {
-        this.client = new discord.Client();
+        this.client = new discord.Client({ partials: ["USER", "MESSAGE", "REACTION"] });
         this.client.login(clientConfig.discordToken);
         this.client.config = clientConfig;
     }
@@ -79,18 +79,26 @@ class Bot {
             }
         });
         this.client.on("messageReactionAdd", (reaction, user) => {
-            SERVER.modules.scrollQueue(reaction.message, reaction, user);
+            if (!user.bot) {
+                if (reaction.message.id === reaction.client.config.entryMessage) {
+                    SERVER.modules.entry.admit(reaction.message, reaction, user);
+                } else if (reaction.message.id === reaction.message.guild.meta.queueMessage.id && reaction.message.guild.queue.length !== 0) {
+                    SERVER.modules.scrollQueue(reaction.message, reaction, user);
+                }
+            }
+        });
+        this.client.on("messageReactionRemove", (reaction, user) => {
+            if (!user.bot) {
+                if (reaction.message.id === reaction.client.config.entryMessage) {
+                    SERVER.modules.entry.exclude(reaction.message, reaction, user);
+                }
+            }
         });
         this.client.on("voiceStateUpdate", (oldState) => {
             if (oldState.channel?.members.has(this.client.user.id) && oldState.channel?.members.size === 1
             && oldState.guild.queue.length === 0 && !oldState.member.user.bot) {
                 oldState.channel.leave();
                 this.client.resetStatus();
-            }
-        });
-        this.client.on("guildMemberAdd", (member) => {
-            if (this.client.config.welcome) {
-                SERVER.modules[this.client.config.welcome](member);
             }
         });
     }

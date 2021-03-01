@@ -46,7 +46,7 @@ discord.Structures.extend("Message", (Message) => {
     class ThymeMessage extends Message {
         constructor(client, data, channel) {
             super(client, data, channel);
-            if (this.guild) {
+            if (this.guild && !this.partial) {
                 this.args = this.content.slice(this.guild.prefix.length).trim().split(" ");
                 this.cmd = this.args.shift().toLowerCase();
             }
