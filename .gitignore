@@ -1,4 +1,4 @@
 .vscode
 /node_modules
-/data/Fawkes
-/data/Thyme
+/libs/data/Fawkes
+/libs/data/Thyme
