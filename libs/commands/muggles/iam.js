@@ -1,8 +1,8 @@
 const roles = {
-    "804669023269945347": ["Gryffindor", "lion", "gryf", "gryff", "gryffin", "boring", "mainstream"],
-    "804669214014177280": ["Hufflepuff", "badger", "huff", "huffle", "puff", "puffle"],
-    "804669347284123698": ["Ravenclaw", "eagle", "raven", "claw", "ravenclawcawcaw", "caw", "cawcaw"],
-    "804669386572038144": ["Slytherin", "snake", "evil", "slitherslither", "slither"]
+    "804669023269945347": ["Gryffindor", "lion", "gryf", "gryff", "gryffin", "boring", "mainstream", "not slytherin"],
+    "804669214014177280": ["Hufflepuff", "badger", "huff", "huffle", "puff", "puffle", "idk", "idek"],
+    "804669347284123698": ["Ravenclaw", "eagle", "raven", "claw", "ravenclawcawcaw", "caw", "cawcaw", "wise"],
+    "804669386572038144": ["Slytherin", "snake", "evil", "slitherslither", "slither", "a bully"]
 };
 
 module.exports = {

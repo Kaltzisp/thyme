@@ -25,6 +25,10 @@ ___
 * Video unavailable: https://www.youtube.com/watch?v=GdeaLnnWM18
 
 ### Current tasks:
+* Discord notifications for Muggles.
+* Sorting quiz.
+* House points.
+* Meme competition.
 * Remove song from playlist.
 * !np Playback buttons.
 * Complete Sora overhaul (!ship, !marry, !leaderboard).
