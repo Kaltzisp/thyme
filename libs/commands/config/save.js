@@ -1,4 +1,4 @@
-const { save } = require("../../server/core");
+const { put } = require("../../server/core");
 
 module.exports = {
     type: "config",
@@ -6,7 +6,8 @@ module.exports = {
     alias: ["save"],
     args: [],
     exe(msg) {
-        save(msg.client);
-        msg.send("Data saved - check console for details.");
+        put(msg.client).then(() => {
+            msg.send("Client data saved.");
+        }).catch((err) => console.log(err));
     }
 };

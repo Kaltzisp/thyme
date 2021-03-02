@@ -14,29 +14,21 @@ ___
 
 ## Development:
 ### Bugfixes:
-* End ffmpeg streams.
-* Playlist owners.
-* Verbose save messages.
-* Region change broke playlists?
-* 11 minute plus songs fail?
-* Remove in the open from music plays.
-* Fix pause.
-* Reset bot activity on radio end stream / song finish.
-* Video unavailable: https://www.youtube.com/watch?v=GdeaLnnWM18
+* FFmpeg streams don't auto-destroy.
+* Songs fail at timestamp 11:23.
 
 ### Current tasks:
-* Discord notifications for Muggles.
-* Sorting quiz.
-* House points.
-* Meme competition.
+* Enable emoji notifications for Muggles.
+* Implement Muggles sorting quiz.
 * Remove song from playlist.
-* !np Playback buttons.
-* Complete Sora overhaul (!ship, !marry, !leaderboard).
+* Implement playlist owners / permissions.
+* Add search for multiple songs.
 
 ### Suggested features:
+* !np Playback buttons.
 * FFMpeg manipulation.
-* Add search for multiple songs.
 * Upgraded polling (DM !ask, guild specific functionality).
+* Complete Sora overhaul (!ship, !marry, !leaderboard).
 ___
 
 ## Metadata:

@@ -17,7 +17,7 @@ function recursiveReq(dir) {
         const file = fs.statSync(filePath);
         if (file.isDirectory()) {
             recursiveReq(filePath);
-        } else {
+        } else if (path.extname(filePath) === ".js") {
             const lib = require(filePath);
             if (lib.alias) {
                 if (module.exports.types[lib.type]) {

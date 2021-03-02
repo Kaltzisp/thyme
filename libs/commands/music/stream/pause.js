@@ -10,6 +10,9 @@ module.exports = {
         if (msg.guild.stream.isPause) {
             msg.guild.stream.isPause = false;
             msg.guild.stream.dispatcher.resume();
+            // Discord.js bug requires double switch.
+            msg.guild.stream.dispatcher.pause();
+            msg.guild.stream.dispatcher.resume();
             msg.send("Unpaused!");
         } else {
             msg.guild.stream.isPause = true;
