@@ -12,10 +12,10 @@ module.exports = {
         let newMessage = "**Queue history:\n**";
         let songCount = 0;
         let maxInd = Number(msg.args[0]) || 10;
-        maxInd = Math.min(maxInd, 50);
+        maxInd = Math.min(maxInd, 50, msg.guild.history.length);
         const specUsers = [...msg.mentions.users.keys()];
         for (let i = msg.guild.history.length - 1; i >= msg.guild.history.length - maxInd; i--) {
-            if (sameUser(msg.guild.history[i][2], specUsers) && i > 0) {
+            if (sameUser(msg.guild.history[i][2], specUsers)) {
                 newMessage += `\n${msg.guild.history.length - i}.\t${msg.guild.history[i][1]}`;
                 songCount += 1;
                 if (songCount % 10 === 0) {
