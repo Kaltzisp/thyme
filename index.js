@@ -53,7 +53,7 @@ class Bot {
             this.client.resetStatus();
             setInterval(() => {
                 core.put(this.client);
-            }, 86400000);
+            }, 21600000);
         });
         this.client.on("message", (message) => {
             if (message.channel.type === "dm" && !message.author.bot) {
