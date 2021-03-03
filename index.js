@@ -3,6 +3,8 @@ const config = require("./libs/data/config");
 const core = require("./libs/server/core");
 const SERVER = require("./libs/server/server");
 
+SERVER.modules.logStart();
+
 function setServer(client) {
     client.server = {
         cmds: {},
