@@ -49,6 +49,7 @@ module.exports = function(connection, msg) {
         connection.client.user.setActivity(`♫ ${clean(song[1], true)}`, { type: "PLAYING" });
     }
     msg.guild.stream.dispatcher.on("finish", async() => {
+        writeStream.destroy();
         if (msg.guild.queue[0] && msg.guild.queue[0][4] !== undefined) {
             module.exports(connection, msg);
         } else {

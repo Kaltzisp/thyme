@@ -18,6 +18,7 @@ ___
 * Songs fail at timestamp 11:23.
 
 ### Current tasks:
+* Autoplay track pruning (no-live, no-interview).
 * Enable emoji notifications for Muggles.
 * Implement Muggles sorting quiz.
 * Remove song from playlist.
