@@ -69,7 +69,7 @@ class Bot {
                     }
                 }
                 if (message.channel.id === this.client.config.memeChannel) {
-                    message.react(":star:");
+                    message.react("⭐");
                 }
                 if (message.content.substring(0, message.guild.prefix.length) === message.guild.prefix) {
                     if (this.client.server.cmds[message.cmd]) {
