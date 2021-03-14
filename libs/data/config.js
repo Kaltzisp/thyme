@@ -9,7 +9,8 @@ module.exports = {
             discordToken: "NjIwNDYzNDk0OTYxMjk5NDcw.XpdVOQ.gtpDqP5tFefcOP1yEpwkxFPOd-Y",
             homeGuild: "473161851346092052",
             entryMessage: false,
-            memberRole: false
+            memberRole: false,
+            memeChannel: false
         },
         fawkes: {
             name: "Fawkes",
@@ -20,7 +21,8 @@ module.exports = {
             discordToken: "NzU2NDA2MjQ1MDk0ODUwNTkx.X2RYNg.Rb5drrSuw5hLmky_xW-kyt8rxXs",
             homeGuild: "749662420397719643",
             entryMessage: "815718514547359744",
-            memberRole: "804918761022947370"
+            memberRole: "804918761022947370",
+            memeChannel: "750309298764120175"
         }
     },
     keys: {
