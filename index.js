@@ -68,8 +68,8 @@ class Bot {
                         this.client.save.users[message.member.id] = { messageCount: 0 };
                     }
                 }
-                if (this.channel.id === this.client.config.memeChannel) {
-                    this.react(":star:");
+                if (message.channel.id === this.client.config.memeChannel) {
+                    message.react(":star:");
                 }
                 if (message.content.substring(0, message.guild.prefix.length) === message.guild.prefix) {
                     if (this.client.server.cmds[message.cmd]) {
