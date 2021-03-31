@@ -1,4 +1,6 @@
 .vscode
 /node_modules
+/libs/data/Beta
 /libs/data/Fawkes
 /libs/data/Thyme
+/libs/data/beta.js

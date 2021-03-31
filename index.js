@@ -109,8 +109,7 @@ class Bot {
     }
 }
 
-const thyme = new Bot(config.clients.thyme);
-thyme.activate();
-
-const fawkes = new Bot(config.clients.fawkes);
-fawkes.activate();
+for (const i in config.clients) {
+    const Client = new Bot(config.clients[i]);
+    Client.activate();
+}

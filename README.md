@@ -14,6 +14,7 @@ ___
 
 ## Development:
 ### Bugfixes:
+* Volume normaliser.
 * FFmpeg streams don't auto-destroy.
 * Songs fail at timestamp 11:23.
 

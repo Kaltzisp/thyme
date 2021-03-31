@@ -1,3 +1,5 @@
+/* eslint-disable global-require */
+
 module.exports = {
     clients: {
         thyme: {
@@ -36,3 +38,10 @@ module.exports = {
         youtube_4: "AIzaSyAHGKCZlv-7RD7ml9xIx31L0qeiuyLJRHY"
     }
 };
+
+try {
+    const betaClient = require("./beta");
+    module.exports.clients = betaClient;
+} catch (e) {
+    // Do nothing.
+}
