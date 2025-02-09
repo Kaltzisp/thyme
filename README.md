@@ -1,6 +1,6 @@
 # Thymebot - node.js
 
-## This repo is no longer maintained and has been superceded (by thyme-ts)[https://github.com/Kaltzisp/thyme-ts].
+## This repo is no longer maintained and has been superceded by [thyme-ts](https://github.com/Kaltzisp/thyme-ts).
 
 * Thyme discord bot built using the discord.js framework.
 * Includes a fully capable music playing module with voice support.
